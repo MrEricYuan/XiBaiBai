@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:paddingLeft="@dimen/dp_ten">
+
+    <RelativeLayout
+        android:id="@+id/diy_project_rl"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_fourty_eight">
+
+        <TextView
+            android:id="@+id/diy_oproject_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text=""
+            android:textSize="@dimen/sp_sixteen" />
+
+        <RelativeLayout
+            android:layout_width="@dimen/dp_hundred"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_ten">
+
+            <TextView
+                android:id="@+id/diy_project_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text=""
+                android:textSize="@dimen/sp_sixteen" />
+
+            <ImageView
+                android:id="@+id/diy_project_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/place_unchecked" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_one"
+        android:background="@mipmap/line_one" />
+</LinearLayout>

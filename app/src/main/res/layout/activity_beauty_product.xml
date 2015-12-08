@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        layout="@layout/submit_common"/>
+    <ListView
+        android:id="@+id/beauty_product_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="@dimen/dp_five"
+        android:layout_marginBottom="@dimen/dp_fourty_eight"
+        android:scrollbars="none"/>
+</RelativeLayout>

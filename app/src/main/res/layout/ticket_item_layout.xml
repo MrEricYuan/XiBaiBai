@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/dp_thirty">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_hundred_sixty"
+        android:background="@mipmap/ticket_item_bg"
+        android:padding="@dimen/dp_ten">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ticket_item_inner_bg" />
+
+        <TextView
+            android:layout_toLeftOf="@+id/ticket_price_layout"
+            android:id="@+id/ticket_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_twenty"
+            android:text="洗车券"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_tweenty" />
+
+        <LinearLayout
+            android:id="@+id/ticket_price_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_twenty"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/ticket_item_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="30"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_tweenty_two" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ticket_money_unit"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_sixteen" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginRight="@dimen/dp_twenty"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/dp_ten"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_sixteen"
+                android:text="@string/ticket_decline"/>
+            <TextView
+                android:id="@+id/ticket_decline_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_sixteen"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

@@ -789,4 +789,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         return false;
     }
+
+    public void show(){
+
+    }
 }

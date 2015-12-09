@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-
 android {
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
@@ -47,4 +46,6 @@ dependencies {
     compile 'com.android.support:design:22.2.0'
     compile 'com.makeramen:roundedimageview:2.2.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
+    compile files('E:/CloudProject_AndroidStudio/XiBaiBai/plugin/oneapm-android-gradle-plugin-2.0.0.jar')
+    compile files('E:/CloudProject_AndroidStudio/XiBaiBai/plugin/class.rewriter.jar')
 }

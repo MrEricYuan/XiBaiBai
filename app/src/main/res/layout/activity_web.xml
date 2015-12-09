@@ -9,6 +9,32 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@android:color/white"
+        android:layout_marginBottom="@dimen/dp_fourty_eight"
         android:scrollbars="none" />
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_fourty_eight"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/home_web_choice"
+            android:layout_width="@dimen/dp_zero"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="继续选择"
+            android:textColor="@color/white"
+            android:background="@color/home_web_color"
+            android:textSize="@dimen/sp_sixteen"/>
+        <TextView
+            android:id="@+id/home_web_place"
+            android:layout_width="@dimen/dp_zero"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="下单"
+            android:background="@color/them_color"
+            android:textSize="@dimen/sp_sixteen"
+            android:textColor="@color/white"
+            android:layout_weight="1"/>
+    </LinearLayout>
 </RelativeLayout>

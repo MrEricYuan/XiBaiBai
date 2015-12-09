@@ -5,21 +5,29 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 
 import com.jph.xibaibai.R;
 import com.jph.xibaibai.model.entity.Product;
 import com.jph.xibaibai.ui.activity.base.TitleActivity;
 import com.jph.xibaibai.utils.StringUtil;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Eric on 2015/12/7.
  * 从首页跳入H5详情页
  */
-public class HomeWebActivity extends TitleActivity {
+public class HomeWebActivity extends TitleActivity implements View.OnClickListener {
     // 传入Object对象
     public static final String INTENTKEY_OBJECT_DATA = "intentkey_object_product";
     // 传入从哪儿进入
@@ -30,11 +38,17 @@ public class HomeWebActivity extends TitleActivity {
     private String webTitle;
     // 网页地址
     private String webUrl;
-    // 美容或者DIY
+    // 0-美容或者1-DIY
     private int formWhere = 0;
+    //当前选中的产品
+    private List<Product> productList = null;
 
     @ViewInject(R.id.web_webview)
     private WebView webView;
+    @ViewInject(R.id.home_web_choice)
+    private TextView home_web_choice;
+    @ViewInject(R.id.home_web_place)
+    private TextView home_web_place;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +57,7 @@ public class HomeWebActivity extends TitleActivity {
         webView.loadUrl(webUrl);
     }
 
-    public static void startWebActivity(Context context,Product product,int flag) {
+    public static void startWebActivity(Context context, Product product, int flag) {
         Intent intent = new Intent(context, HomeWebActivity.class);
         intent.putExtra(INTENTKEY_OBJECT_DATA, product);
         intent.putExtra(INTENTKEY_STRING_FLAG, flag);
@@ -53,12 +67,14 @@ public class HomeWebActivity extends TitleActivity {
     @Override
     public void initData() {
         super.initData();
+        productList = new ArrayList<>();
         product = (Product) getIntent().getSerializableExtra(INTENTKEY_OBJECT_DATA);
-        if(product != null){
+        if (product != null) {
             webTitle = product.getP_name();
             webUrl = product.getLinkPath();
         }
-        formWhere = getIntent().getIntExtra(INTENTKEY_STRING_FLAG,0);
+        productList.add(product);
+        formWhere = getIntent().getIntExtra(INTENTKEY_STRING_FLAG, 0);
     }
 
     @Override
@@ -87,5 +103,30 @@ public class HomeWebActivity extends TitleActivity {
                 return true;
             }
         });
+    }
+
+    @OnClick({R.id.home_web_choice, R.id.home_web_place})
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent();
+        switch (v.getId()) {
+            case R.id.home_web_choice:
+                if (formWhere == 0) { // 美容
+                    intent.setClass(HomeWebActivity.this, BeautyServiceActivity.class);
+                } else {// DIY
+                    intent.setClass(HomeWebActivity.this, DIYSubActivity.class);
+                }
+                intent.putExtra(PlaceOrdersActivity.HOMEWEB_PRODUCT_LIST, (Serializable) productList);
+                intent.putExtra(BeautyServiceActivity.HOMEWEB_FLAG,100);
+                startActivity(intent);
+                break;
+            case R.id.home_web_place:
+                intent.setClass(HomeWebActivity.this, PlaceOrdersActivity.class);
+                intent.putExtra(PlaceOrdersActivity.HOMEWEB_PRODUCT_LIST, (Serializable) productList);
+                intent.putExtra(PlaceOrdersActivity.HOMEWEB_PRODUCT_FLAG, formWhere);
+                Log.i("Tag", "HomeWeb=>productList=" + productList.size());
+                startActivity(intent);
+                break;
+        }
     }
 }

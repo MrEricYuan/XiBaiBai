@@ -27,6 +27,7 @@ import com.jph.xibaibai.model.http.IAPIRequests;
 import com.jph.xibaibai.model.http.Tasks;
 import com.jph.xibaibai.model.utils.Constants;
 import com.jph.xibaibai.mview.MyViewPager;
+import com.jph.xibaibai.ui.MyOrderSetActivity;
 import com.jph.xibaibai.ui.activity.base.BaseActivity;
 import com.jph.xibaibai.utils.MImageLoader;
 import com.jph.xibaibai.utils.StringUtil;
@@ -109,7 +110,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,A
             }
         }
     };
-    /**测试提交*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,13 +126,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,A
         super.initView();
         drawerLayout.setScrimColor(0x32000000);// 设置半透明度
         if (!StringUtil.isNull(SharePerferenceUtil.getLocationInfo(HomeActivity.this).getCity())) {
-            String cityName = SharePerferenceUtil.getLocationInfo(HomeActivity.this).getCity();
-            if (cityName.contains("市")) {
-                cityName = cityName.replace("市", "");
-            }
-            home_location_tv.setText(cityName);
-            diyproduct_lv.setFocusable(false);
-            Log.i("Tag", "City=>" + cityName);
+                String cityName = SharePerferenceUtil.getLocationInfo(HomeActivity.this).getCity();
+                if (cityName.contains("市")) {
+                    cityName = cityName.replace("市", "");
+                }
+                home_location_tv.setText(cityName);
+                diyproduct_lv.setFocusable(false);
+                Log.i("Tag", "City=>" + cityName);
         }
         diyproduct_lv.setOnItemClickListener(this);
     }
@@ -150,7 +151,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,A
             case Tasks.BEAUTYATACODE:
                 beautyList = BeautyProductParse.beautyDataParse(responseJson.getResult().toString());
                 if (beautyList != null && beautyList.size() > 0) {
-                    initBeautydatas();
+                    for(int i = 0;i<beautyList.size();i++){
+                        initBeautydatas(beautyList.get(i).getP_sort());
+                    }
                 }
                 break;
             case Tasks.HOMEDIY_LIST:
@@ -167,17 +170,29 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,A
     /**
      * 初始化美容数据
      */
-    private void initBeautydatas() {
-        beauty1_name.setText(beautyList.get(0).getP_name());
-        beauty1_price.setText((int) beautyList.get(0).getP_price() + "元");
-        beauty2_name.setText(beautyList.get(1).getP_name());
-        beauty2_price.setText((int) beautyList.get(1).getP_price() + "元");
-        beauty3_name.setText(beautyList.get(2).getP_name());
-        beauty3_price.setText((int) beautyList.get(1).getP_price() + "元");
-        beauty4_name.setText(beautyList.get(3).getP_name());
-        beauty4_price.setText((int) beautyList.get(3).getP_price() + "元");
-        beauty5_name.setText(beautyList.get(4).getP_name());
-        beauty5_price.setText((int) beautyList.get(4).getP_price() + "元");
+    private void initBeautydatas(int i) {
+        switch (i){
+            case 0:
+                beauty1_name.setText(beautyList.get(i).getP_name());
+                beauty1_price.setText((int) beautyList.get(i).getP_price() + "元");
+                break;
+            case 1:
+                beauty2_name.setText(beautyList.get(i).getP_name());
+                beauty2_price.setText((int) beautyList.get(i).getP_price() + "元");
+                break;
+            case 2:
+                beauty3_name.setText(beautyList.get(i).getP_name());
+                beauty3_price.setText((int) beautyList.get(i).getP_price() + "元");
+                break;
+            case 3:
+                beauty4_name.setText(beautyList.get(i).getP_name());
+                beauty4_price.setText((int) beautyList.get(i).getP_price() + "元");
+                break;
+            case 4:
+                beauty5_name.setText(beautyList.get(i).getP_name());
+                beauty5_price.setText((int) beautyList.get(i).getP_price() + "元");
+                break;
+        }
     }
 
     /**
@@ -325,7 +340,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,A
     }
 
     @OnClick({R.id.home_washcar_btn, R.id.home_center_btn, R.id.home_inspa_rl, R.id.home_crystal_wax_rl, R.id.home_engine_wash_rl,
-            R.id.home_coating_rl, R.id.home_plant_rl,R.id.menu_ticket_layout})
+            R.id.home_coating_rl, R.id.home_plant_rl,R.id.menu_order_layout,R.id.menu_ticket_layout})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -360,8 +375,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,A
                     HomeWebActivity.startWebActivity(HomeActivity.this,beautyList.get(4),0);
                 }
                 break;
-            case R.id.menu_ticket_layout:
+            case R.id.menu_ticket_layout: // 优惠券
                 startActivity(new Intent(HomeActivity.this,SelectTicketActivity.class));
+                break;
+            case R.id.menu_order_layout: // 我的订单
+                startActivity(new Intent(HomeActivity.this, MyOrderSetActivity.class));
                 break;
         }
     }

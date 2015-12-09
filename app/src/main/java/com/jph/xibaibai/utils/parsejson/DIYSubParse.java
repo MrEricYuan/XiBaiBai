@@ -90,6 +90,9 @@ public class DIYSubParse {
         if(jsonObject.has("p_wash_free") && !StringUtil.isNull(jsonObject.getString("p_wash_free"))){
             product.setP_freewash(Integer.parseInt(jsonObject.getString("p_wash_free")));
         }
+        if(jsonObject.has("sort") && !StringUtil.isNull(jsonObject.getString("sort"))){
+            product.setP_sort(Integer.parseInt(jsonObject.getString("sort")));
+        }
         return product;
     }
 }

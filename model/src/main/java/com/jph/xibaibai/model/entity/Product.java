@@ -21,8 +21,18 @@ public class Product implements Serializable {
     private String linkPath;
     /**item中图片路径*/
     private String p_picPath;
-    /**免费洗车产品*/
+    /**免费洗车产品标志*/
     private int p_freewash;
+    /**首页美容分类标志*/
+    private int p_sort;
+
+    public int getP_sort() {
+        return p_sort;
+    }
+
+    public void setP_sort(int p_sort) {
+        this.p_sort = p_sort;
+    }
 
     public int getP_freewash() {
         return p_freewash;

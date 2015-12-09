@@ -4,7 +4,7 @@
     <color name="transparent">#00000000</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="red">#ff0033</color>
+    <color name="red">#fc3342</color>
     <color name="bg">#f6f5fa</color>
     <color name="bg_title">#db3839</color>
     <color name="txt_black">#1a1a1a</color>
@@ -23,6 +23,7 @@
     <color name="divider">#d9d9d9</color>
     <color name="bg_green">#25c2a7</color>
     <color name="bg_gray">#e6e6e6</color>
+    <color name="bg_gray_one">#f1f1f1</color>
     <color name="bg_yellow">#ffba58</color>
     <color name="txt_yellow">#f0a233</color>
     <color name="bg_orange">#ff8e04</color>
@@ -35,4 +36,5 @@
     <color name="login_selector">#222222</color>
     <color name="them_color">#106ab1</color>
     <color name="rg_code_color">#dddddd</color>
+    <color name="home_web_color">#679e18</color>
 </resources>

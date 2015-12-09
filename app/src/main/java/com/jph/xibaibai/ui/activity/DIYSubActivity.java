@@ -35,6 +35,10 @@ import java.util.List;
  * DIY子项目选择
  */
 public class DIYSubActivity extends TitleActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
+    // H5详情的标志
+    public static String HOMEWEB_FLAG = "HOMEWEB_FLAG";
+    // 从H5详情进入此界面的标志数字
+    private int homeWebFlag = -1;
     // 访问网络
     private IAPIRequests apiRequests;
     // 封装DIY单个产品和多类型产品
@@ -73,21 +77,16 @@ public class DIYSubActivity extends TitleActivity implements AdapterView.OnItemC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diy_subpj);
-        diyProductList = new ArrayList<>();
+//        diyProductList = new ArrayList<>();
     }
 
     @Override
     public void initData() {
         super.initData();
         apiRequests = new APIRequests(this);
-        diyBean = SystermUtils.diySubBean;
-        if (diyBean.getOneTypeList() != null && diyBean.getMoreTypeList() != null) {
-            initAdapterData();
-            Log.i("Tag","执行if");
-        } else {
-            apiRequests.getDIYDatas();
-            Log.i("Tag", "执行else");
-        }
+        homeWebFlag = getIntent().getIntExtra(HOMEWEB_FLAG,-1);
+        diyProductList = (List<Product>) getIntent().getSerializableExtra(PlaceOrdersActivity.HOMEWEB_PRODUCT_LIST);
+        apiRequests.getDIYDatas();
     }
 
     @Override
@@ -119,23 +118,63 @@ public class DIYSubActivity extends TitleActivity implements AdapterView.OnItemC
             oneTypeDIYList = diyBean.getOneTypeList();
             moreTypeDIYList = diyBean.getMoreTypeList();
             if (oneTypeDIYList != null) {
-                Log.i("Tag", "getOneTypeList=>" + diyBean.getOneTypeList().size());
                 oneTypeAdapter = new DIYOneTypeAdapter(oneTypeDIYList);
-                if (diyBean.getDiyOneTypeState() != null && diyBean.getDiyOneTypeState().length > 0) {
-                    oneTypeAdapter.setOneTypeState(diyBean.getDiyOneTypeState());
-                    Log.i("Tag", "执行if = getDiyOneTypeState");
+                getOneTypeState();
+                if(oneTypeCheckSta != null){
+                    oneTypeAdapter.setOneTypeState(oneTypeCheckSta);
                 }
                 diy_onetype_lv.setAdapter(oneTypeAdapter);
                 SystermUtils.setListViewHeight(diy_onetype_lv);
             }
             if (moreTypeDIYList != null) {
-                Log.i("Tag", "getMoreTypeList=>" + moreTypeDIYList.size());
+                getMoreTypeState();
                 moreTypeAdapter = new DIYMoreTypeAdapter(DIYSubActivity.this, moreTypeDIYList);
                 diy_moretype_lv.setAdapter(moreTypeAdapter);
                 SystermUtils.setListViewHeight(diy_moretype_lv);
             }
         }
         calculateTotalPrice();
+    }
+
+    /**
+     * 初始化只有一种类型的产品选中状态
+     */
+    private void getOneTypeState(){
+        if(diyProductList != null && diyProductList.size() > 0){
+            oneTypeCheckSta = new boolean[oneTypeDIYList.size()];
+            Log.i("Tag","getOneTypeState=>diyProductList="+diyProductList.size());
+        }else {
+            Log.i("Tag","diyProductList is null");
+            return;
+        }
+        for(int i = 0;i<oneTypeDIYList.size();i++){
+            for(int k = 0;k<diyProductList.size();k++){
+                if(diyProductList.get(k).getId() == oneTypeDIYList.get(i).getId()){
+                    oneTypeCheckSta[i] = true;
+                }
+            }
+        }
+    }
+    /**
+     * 初始化多种类型的产品选中状态
+     */
+    private void getMoreTypeState(){
+        if(diyProductList != null && diyProductList.size() > 0){
+            Log.i("Tag","getOneTypeState=>diyProductList="+diyProductList.size());
+        }else {
+            Log.i("Tag","diyProductList is null");
+            return;
+        }
+        for(int i = 0;i<moreTypeDIYList.size();i++){
+            for(int k = 0;k<diyProductList.size();k++){
+                MoreTypeDIY moreTypeDIY = moreTypeDIYList.get(i);
+                if(moreTypeDIY.getHalfCarType().getId() == diyProductList.get(k).getId()){
+                    moreTypeDIY.getHalfCarType().setIsChecked(true);
+                }else if(moreTypeDIY.getAllCarType().getId() == diyProductList.get(k).getId()){
+                    moreTypeDIY.getAllCarType().setIsChecked(true);
+                }
+            }
+        }
     }
 
     /**
@@ -201,6 +240,7 @@ public class DIYSubActivity extends TitleActivity implements AdapterView.OnItemC
             }
         }
         oneTypeCheckSta = oneTypeAdapter.getOneTypeState();
+//        Log.i("Tag","oneTypeDIYList=>"+oneTypeDIYList.size());
         for (int i = 0; i < oneTypeDIYList.size(); i++) {
             if (oneTypeCheckSta[i]) {
                 oneTypePrice = oneTypePrice + oneTypeDIYList.get(i).getP_price();
@@ -230,12 +270,16 @@ public class DIYSubActivity extends TitleActivity implements AdapterView.OnItemC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.common_submit_tv:
-                SystermUtils.diySubBean.setMoreTypeList(moreTypeDIYList);
-                SystermUtils.diySubBean.setOneTypeList(oneTypeDIYList);
-                SystermUtils.diySubBean.setDiyOneTypeState(oneTypeCheckSta);
                 Intent intent = new Intent();
-                intent.putExtra("DIYProductsList", (Serializable) diyProductList);
-                setResult(RESULT_OK, intent);
+                if(homeWebFlag == 100){
+                    intent.setClass(DIYSubActivity.this, PlaceOrdersActivity.class);
+                    intent.putExtra(PlaceOrdersActivity.HOMEWEB_PRODUCT_LIST, (Serializable) diyProductList);
+                    intent.putExtra(PlaceOrdersActivity.HOMEWEB_PRODUCT_FLAG, 1);
+                    startActivity(intent);
+                }else {
+                    intent.putExtra("DIYProductsList", (Serializable) diyProductList);
+                    setResult(RESULT_OK, intent);
+                }
                 finish();
                 break;
         }

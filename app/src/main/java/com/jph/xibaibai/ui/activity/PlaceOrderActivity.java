@@ -323,7 +323,6 @@ public class PlaceOrderActivity extends TitleActivity implements View.OnClickLis
                 // 清洗的数据
                 if (!StringUtil.isNull(responseJson.getResult().toString())) {
                     washCarList = BeautyServiceParse.getWashInfo(responseJson.getResult().toString());
-                    couponsList = BeautyServiceParse.getCouponsData(responseJson.getResult().toString());
                     getWashInfo();
                 }
                 break;
@@ -483,7 +482,7 @@ public class PlaceOrderActivity extends TitleActivity implements View.OnClickLis
                 if (washCarList != null && washCarList.size() > 0) {
                     Intent beautyIntent = new Intent(PlaceOrderActivity.this, BeautyServiceActivity.class);
                     beautyIntent.putExtra("carType", carType);
-                    beautyIntent.putExtra(BeautyServiceActivity.beautyTotalPrice, beautyTotalPrice);
+//                    beautyIntent.putExtra(BeautyServiceActivity.beautyTotalPrice, beautyTotalPrice);
                     startActivityForResult(beautyIntent, BEAUTYREQUESTCODE);
                 } else {
                     showToast("数据请求异常");

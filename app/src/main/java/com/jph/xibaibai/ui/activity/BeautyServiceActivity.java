@@ -40,8 +40,10 @@ import java.util.List;
  * 美容服务选项
  */
 public class BeautyServiceActivity extends TitleActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
-
-    public static String beautyTotalPrice = "beautyTotalPrice";
+    // H5详情的标志
+    public static String HOMEWEB_FLAG = "HOMEWEB_FLAG";
+    // 从H5详情进入到此界面的标志数字
+    private int homeWebFlag = -1;
 
     private IAPIRequests mAPIRequests;
     // 车型的判别
@@ -85,8 +87,13 @@ public class BeautyServiceActivity extends TitleActivity implements AdapterView.
         mAPIRequests = new APIRequests(this);
         mAPIRequests.getBeautyService();
         carType = getIntent().getIntExtra("carType", 1);
-        Log.i("Tag", "Beauty carType=>" + carType);
-//        beauty_service_total_money.setText("￥" + getIntent().getDoubleExtra(beautyTotalPrice, 0.0));
+        homeWebFlag = getIntent().getIntExtra(HOMEWEB_FLAG,-1);
+        beautyProductList = (List<Product>) getIntent().getSerializableExtra(PlaceOrdersActivity.HOMEWEB_PRODUCT_LIST);
+    }
+
+    @Override
+    public void initListener() {
+        super.initListener();
         beauty_wax_lv.setFocusable(false);
         beauty_wax_lv.setOnItemClickListener(this);
         beauty_notwash_lv.setFocusable(false);
@@ -128,7 +135,63 @@ public class BeautyServiceActivity extends TitleActivity implements AdapterView.
         updateTotalPrice();
     }
 
+    /**
+     * 进入此界面的初始化数据
+     */
+    private void initShowDatas() {
+        //打蜡
+        waxList = beautyService.getWaxList();
+        if (waxList != null) {
+            waxAdapter = new BeautyWaxAdapter(waxList, carType);
+            commonDatas(waxList, 0);
+            if(wCheckState != null){
+                waxAdapter.setCheckState(wCheckState);
+            }
+            beauty_wax_lv.setAdapter(waxAdapter);
+            SystermUtils.setListViewHeight(beauty_wax_lv);
+        }
+        //非清洗服务
+        notWashList = beautyService.getNotWashList();
+        if (beautyService.getNotWashList() != null) {
+            notwashAdapter = new NotwashAdapter(notWashList, carType);
+            commonDatas(notWashList, 1);
+            if(nCheckState != null){
+                notwashAdapter.setCheckState(nCheckState);
+            }
+            beauty_notwash_lv.setAdapter(notwashAdapter);
+            SystermUtils.setListViewHeight(beauty_notwash_lv);
+        }
+        updateTotalPrice();
+    }
 
+    /**
+     * 为选中的产品设置状态
+     * @param proList
+     * @param flag
+     */
+    private void commonDatas(List<Product> proList,int flag){
+        if(beautyProductList != null && beautyProductList.size() > 0){
+            if(flag == 0){
+                wCheckState = new boolean[proList.size()];
+            }else {
+                nCheckState = new boolean[proList.size()];
+            }
+        }else {
+            Log.i("Tag","beautyProductList is null");
+            return;
+        }
+        for(int i = 0;i<proList.size();i++){
+            for(int k = 0;k<beautyProductList.size();k++){
+                if(proList.get(i).getId() == beautyProductList.get(k).getId()){
+                    if(flag == 0){
+                        wCheckState[i] = true;
+                    }else {
+                        nCheckState[i] = true;
+                    }
+                }
+            }
+        }
+    }
     @Override
     public void onSuccess(int taskId, Object... params) {
         super.onSuccess(taskId, params);
@@ -140,7 +203,8 @@ public class BeautyServiceActivity extends TitleActivity implements AdapterView.
                     if (beautyService == null) {
                         return;
                     }
-                    initAginIntoData();
+//                    initAginIntoData();
+                    initShowDatas();
                 }
                 break;
         }
@@ -204,7 +268,11 @@ public class BeautyServiceActivity extends TitleActivity implements AdapterView.
         commonMethod(nCheckState, notWashList);
         total_price.setText(getString(R.string.DIYSub_totalPrice) + totalPrice);
     }
-
+    /**
+     * 公共的计算价格方法
+     * @param checkState
+     * @param productList
+     */
     private void commonMethod(boolean[] checkState, List<Product> productList) {
         for (int i = 0; i < checkState.length; i++) {
             if (checkState[i]) {
@@ -223,27 +291,19 @@ public class BeautyServiceActivity extends TitleActivity implements AdapterView.
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.common_submit_tv:
-                pottingData();
+                Log.i("Tag","beautyProductList=>"+beautyProductList.size());
                 Intent intent = new Intent();
-                intent.putExtra("beautyProductList", (Serializable) beautyProductList);
-                setResult(RESULT_OK, intent);
+                if(homeWebFlag == 100){
+                    intent.setClass(BeautyServiceActivity.this, PlaceOrdersActivity.class);
+                    intent.putExtra(PlaceOrdersActivity.HOMEWEB_PRODUCT_LIST, (Serializable) beautyProductList);
+                    intent.putExtra(PlaceOrdersActivity.HOMEWEB_PRODUCT_FLAG, 0);
+                    startActivity(intent);
+                }else {
+                    intent.putExtra("beautyProductList", (Serializable) beautyProductList);
+                    setResult(RESULT_OK, intent);
+                }
                 finish();
                 break;
-        }
-    }
-
-    /**
-     * 缓存选中状态
-     */
-    private void pottingData() {
-        Constants.beautyCheckList.removeAll(Constants.beautyCheckList);
-        if (waxAdapter != null) {
-            wCheckState = waxAdapter.getCheckState();
-            Constants.beautyCheckList.add(wCheckState);
-        }
-        if (notwashAdapter != null) {
-            nCheckState = notwashAdapter.getCheckState();
-            Constants.beautyCheckList.add(nCheckState);
         }
     }
 }

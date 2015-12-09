@@ -60,4 +60,9 @@
     <string name="myorder_comment">评价订单</string>
 
     <string name="no_more_data">暂无更多数据</string>
+    <!--订单详情-->
+    <string name="order_info_service">订单内容</string>
+    <string name="order_info_employee">操作信息</string>
+    <string name="order_info_nocomment">未评价</string>
+    <string name="order_info_commented">操作信息</string>
 </resources>

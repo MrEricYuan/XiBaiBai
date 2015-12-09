@@ -123,6 +123,9 @@
         <activity
             android:name=".ui.activity.MyOrderSetActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.OrderInfoActivity"
+            android:screenOrientation="portrait"/>
         <receiver android:name="com.jph.xibaibai.receiver.ConnectionChangeReceiver"/>
 
         <!-- 支付宝-->

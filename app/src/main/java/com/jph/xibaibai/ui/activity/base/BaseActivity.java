@@ -31,7 +31,7 @@ public class BaseActivity extends AppCompatActivity implements Init, XRequestCal
         progressDialog.setCanceledOnTouchOutside(false);
         destroyed = false;
         AppManager.getInstance().addActivity(this);
-        BlueWare.withApplicationToken("BA9C5DB973D3FDF10D10935FC1E939FD49").start(this.getApplication());
+//        BlueWare.withApplicationToken("BA9C5DB973D3FDF10D10935FC1E939FD49").start(this.getApplication());
     }
 
     @Override

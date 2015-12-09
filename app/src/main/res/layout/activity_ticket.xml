@@ -1,32 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fillViewport="true"
+    android:orientation="vertical"
+    android:scrollbars="none">
 
     <LinearLayout
-        android:id="@+id/ticket_rule_layout"
-        android:layout_marginTop="@dimen/dp_ten"
-        android:layout_marginRight="@dimen/dp_thirty"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:orientation="horizontal">
-        <ImageView
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/ticket_rule_layout"
+            android:layout_marginRight="@dimen/dp_thirty"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ticket_rule_img"/>
+            android:layout_height="@dimen/dp_fourty"
+            android:layout_gravity="right"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ticket_rule_img"/>
 
-        <TextView
-            android:layout_marginLeft="@dimen/dp_five"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ticket_rule" />
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_five"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ticket_rule" />
+        </LinearLayout>
+
+        <com.jph.xibaibai.mview.CustomListView
+            android:id="@+id/ticket_lv"
+            android:dividerHeight="@dimen/dp_fifteen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></com.jph.xibaibai.mview.CustomListView>
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/ticket_lv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
 
-</LinearLayout>
+</ScrollView>

@@ -45,4 +45,18 @@
     <string name="ticket_decline">有效期至</string>
     <string name="ticket_title">优惠券</string>
     <string name="ticket_rule">使用规则</string>
+
+    <!--我的订单-->
+    <string name="myorder_title">我的订单</string>
+    <string name="myorder_time">时间：</string>
+    <string name="myorder_carinfo">车型：</string>
+    <string name="myorder_type">类别：</string>
+    <string name="myorder_plateno">车牌：</string>
+    <string name="myorder_carLocation">汽车位置：</string>
+    <string name="myorder_cancel">取消订单</string>
+    <string name="myorder_delete">删除订单</string>
+    <string name="myorder_pay">支付订单</string>
+    <string name="myorder_comment">评价订单</string>
+
+    <string name="no_more_data">暂无更多数据</string>
 </resources>

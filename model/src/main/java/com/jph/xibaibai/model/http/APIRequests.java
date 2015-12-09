@@ -8,7 +8,6 @@ import com.jph.xibaibai.model.entity.ConfirmOrder;
 import com.jph.xibaibai.model.entity.Order;
 import com.jph.xibaibai.model.entity.UserInfo;
 import com.lidroid.xutils.http.RequestParams;
-import com.ta.utdid2.android.utils.StringUtils;
 
 import java.io.File;
 
@@ -621,4 +620,15 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
         requestParams.addBodyParameter("address", location);
         request(XRequestCallBack, Tasks.APPLYOPENCITY, "/applyopne", requestParams);
     }
+
+    @Override
+    public void getMyOrderList(int uid, int pageIndex, int pageSize) {
+        RequestParams requestParams = createRequestParams();
+        requestParams.addBodyParameter("uid", String.valueOf(uid));
+        requestParams.addBodyParameter("p", String.valueOf(pageIndex));
+        requestParams.addBodyParameter("pagesize", String.valueOf(pageSize));
+        request(XRequestCallBack, Tasks.ORDER_LIST, "/order_select", requestParams);
+    }
+
+
 }

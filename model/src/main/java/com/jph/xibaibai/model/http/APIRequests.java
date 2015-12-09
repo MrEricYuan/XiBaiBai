@@ -468,6 +468,11 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
     }
 
     @Override
+    public void getWashPrice() {
+        request(XRequestCallBack, Tasks.GEWASHCAR_PRICE, "/washCoupons");
+    }
+
+    @Override
     public void getBeautyService() {
         request(XRequestCallBack, Tasks.GETBEAUTY_SERVICE, "/product_info");
     }

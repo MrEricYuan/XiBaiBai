@@ -59,11 +59,12 @@
                     android:layout_marginRight="@dimen/dp_fifteen"
                     android:layout_height="match_parent">
                     <TextView
+                        android:id="@+id/place_extral_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="￥258.00"
                         android:textSize="@dimen/sp_sixteen"
-                        android:layout_marginLeft="@dimen/dp_eight"
+                        android:layout_marginLeft="@dimen/dp_five"
                         android:layout_centerVertical="true"/>
                     <ImageView
                         android:id="@+id/place_extral_check"
@@ -97,11 +98,12 @@
                     android:layout_marginRight="@dimen/dp_fifteen"
                     android:layout_height="match_parent">
                     <TextView
+                        android:id="@+id/place_allwash_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="￥50.00"
+                        android:layout_marginLeft="@dimen/dp_five"
                         android:textSize="@dimen/sp_sixteen"
-                        android:layout_marginLeft="@dimen/dp_eight"
                         android:layout_centerVertical="true"/>
                     <ImageView
                         android:id="@+id/place_allwash_check"
@@ -259,6 +261,7 @@
                 android:layout_marginLeft="@dimen/dp_ten"
                 android:background="@mipmap/line_one"/>
             <RelativeLayout
+                android:id="@+id/place_lacation_rl"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_fourty_eight"
                 android:paddingLeft="@dimen/dp_ten">
@@ -330,6 +333,7 @@
                 android:layout_marginLeft="@dimen/dp_ten"
                 android:background="@mipmap/line_one"/>
             <RelativeLayout
+                android:id="@+id/place_shangmen_rl"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_fourty_eight"
                 android:layout_marginLeft="@dimen/dp_thirty_two">
@@ -340,6 +344,7 @@
                     android:textSize="@dimen/sp_sixteen"
                     android:layout_centerVertical="true"/>
                 <ImageView
+                    android:id="@+id/place_shangmen_rb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/place_unchecked"
@@ -353,6 +358,7 @@
                 android:layout_marginLeft="@dimen/dp_thirty_two"
                 android:background="@mipmap/line_one"/>
             <RelativeLayout
+                android:id="@+id/place_yuyue_rl"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_fourty_eight"
                 android:layout_marginLeft="@dimen/dp_thirty_two">
@@ -363,6 +369,7 @@
                     android:textSize="@dimen/sp_sixteen"
                     android:layout_centerVertical="true"/>
                 <TextView
+                    android:id="@+id/place_yuyue_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="12-01 09:00-10:100"
@@ -386,39 +393,5 @@
                 android:background="@mipmap/line_one"/>
         </LinearLayout>
     </ScrollView>
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_fourty_eight"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@mipmap/place_price_show"
-            android:layout_weight="3">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="合计：￥156.99"
-                android:layout_marginRight="@dimen/dp_ten"
-                android:textSize="@dimen/sp_sixteen"
-                android:textColor="@color/them_color"
-                android:layout_centerInParent="true"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@mipmap/place_submit"
-            android:layout_weight="2">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="提交订单"
-                android:textColor="@android:color/white"
-                android:layout_marginRight="@dimen/dp_ten"
-                android:textSize="@dimen/sp_sixteen"
-                android:layout_centerInParent="true"/>
-        </RelativeLayout>
-    </LinearLayout>-->
 
 </RelativeLayout>

@@ -174,16 +174,30 @@ public interface Tasks {
     int CONFIMORDER = 0XA98F3;
 
     int APPLYOPENCITY = 0XA98F4;
-    /**获取版本信息*/
+    /**
+     * 获取版本信息
+     */
     int VERSIONINFO = 0XA98F5;
-    /**首页轮播广告*/
+    /**
+     * 首页轮播广告
+     */
     int ADCODE = 0XA98F6;
-    /**DIY数据*/
+    /**
+     * DIY数据
+     */
     int DIYDATACODE = 0XA98F7;
-    /**美容数据*/
+    /**
+     * 美容数据
+     */
     int BEAUTYATACODE = 0XA98F7;
-    /**优惠券*/
-    int TICKET_LIST=0xA98F8;
-    /**首页DIY数据*/
-    int HOMEDIY_LIST=0xA98F9;
+    /**
+     * 优惠券
+     */
+    int TICKET_LIST = 0xA98F8;
+    /**
+     * 首页DIY数据
+     */
+    int HOMEDIY_LIST = 0xA98F9;
+    // 洗车的价格
+    int GEWASHCAR_PRICE = 0xA98E1;
 }

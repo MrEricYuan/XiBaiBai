@@ -26,6 +26,7 @@ import com.jph.xibaibai.utils.Constants;
 import com.jph.xibaibai.utils.StringUtil;
 import com.jph.xibaibai.utils.SystermUtils;
 import com.jph.xibaibai.utils.parsejson.BeautyServiceParse;
+import com.jph.xibaibai.utils.parsejson.WashCarPrice;
 import com.jph.xibaibai.utils.sp.SPUserInfo;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -49,7 +50,7 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
     //用户的id
     private int uid;
     // 洗车方式的数据结果
-    private List<BeautyItemProduct> washCarList = null;
+    private List<Product> washCarPriceList = null;
     // 优惠券列表数据
     private List<Coupon> couponsList = null;
     // 车类型
@@ -65,7 +66,7 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
     // 选中diy的适配器
     private ChoiceDIYAdapter choiceDIYAdapter = null;
     // 美容项目的选中的列表
-    private List<Product> choiceBeautyList = null;
+    private List<Product> beautyProductList = null;
     // 美容项目的选中的适配器
     private ChoiceBeautyAdapter choiceBeautyAdapter = null;
     // DIY总价格
@@ -76,20 +77,35 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
     private double extralWashPrice = 0.0;
     // 内饰+清洗
     private double allCarWashPrice = 0.0;
-    // 洗车方式的id
-    private String washCarId = "";
+    // 总价格
+    private double totalPrice = 0.0;
+    // 外部洗车洗车方式的id
+    private int extralWashCarId = 0;
+    // 内+外洗车方式的id
+    private int allWashCarId = 0;
 
     @ViewInject(R.id.title_txt)
     private TextView title_txt;
     @ViewInject(R.id.place_extral_check)
     private ImageView extral_check; // 外部清洗
+    @ViewInject(R.id.place_extral_price)
+    private TextView extral_price;
     @ViewInject(R.id.place_allwash_check)
     private ImageView allwash_check; // 外部+内饰
+    @ViewInject(R.id.place_allwash_price)
+    private TextView allwash_price;
     @ViewInject(R.id.place_choicediy_lv)
     private ListView place_choicediy_lv; // 已经选中的DIY项目
     @ViewInject(R.id.place_choicebeauty_lv)
     private ListView place_choicebeauty_lv; // 已选中的美容项目
-
+    @ViewInject(R.id.common_total_price)
+    private TextView total_price; // 总价
+    @ViewInject(R.id.place_yuyue_time)
+    private TextView yuyue_time; // 预约时间
+    @ViewInject(R.id.place_shangmen_rb)
+    private ImageView shangmen_rb;
+    @ViewInject(R.id.place_reserver_rb)
+    private ImageView reserver_rb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +118,7 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
         initOtherDatas();
         uid = SPUserInfo.getsInstance(this).getSPInt(SPUserInfo.KEY_USERID);
         apiRequests = new APIRequests(this);
-        apiRequests.getWashInfo(uid);
+        apiRequests.getWashPrice();
     }
 
     /**
@@ -112,7 +128,7 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
         SystermUtils.diySubBean = new DIYSubBean();
         homeWebFlag = getIntent().getIntExtra(HOMEWEB_PRODUCT_FLAG, -1);
         if (homeWebFlag == 0) {
-            choiceBeautyList = (List<Product>) getIntent().getSerializableExtra(HOMEWEB_PRODUCT_LIST);
+            beautyProductList = (List<Product>) getIntent().getSerializableExtra(HOMEWEB_PRODUCT_LIST);
             initBeautyAdapter();
         } else if (homeWebFlag == 1) {
             diyProductList = (List<Product>) getIntent().getSerializableExtra(HOMEWEB_PRODUCT_LIST);
@@ -144,7 +160,7 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
                 initDIYAdapter();
                 break;
             case beautyIntentCode:
-                choiceBeautyList = (List<Product>) data.getSerializableExtra("beautyProductList");
+                beautyProductList = (List<Product>) data.getSerializableExtra("beautyProductList");
                 initBeautyAdapter();
                 break;
         }
@@ -158,6 +174,7 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
             place_choicediy_lv.setVisibility(View.VISIBLE);
             choiceDIYAdapter = new ChoiceDIYAdapter(diyProductList);
             place_choicediy_lv.setAdapter(choiceDIYAdapter);
+            caculateTotalPrice();
         } else {
             place_choicediy_lv.setAdapter(null);
             place_choicediy_lv.setVisibility(View.GONE);
@@ -169,10 +186,17 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
      * 初始化美容选中项目的适配器
      */
     private void initBeautyAdapter() {
-        if (choiceBeautyList != null && choiceBeautyList.size() > 0) {
+        if(isFreeWashCar()){
+            if(checkState[0]){
+                checkState[0] = false;
+                extral_check.setImageResource(R.mipmap.place_unchecked);
+            }
+        }
+        if (beautyProductList != null && beautyProductList.size() > 0) {
             place_choicebeauty_lv.setVisibility(View.VISIBLE);
-            choiceBeautyAdapter = new ChoiceBeautyAdapter(choiceBeautyList, carType);
+            choiceBeautyAdapter = new ChoiceBeautyAdapter(beautyProductList, carType);
             place_choicebeauty_lv.setAdapter(choiceBeautyAdapter);
+            caculateTotalPrice();
         } else {
             place_choicebeauty_lv.setVisibility(View.GONE);
         }
@@ -183,34 +207,55 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
      * 初始化洗车的价格
      */
     private void getWashCarPrice() {
-        if (washCarList != null && washCarList.get(0) != null) {
-            if (!StringUtil.isNull(washCarList.get(1).getId())) {
-                washCarId = washCarList.get(0).getId();
+        if (washCarPriceList != null && washCarPriceList.get(0) != null) {
+            extralWashCarId = washCarPriceList.get(0).getId();
+            if (carType == 0) {
+                extralWashPrice = washCarPriceList.get(0).getP_price();
+            } else if (carType == 1) {
+                extralWashPrice = washCarPriceList.get(0).getP_price2();
             }
-            if (carType == 1) {
-                if (!StringUtil.isNull(washCarList.get(0).getP_price())) {
-                    extralWashPrice = Double.parseDouble(washCarList.get(0).getP_price());
-                }
-            } else if (carType == 2) {
-                if (!StringUtil.isNull(washCarList.get(0).getP_price2())) {
-                    extralWashPrice = Double.parseDouble(washCarList.get(0).getP_price2());
+            extral_price.setText("￥" + extralWashPrice);
+        }
+        if (washCarPriceList != null && washCarPriceList.get(1) != null) {
+            allWashCarId = washCarPriceList.get(1).getId();
+            if (carType == 0) {
+                allCarWashPrice = washCarPriceList.get(1).getP_price();
+            } else if (carType == 1) {
+                allCarWashPrice = washCarPriceList.get(1).getP_price2();
+            }
+            allwash_price.setText("￥" + allCarWashPrice);
+        }
+
+    }
+
+    /**
+     * 计算总价
+     */
+    private void caculateTotalPrice() {
+        diyTotalPrice = 0.0;
+        beautyTotalPrice = 0.0;
+        if (diyProductList != null) {
+            for (Product product : diyProductList) {
+                diyTotalPrice = diyTotalPrice + product.getP_price();
+            }
+        }
+        if (beautyProductList != null) {
+            for (Product product : beautyProductList) {
+                if (carType == 0) {
+                    beautyTotalPrice = beautyTotalPrice + product.getP_price();
+                } else if (carType == 1) {
+                    beautyTotalPrice = beautyTotalPrice + product.getP_price2();
                 }
             }
         }
-        if (washCarList != null && washCarList.get(1) != null) {
-            if (!StringUtil.isNull(washCarList.get(1).getId())) {
-                washCarId = washCarList.get(1).getId();
-            }
-            if (carType == 1) {
-                if (!StringUtil.isNull(washCarList.get(1).getP_price())) {
-                    allCarWashPrice = Double.parseDouble(washCarList.get(1).getP_price());
-                }
-            } else if (carType == 2) {
-                if (!StringUtil.isNull(washCarList.get(1).getP_price2())) {
-                    allCarWashPrice = Double.parseDouble(washCarList.get(1).getP_price2());
-                }
-            }
+        if (checkState[0]) {
+            totalPrice = diyTotalPrice + beautyTotalPrice + extralWashPrice;
+        } else if (checkState[1]) {
+            totalPrice = diyTotalPrice + beautyTotalPrice + allCarWashPrice;
+        } else {
+            totalPrice = diyTotalPrice + beautyTotalPrice;
         }
+        total_price.setText(getString(R.string.DIYSub_totalPrice) + totalPrice);
     }
 
     @Override
@@ -218,9 +263,9 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
         super.onSuccess(taskId, params);
         ResponseJson responseJson = (ResponseJson) params[0];
         switch (taskId) {
-            case Tasks.GEWASHCAR_DATA:// 清洗的数据
+            case Tasks.GEWASHCAR_PRICE:// 清洗的数据
                 if (!StringUtil.isNull(responseJson.getResult().toString())) {
-                    washCarList = BeautyServiceParse.getWashInfo(responseJson.getResult().toString());
+                    washCarPriceList = WashCarPrice.getWashPrice(responseJson.getResult().toString());
                     getWashCarPrice();
                 }
                 break;
@@ -231,7 +276,8 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    @OnClick({R.id.title_img_left, R.id.place_extral_rl, R.id.place_allwash_rl, R.id.place_diyitem_rl, R.id.place_beauty_rl})
+    @OnClick({R.id.title_img_left, R.id.place_extral_rl, R.id.place_allwash_rl, R.id.place_diyitem_rl, R.id.place_beauty_rl,
+            R.id.place_lacation_rl,R.id.place_shangmen_rl,R.id.place_yuyue_rl,R.id.common_submit_tv})
     @Override
     public void onClick(View v) {
         Intent intent = new Intent();
@@ -240,6 +286,10 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.place_extral_rl: // 外部清洗
+                if(isFreeWashCar()){
+                    showToast(getString(R.string.place_freewash));
+                    return;
+                }
                 if (checkState[0]) {
                     checkState[0] = false;
                     extral_check.setImageResource(R.mipmap.place_unchecked);
@@ -251,6 +301,7 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
                         allwash_check.setImageResource(R.mipmap.place_unchecked);
                     }
                 }
+                caculateTotalPrice();
                 break;
             case R.id.place_allwash_rl: // 外部+内饰
                 if (checkState[1]) {
@@ -264,6 +315,7 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
                         extral_check.setImageResource(R.mipmap.place_unchecked);
                     }
                 }
+                caculateTotalPrice();
                 break;
             case R.id.place_diyitem_rl:// DIY项目选择
                 intent.setClass(PlaceOrdersActivity.this, DIYSubActivity.class);
@@ -272,9 +324,56 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.place_beauty_rl:// 美容项目选择
                 intent.setClass(PlaceOrdersActivity.this, BeautyServiceActivity.class);
-                intent.putExtra(HOMEWEB_PRODUCT_LIST, (Serializable) choiceBeautyList);
+                intent.putExtra(HOMEWEB_PRODUCT_LIST, (Serializable) beautyProductList);
                 startActivityForResult(intent, beautyIntentCode);
                 break;
+            case R.id.place_lacation_rl: // 获取车的位置信息
+
+                break;
+            case R.id.place_shangmen_rl: // 即刻上门
+                if(checkState[2]){
+                    checkState[2] = false;
+                    shangmen_rb.setImageResource(R.mipmap.place_unchecked);
+                }else {
+                    checkState[2] = true;
+                    shangmen_rb.setImageResource(R.mipmap.place_checked);
+                    if(checkState[3]){
+                        checkState[3] = false;
+                        reserver_rb.setImageResource(R.mipmap.place_unchecked);
+                    }
+                }
+                 break;
+            case R.id.place_yuyue_rl: // 预约
+                if(checkState[3]){
+                    checkState[3] = false;
+                    reserver_rb.setImageResource(R.mipmap.place_unchecked);
+                }else {
+                    checkState[3] = true;
+                    reserver_rb.setImageResource(R.mipmap.place_checked);
+                    if(checkState[2]){
+                        checkState[2] = false;
+                        shangmen_rb.setImageResource(R.mipmap.place_unchecked);
+                    }
+                }
+                break;
+            case R.id.common_submit_tv: // 提交订单
+
+                break;
         }
+    }
+
+    /**
+     * 判断是否免费外观清洗
+     * @return
+     */
+    private boolean isFreeWashCar(){
+        if(beautyProductList != null){
+            for(Product product:beautyProductList){
+                if(product.getP_freewash() == 1){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

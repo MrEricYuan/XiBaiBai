@@ -287,6 +287,10 @@ public interface IAPIRequests {
      * 得到外观清洗和整车清洗的数据
      */
     void getWashInfo(int uid);
+    /**
+     * 得到外观清洗和整车清洗的数据
+     */
+    void getWashPrice();
 
     /**
      * 得到美容的项目

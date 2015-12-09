@@ -40,6 +40,7 @@
     <string name="DIYSub_submit">确认</string>
     <string name="DIYSub_totalPrice">合计：￥</string>
     <string name="beauty_title">美容项目</string>
+    <string name="place_freewash">打蜡项目送外观清洗</string>
     <!--选择优惠券-->
     <string name="ticket_money_unit">元</string>
     <string name="ticket_decline">有效期至</string>

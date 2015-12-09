@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'oneapm'
 
 android {
     compileSdkVersion 22
@@ -47,4 +48,5 @@ dependencies {
     compile 'com.android.support:design:22.2.0'
     compile 'com.makeramen:roundedimageview:2.2.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
+    compile files('libs/oneapm-android-agent.jar')
 }

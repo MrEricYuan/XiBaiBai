@@ -4,7 +4,8 @@ package com.jph.xibaibai.model.http;
  * 接口请求任务ID
  * CREATED BY JPH ON 2015/8/12.
  */
-public interface Tasks {
+public interface
+        Tasks {
 
     /**
      * 登录
@@ -174,16 +175,32 @@ public interface Tasks {
     int CONFIMORDER = 0XA98F3;
 
     int APPLYOPENCITY = 0XA98F4;
-    /**获取版本信息*/
+    /**
+     * 获取版本信息
+     */
     int VERSIONINFO = 0XA98F5;
-    /**首页轮播广告*/
+    /**
+     * 首页轮播广告
+     */
     int ADCODE = 0XA98F6;
-    /**DIY数据*/
+    /**
+     * DIY数据
+     */
     int DIYDATACODE = 0XA98F7;
-    /**美容数据*/
+    /**
+     * 美容数据
+     */
     int BEAUTYATACODE = 0XA98F7;
-    /**优惠券*/
-    int TICKET_LIST=0xA98F8;
-    /**首页DIY数据*/
-    int HOMEDIY_LIST=0xA98F9;
+    /**
+     * 优惠券
+     */
+    int TICKET_LIST = 0xA98F8;
+    /**
+     * 首页DIY数据
+     */
+    int HOMEDIY_LIST = 0xA98F9;
+    /**
+     * 订单列表
+     */
+    int ORDER_LIST = 0xA9800;
 }

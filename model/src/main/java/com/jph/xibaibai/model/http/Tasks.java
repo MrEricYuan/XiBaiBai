@@ -200,6 +200,7 @@ public interface Tasks {
     int HOMEDIY_LIST = 0xA98F9;
     // 洗车的价格
     int GEWASHCAR_PRICE = 0xA98E1;
-
+    // 订单列表
+    int ORDER_LIST = 0xA9800;
 
 }

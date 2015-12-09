@@ -27,7 +27,6 @@ import com.jph.xibaibai.model.http.IAPIRequests;
 import com.jph.xibaibai.model.http.Tasks;
 import com.jph.xibaibai.model.utils.Constants;
 import com.jph.xibaibai.mview.MyViewPager;
-import com.jph.xibaibai.ui.MyOrderSetActivity;
 import com.jph.xibaibai.ui.activity.base.BaseActivity;
 import com.jph.xibaibai.utils.MImageLoader;
 import com.jph.xibaibai.utils.StringUtil;

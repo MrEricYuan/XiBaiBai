@@ -1,5 +1,6 @@
-package com.jph.xibaibai.ui;
+package com.jph.xibaibai.ui.activity;
 
+import com.jph.xibaibai.adapter.MyOrderAdapter;
 import com.jph.xibaibai.model.http.IAPIRequests;
 import com.jph.xibaibai.ui.activity.base.TitleActivity;
 
@@ -12,4 +13,5 @@ import com.jph.xibaibai.ui.activity.base.TitleActivity;
 public class MyOrderSetActivity extends TitleActivity{
 
     private IAPIRequests apiRequests;
+    private MyOrderAdapter myOrderAdapter;
 }

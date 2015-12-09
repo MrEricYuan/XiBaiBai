@@ -1,17 +1,624 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:scrollbars="none">
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:paddingBottom="@dimen/dp_fourty_eight"
+        android:scrollbars="none">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"></LinearLayout>
+            android:orientation="vertical">
+            <!--订单内容-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_fourty_eight"
+                    android:layout_marginLeft="@dimen/dp_twenty"
+                    android:gravity="center_vertical"
+                    android:text="@string/order_info_service"
+                    android:textSize="@dimen/sp_seventeen" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_one"
+                    android:background="@mipmap/line_one" />
+
+                <com.jph.xibaibai.mview.CustomListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:divider="@mipmap/line_one"
+                    android:dividerHeight="@dimen/dp_one"
+                    android:paddingRight="@dimen/dp_thirty"></com.jph.xibaibai.mview.CustomListView>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_fourty_eight"
+                    android:paddingLeft="@dimen/dp_thirty"
+                    android:paddingRight="@dimen/dp_thirty">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/order_info_total"
+                        android:textSize="@dimen/sp_seventeen" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="￥ 40"
+                        android:textColor="#fc3342"
+                        android:textSize="@dimen/sp_seventeen" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_ten"
+                    android:background="#f1f1f1" />
+            </LinearLayout>
+            <!--操作信息-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_fourty_eight"
+                    android:layout_marginLeft="@dimen/dp_twenty"
+                    android:gravity="center_vertical"
+                    android:text="@string/order_info_employee"
+                    android:textSize="@dimen/sp_seventeen" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_one"
+                    android:background="@mipmap/line_one" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_fourty_eight"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:orientation="horizontal"
+                    android:paddingRight="@dimen/dp_thirty">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/order_info_employeeName"
+                        android:textSize="@dimen/sp_sixteen" />
+
+                    <TextView
+                        android:id="@+id/order_info_employeeName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_five"
+                        android:textSize="@dimen/sp_sixteen" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_one"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:background="@mipmap/line_one" />
+
+                <LinearLayout
+                    android:id="@+id/order_info_telLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_fourty_eight"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:orientation="horizontal"
+                    android:paddingRight="@dimen/dp_thirty">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/order_info_employeeTel"
+                        android:textSize="@dimen/sp_sixteen" />
+
+                    <TextView
+                        android:id="@+id/order_info_employeeTel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_five"
+                        android:textSize="@dimen/sp_sixteen" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_one"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:background="@mipmap/line_one" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dp_ten"
+                    android:paddingRight="@dimen/dp_thirty"
+                    android:paddingTop="@dimen/dp_fifteen">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/order_info_pic"
+                        android:textSize="@dimen/sp_sixteen" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_hundred"
+                        android:layout_marginTop="@dimen/dp_five"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/order_before_album"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@mipmap/ic_launcher" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+
+                                android:background="@mipmap/shawdow_bg"
+                                android:gravity="center"
+                                android:text="@string/order_info_before"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/sp_sixteen" />
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="@dimen/dp_ten"
+                            android:layout_height="match_parent" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/order_after_album"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@mipmap/ic_launcher" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+                                android:background="@mipmap/shawdow_bg"
+                                android:gravity="center"
+                                android:text="@string/order_info_after"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/sp_sixteen" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_one"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:background="@mipmap/line_one" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dp_ten"
+                    android:paddingRight="@dimen/dp_thirty"
+                    android:paddingTop="@dimen/dp_fifteen">
+
+                    <RelativeLayout
+                        android:id="@+id/order_info_diyLayot"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/order_info_suggest"
+                            android:textSize="@dimen/sp_sixteen" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="@dimen/dp_five"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/arrow_right" />
+                    </RelativeLayout>
+
+                    <com.jph.xibaibai.mview.CustomGridView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_five"
+                        android:horizontalSpacing="@dimen/dp_five"
+                        android:numColumns="3"></com.jph.xibaibai.mview.CustomGridView>
+
+                    <TextView
+                        android:id="@+id/order_info_remark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_five"
+                        android:textSize="@dimen/sp_sixteen" />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_ten"
+                    android:background="#f1f1f1" />
+            </LinearLayout>
+            <!--订单信息      -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_fourty_eight"
+                    android:layout_marginLeft="@dimen/dp_twenty"
+                    android:gravity="center_vertical"
+                    android:text="@string/order_info_details"
+                    android:textSize="@dimen/sp_seventeen" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_one"
+                    android:background="@mipmap/line_one" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_fourty_eight"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:orientation="horizontal"
+                    android:paddingRight="@dimen/dp_thirty">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/order_info_no"
+                        android:textSize="@dimen/sp_sixteen" />
+
+                    <TextView
+                        android:id="@+id/order_info_orderNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_five"
+                        android:textSize="@dimen/sp_sixteen" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_one"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:background="@mipmap/line_one" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_fourty_eight"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:orientation="horizontal"
+                    android:paddingRight="@dimen/dp_thirty">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/order_info_time"
+                        android:textSize="@dimen/sp_sixteen" />
+
+                    <TextView
+                        android:id="@+id/order_info_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_five"
+                        android:textSize="@dimen/sp_sixteen" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_one"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:background="@mipmap/line_one" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_fourty_eight"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:orientation="horizontal"
+                    android:paddingRight="@dimen/dp_thirty">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/order_info_payType"
+                        android:textSize="@dimen/sp_sixteen" />
+
+                    <TextView
+                        android:id="@+id/order_info_paytype"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_five"
+                        android:textSize="@dimen/sp_sixteen" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_one"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:background="@mipmap/line_one" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_fourty_eight"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:orientation="horizontal"
+                    android:paddingRight="@dimen/dp_thirty">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/order_info_driver"
+                        android:textSize="@dimen/sp_sixteen" />
+
+                    <TextView
+                        android:id="@+id/order_info_driver"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_five"
+                        android:textSize="@dimen/sp_sixteen" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_one"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:background="@mipmap/line_one" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_fourty_eight"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:orientation="horizontal"
+                    android:paddingRight="@dimen/dp_thirty">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/order_info_car"
+                        android:textSize="@dimen/sp_sixteen" />
+
+                    <TextView
+                        android:id="@+id/order_info_carinfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_five"
+                        android:textSize="@dimen/sp_sixteen" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_one"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:background="@mipmap/line_one" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_fourty_eight"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:orientation="horizontal"
+                    android:paddingRight="@dimen/dp_thirty">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/order_info_carplateno"
+                        android:textSize="@dimen/sp_sixteen" />
+
+                    <TextView
+                        android:id="@+id/order_info_carplateno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_five"
+                        android:textSize="@dimen/sp_sixteen" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_one"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:background="@mipmap/line_one" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_fourty_eight"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:orientation="horizontal"
+                    android:paddingRight="@dimen/dp_thirty">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/order_info_carType"
+                        android:textSize="@dimen/sp_sixteen" />
+
+                    <TextView
+                        android:id="@+id/order_info_cartype"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_five"
+                        android:textSize="@dimen/sp_sixteen" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_one"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:background="@mipmap/line_one" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/dp_fifteen"
+                    android:paddingRight="@dimen/dp_thirty"
+                    android:paddingTop="@dimen/dp_fifteen">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/order_info_carloc"
+                        android:textSize="@dimen/sp_sixteen" />
+
+                    <TextView
+                        android:id="@+id/order_info_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_five"
+                        android:textSize="@dimen/sp_sixteen" />
+                </LinearLayout>
+            </LinearLayout>
+            <!--评价-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/order_info_commentLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_fourty_eight"
+                    android:layout_marginLeft="@dimen/dp_twenty"
+                    android:gravity="center_vertical"
+                    android:text="@string/order_info_nocomment"
+                    android:textSize="@dimen/sp_seventeen" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_one"
+                    android:background="@mipmap/line_one" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/dp_ten"
+                    android:paddingBottom="@dimen/dp_ten"
+                    android:layout_marginLeft="@dimen/dp_thirty"
+                    android:layout_marginRight="@dimen/dp_thirty">
+
+                    <TextView
+                        android:id="@+id/order_info_goComent"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/btn_common_bg"
+                        android:paddingLeft="@dimen/dp_ten"
+                        android:paddingRight="@dimen/dp_ten"
+                        android:paddingTop="@dimen/dp_five"
+                        android:paddingBottom="@dimen/dp_five"
+                        android:text="@string/order_info_tocomment"
+                        android:textColor="@color/them_color"
+                        android:visibility="gone"
+                        android:textSize="@dimen/sp_tweenty" />
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:orientation="vertical"
+                        android:id="@+id/order_info_commentLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <RatingBar
+                            android:layout_marginTop="@dimen/dp_five"
+                            android:id="@+id/coment_level"
+                            style="@style/little_roomRatingBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:isIndicator="true"
+                            android:numStars="5"
+                            android:stepSize="1" />
+                        <TextView
+                            android:layout_marginTop="@dimen/dp_five"
+                            android:id="@+id/order_info_commentContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/sp_sixteen"/>
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/order_pay_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_fourty_eight"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/pay"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/dp_thirty"
+            android:layout_marginRight="@dimen/dp_thirty"
+            android:background="@drawable/btn_special_bg"
+            android:text="@string/order_info_topay"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_tweenty" />
     </LinearLayout>
 
-</ScrollView>
+
+</RelativeLayout>

@@ -632,7 +632,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
         requestParams.addBodyParameter("uid", String.valueOf(uid));
         requestParams.addBodyParameter("p", String.valueOf(pageIndex));
         requestParams.addBodyParameter("pagesize", String.valueOf(pageSize));
-        request(XRequestCallBack, Tasks.ORDER_LIST, "/order_select", requestParams);
+        request(XRequestCallBack, Tasks.ORDER_LIST, "/orderSelect", requestParams);
     }
 
 

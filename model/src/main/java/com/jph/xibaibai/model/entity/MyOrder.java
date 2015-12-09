@@ -16,8 +16,18 @@ public class MyOrder {
     private String carPlateNo;
     private String carLocation;
 
+    private int currentState=-1;
+
     public String getOrderId() {
         return orderId;
+    }
+
+    public int getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(int currentState) {
+        this.currentState = currentState;
     }
 
     public void setOrderId(String orderId) {

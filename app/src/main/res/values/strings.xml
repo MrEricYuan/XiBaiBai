@@ -62,7 +62,26 @@
     <string name="no_more_data">暂无更多数据</string>
     <!--订单详情-->
     <string name="order_info_service">订单内容</string>
+    <string name="order_info_total">合计</string>
     <string name="order_info_employee">操作信息</string>
+    <string name="order_info_employeeName">技师名称：</string>
+    <string name="order_info_employeeTel">电\t\t\t话：</string>
+    <string name="order_info_pic">照片</string>
+    <string name="order_info_before">洗车前</string>
+    <string name="order_info_after">洗车后</string>
+    <string name="order_info_suggest">建议内容：</string>
+    <string name="order_info_express">说明图</string>
     <string name="order_info_nocomment">未评价</string>
-    <string name="order_info_commented">操作信息</string>
+    <string name="order_info_commented">我的评价</string>
+    <string name="order_info_tocomment">添加评价</string>
+    <string name="order_info_topay">去支付</string>
+    <string name="order_info_details">订单信息</string>
+    <string name="order_info_no">订单编号：</string>
+    <string name="order_info_time">订单时间：</string>
+    <string name="order_info_payType">支付方式：</string>
+    <string name="order_info_driver">车主名称：</string>
+    <string name="order_info_car">车辆信息：</string>
+    <string name="order_info_carplateno">车\t\t\t牌：</string>
+    <string name="order_info_carType">车辆类别：</string>
+    <string name="order_info_carloc">车辆位置：</string>
 </resources>

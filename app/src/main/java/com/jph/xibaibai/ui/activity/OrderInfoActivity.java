@@ -12,7 +12,7 @@ import com.jph.xibaibai.ui.activity.base.TitleActivity;
  * 描述：订单详情页面
  */
 public class OrderInfoActivity extends TitleActivity {
-
+    private String orderId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +22,7 @@ public class OrderInfoActivity extends TitleActivity {
     @Override
     public void initData() {
         super.initData();
+        orderId=getIntent().getStringExtra("orderId");
     }
 
     @Override

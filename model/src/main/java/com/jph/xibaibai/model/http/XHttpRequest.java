@@ -24,6 +24,7 @@ public class XHttpRequest extends RequestCallBack<String> {
     private static final String TAG = "XHttpRequest";
     private static final String REMIND_DEFAULTFAILINFO = "请求失败，稍后再试试看";
     private static final String REMIND_CHECKNET = "请检查网络";
+    private static final String SERVER_ERROR = "服务器异常";
 
     private int taskId;
     protected XRequestCallBack XRequestCallBack;
@@ -77,13 +78,18 @@ public class XHttpRequest extends RequestCallBack<String> {
         }
         XRequestCallBack.onEnd(taskId);
         if(!StringUtils.isEmpty(responseInfo.result.toString())){
-            ResponseJson responseJson = JSON.parseObject(responseInfo.result.toString(), ResponseJson.class);
-            if (responseJson.getCode() == 1) {
-                Log.v("Tag","request success");
-                XRequestCallBack.onSuccess(taskId, responseJson);
-            } else {
-                XRequestCallBack.onFailed(taskId, responseJson.getCode(),
-                        responseJson.getMsg());
+            try {
+                ResponseJson responseJson = JSON.parseObject(responseInfo.result.toString(), ResponseJson.class);
+                if (responseJson.getCode() == 1) {
+                    Log.v("Tag", "request success");
+                    XRequestCallBack.onSuccess(taskId, responseJson);
+                } else {
+                    XRequestCallBack.onFailed(taskId, responseJson.getCode(),
+                            responseJson.getMsg());
+                }
+            }catch (Exception e){
+                XRequestCallBack.onFailed(taskId, 0,
+                        SERVER_ERROR);
             }
         }
     }

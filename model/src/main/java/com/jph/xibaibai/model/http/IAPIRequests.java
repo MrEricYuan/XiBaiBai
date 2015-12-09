@@ -412,4 +412,12 @@ public interface IAPIRequests {
      * 申请开通此城市
      */
     void applyOpenCity(int uid,String latitude,String longitude,String location);
+
+    /**
+     * 获取我的订单
+     * @param uid 用户id
+     * @param pageIndex    当前索引
+     * @param pageSize   当前页面数据条数
+     */
+    void getMyOrderList(int uid,int pageIndex,int pageSize);
 }

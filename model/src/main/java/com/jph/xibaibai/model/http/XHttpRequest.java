@@ -29,12 +29,14 @@ public class XHttpRequest extends RequestCallBack<String> {
     private int taskId;
     protected XRequestCallBack XRequestCallBack;
     private String url;// 请求地址
+    private String flag;
 
-    public XHttpRequest(int taskId, XRequestCallBack XRequestCallBack, String url) {
+    public XHttpRequest(int taskId, XRequestCallBack XRequestCallBack, String url, String flag) {
         super();
         this.taskId = taskId;
         this.XRequestCallBack = XRequestCallBack;
         this.url = url;
+        this.flag = flag;
     }
 
     public void requestPost(RequestParams requestParams) {
@@ -77,17 +79,21 @@ public class XHttpRequest extends RequestCallBack<String> {
             return;
         }
         XRequestCallBack.onEnd(taskId);
-        if(!StringUtils.isEmpty(responseInfo.result.toString())){
+        if (!StringUtils.isEmpty(responseInfo.result.toString())) {
             try {
                 ResponseJson responseJson = JSON.parseObject(responseInfo.result.toString(), ResponseJson.class);
                 if (responseJson.getCode() == 1) {
-                    Log.v("Tag", "request success");
-                    XRequestCallBack.onSuccess(taskId, responseJson);
+                    MLog.i(TAG, "Request success：" + responseJson.getCode() + " " + responseJson.getMsg() + " " + responseJson.getResult());
+                    if (StringUtils.isEmpty(flag) || "null".equals(flag))
+                        XRequestCallBack.onSuccess(taskId, responseJson);
+                    else
+                        XRequestCallBack.onSuccess(taskId, flag, responseJson);
                 } else {
                     XRequestCallBack.onFailed(taskId, responseJson.getCode(),
                             responseJson.getMsg());
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
+                Log.e("Tag", "http-error:" + e.getMessage());
                 XRequestCallBack.onFailed(taskId, 0,
                         SERVER_ERROR);
             }

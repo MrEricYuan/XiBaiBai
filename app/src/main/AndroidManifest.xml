@@ -126,6 +126,15 @@
         <activity
             android:name=".ui.activity.OrderInfoActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.SendCommentActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.FeedbackActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.BigImageActivity"
+            android:screenOrientation="portrait"/>
         <receiver android:name="com.jph.xibaibai.receiver.ConnectionChangeReceiver"/>
 
         <!-- 支付宝-->

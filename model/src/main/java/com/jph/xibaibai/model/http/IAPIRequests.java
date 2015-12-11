@@ -420,4 +420,40 @@ public interface IAPIRequests {
      * @param pageSize   当前页面数据条数
      */
     void getMyOrderList(int uid,int pageIndex,int pageSize);
+
+    /**
+     * 评价订单
+     * @param orderId 订单id
+     * @param uid 用户id
+     * @param comment 评价内容
+     * @param level 评价星级
+     */
+    void sendComment(String orderId, int uid, String comment, int level);
+
+
+    /**
+     * 获取订单详情
+     * @param orderId
+     */
+    void getOrderInformation(String orderId);
+
+    /**
+     * 取消订单
+     * @param orderId
+     * @param uid
+     */
+    void cancelOrder(String orderId,int uid);
+
+    /**
+     * 删除订单
+     * @param orderId
+     */
+    void deleteOrder(String orderId);
+
+    /**
+     * 支付前确认优惠券信息
+     * @param orderId
+     * @param uid
+     */
+    void confirmPay(String orderId,int uid);
 }

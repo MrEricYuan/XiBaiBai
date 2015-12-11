@@ -49,7 +49,8 @@
 
     <!--我的订单-->
     <string name="myorder_title">我的订单</string>
-    <string name="myorder_time">时间：</string>
+    <string name="myorder_ordertime">下单时间：</string>
+    <string name="myorder_servicetime">服务时间：</string>
     <string name="myorder_carinfo">车型：</string>
     <string name="myorder_type">类别：</string>
     <string name="myorder_plateno">车牌：</string>
@@ -58,11 +59,15 @@
     <string name="myorder_delete">删除订单</string>
     <string name="myorder_pay">支付订单</string>
     <string name="myorder_comment">评价订单</string>
+    <string name="myorder_canceled">已取消</string>
 
     <string name="no_more_data">暂无更多数据</string>
+    <string name="sign_yuan">¥\t</string>
     <!--订单详情-->
     <string name="order_info_service">订单内容</string>
     <string name="order_info_total">合计</string>
+    <string name="order_info_couponAmout">优惠券抵扣</string>
+    <string name="order_info_payAmount">实际支付</string>
     <string name="order_info_employee">操作信息</string>
     <string name="order_info_employeeName">技师名称：</string>
     <string name="order_info_employeeTel">电\t\t\t话：</string>
@@ -70,12 +75,13 @@
     <string name="order_info_before">洗车前</string>
     <string name="order_info_after">洗车后</string>
     <string name="order_info_suggest">建议内容：</string>
-    <string name="order_info_express">说明图</string>
+    <string name="order_info_express">建议缘由</string>
     <string name="order_info_nocomment">未评价</string>
     <string name="order_info_commented">我的评价</string>
     <string name="order_info_tocomment">添加评价</string>
     <string name="order_info_topay">去支付</string>
     <string name="order_info_details">订单信息</string>
+    <string name="order_info_serviceTime">服务时间：</string>
     <string name="order_info_no">订单编号：</string>
     <string name="order_info_time">订单时间：</string>
     <string name="order_info_payType">支付方式：</string>
@@ -84,4 +90,15 @@
     <string name="order_info_carplateno">车\t\t\t牌：</string>
     <string name="order_info_carType">车辆类别：</string>
     <string name="order_info_carloc">车辆位置：</string>
+    <string name="order_info_title">订单详情</string>
+    <string name="order_info_recommandbz">备注：</string>
+    <string name="order_tel_error">联系信息有误</string>
+
+    <!--评价订单-->
+    <string name="comment_title">评价订单</string>
+    <string name="comment_label">评价</string>
+    <string name="comment_hint">请在此输入您的宝贵意见，谢谢~</string>
+    <string name="comment_submit">提交</string>
+    <string name="comment_content_long">请输入500字以内的评价</string>
+    <string name="after_comment">已评价</string>
 </resources>

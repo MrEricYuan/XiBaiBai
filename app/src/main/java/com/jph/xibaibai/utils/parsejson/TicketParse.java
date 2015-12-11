@@ -1,5 +1,7 @@
 package com.jph.xibaibai.utils.parsejson;
 
+import android.util.Log;
+
 import com.jph.xibaibai.model.entity.Coupon;
 import com.jph.xibaibai.utils.StringUtil;
 
@@ -24,6 +26,7 @@ public class TicketParse {
             JSONArray jsonArray = new JSONArray(json);
             if (jsonArray != null && jsonArray.length() > 0) {
                 ticketList = new ArrayList<Coupon>();
+                Log.v("parse","data'size="+jsonArray.length());
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject mObject = jsonArray.getJSONObject(i);
                     if (mObject != null) {
@@ -51,6 +54,7 @@ public class TicketParse {
                         ticketList.add(coupon);
                     }
                 }
+                Log.v("parse","after parse data'size="+ticketList.size());
             }
         } catch (JSONException e) {
             e.printStackTrace();

@@ -13,7 +13,7 @@
 
         <TextView
             android:id="@+id/order_item_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:textSize="@dimen/sp_eighteen"
@@ -37,10 +37,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_one"
         android:background="@mipmap/line_one" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_fourty"
+        android:layout_height="@dimen/dp_thirty"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/my_order_lor"
         android:paddingRight="@dimen/my_order_lor">
@@ -49,7 +48,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/myorder_time"
+            android:text="@string/myorder_servicetime"
+            android:textSize="@dimen/sp_sixteen" />
+
+        <TextView
+            android:id="@+id/order_item_servicetime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_five"
+            android:textSize="@dimen/sp_sixteen" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_thirty"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/my_order_lor"
+        android:paddingRight="@dimen/my_order_lor">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/myorder_ordertime"
             android:textSize="@dimen/sp_sixteen" />
 
         <TextView
@@ -63,7 +85,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_fourty"
+        android:layout_height="@dimen/dp_thirty"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/my_order_lor"
         android:paddingRight="@dimen/my_order_lor">
@@ -86,7 +108,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_fourty"
+        android:layout_height="@dimen/dp_thirty"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/my_order_lor"
         android:paddingRight="@dimen/my_order_lor">
@@ -109,7 +131,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_fourty"
+        android:layout_height="@dimen/dp_thirty"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/my_order_lor"
         android:paddingRight="@dimen/my_order_lor">
@@ -132,15 +154,16 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_fourty"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingTop="@dimen/dp_five"
+        android:paddingBottom="@dimen/dp_five"
         android:paddingLeft="@dimen/my_order_lor"
         android:paddingRight="@dimen/my_order_lor">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:text="@string/myorder_carLocation"
             android:textSize="@dimen/sp_sixteen" />
 
@@ -148,7 +171,6 @@
             android:id="@+id/order_item_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/dp_five"
             android:textSize="@dimen/sp_sixteen" />
     </LinearLayout>
@@ -189,7 +211,8 @@
                 android:textColor="@color/them_color"
                 android:text="@string/myorder_cancel"
                 android:background="@drawable/btn_common_bg"
-                android:padding="@dimen/dp_ten" />
+
+                 />
             <TextView
                 android:layout_marginLeft="@dimen/dp_ten"
                 android:gravity="center"
@@ -199,7 +222,8 @@
                 android:textColor="@color/white"
                 android:text="@string/myorder_pay"
                 android:background="@drawable/btn_special_bg"
-                android:padding="@dimen/dp_ten" />
+                android:paddingLeft="@dimen/dp_five"
+                android:paddingRight="@dimen/dp_five" />
         </LinearLayout>
     </RelativeLayout>
 

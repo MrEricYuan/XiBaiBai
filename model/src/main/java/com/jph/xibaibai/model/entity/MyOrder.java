@@ -15,8 +15,27 @@ public class MyOrder {
     private String carType;
     private String carPlateNo;
     private String carLocation;
+    private String serviceTime;
 
+    /**
+     * 0未付款
+     * 1派单中
+     * 2已派单
+     * 3在路上
+     * 4进行中
+     * 5未评价
+     * 6已评价
+     * 7已取消
+     */
     private int currentState=-1;
+
+    public String getServiceTime() {
+        return serviceTime;
+    }
+
+    public void setServiceTime(String serviceTime) {
+        this.serviceTime = serviceTime;
+    }
 
     public String getOrderId() {
         return orderId;

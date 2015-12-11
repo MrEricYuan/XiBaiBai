@@ -18,12 +18,12 @@ public class BaseAPIRequest {
             + "/Api/V3";
 
     protected static void request(XRequestCallBack XRequestCallBack, int taskId, String doUrl) {
-        request(XRequestCallBack, taskId, doUrl, null);
+        request(XRequestCallBack, taskId, doUrl, null,null);
     }
 
     protected static void request(XRequestCallBack XRequestCallBack, int taskId, String doUrl,
-                                  RequestParams requestParams) {
-        XHttpRequest xHttpRequest = new XHttpRequest(taskId, XRequestCallBack, URL_API + doUrl);
+                                  RequestParams requestParams,String flag) {
+        XHttpRequest xHttpRequest = new XHttpRequest(taskId, XRequestCallBack, URL_API + doUrl,flag);
         xHttpRequest.requestPost(requestParams);
     }
 

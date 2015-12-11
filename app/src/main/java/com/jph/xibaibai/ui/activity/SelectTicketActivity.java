@@ -43,7 +43,7 @@ public class SelectTicketActivity extends TitleActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket);
-        mAPIRequests.getTicketList(uid);
+        mAPIRequests.getTicketList(/*uid*/154);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class SelectTicketActivity extends TitleActivity implements View.OnClickL
         ResponseJson responseJson = (ResponseJson) params[0];
         switch (taskId) {
             case Tasks.TICKET_LIST:
-                List<Coupon> ticketList = TicketParse.getCouponList(responseJson.getResult() + "");
+                List<Coupon> ticketList = TicketParse.getCouponList(responseJson.getResult().toString());
                 if (ticketList != null && !ticketList.isEmpty()) {
                     ticketAdapter = new TicketAdapter(ticketList, this);
                     ticket_lv.setAdapter(ticketAdapter);

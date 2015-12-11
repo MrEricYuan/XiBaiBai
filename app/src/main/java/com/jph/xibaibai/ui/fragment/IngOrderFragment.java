@@ -152,6 +152,11 @@ public class IngOrderFragment extends BaseFragment implements
     }
 
     @Override
+    public void onSuccess(int taskId, String flag, Object... params) {
+
+    }
+
+    @Override
     public void onClickEmploeeLocation(Order order) {
         Address address = new Address();
         address.setAddress(order.getCurrent_address());

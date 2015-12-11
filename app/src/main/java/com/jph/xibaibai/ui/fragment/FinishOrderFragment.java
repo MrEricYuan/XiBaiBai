@@ -141,6 +141,11 @@ public class FinishOrderFragment extends BaseFragment implements
     }
 
     @Override
+    public void onSuccess(int taskId, String flag, Object... params) {
+
+    }
+
+    @Override
     public void onItemClickComment(int position, Order order) {
         Intent intentComment = new Intent(getActivity(), AddCommentActivity.class);
         intentComment.putExtra(AddCommentActivity.EXTRA_ORDER, order);

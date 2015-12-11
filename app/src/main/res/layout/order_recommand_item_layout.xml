@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dp_five"
+        android:paddingTop="@dimen/dp_five">
+
+        <RelativeLayout
+            android:id="@+id/recommand_diyLayot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/recomand_item_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/order_info_suggest"
+                android:textSize="@dimen/sp_sixteen" />
+
+            <TextView
+                android:id="@+id/recommand_diy_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_five"
+                android:layout_marginRight="@dimen/dp_five"
+                android:layout_toLeftOf="@+id/recomand_item_imgl"
+                android:layout_toRightOf="@+id/recomand_item_label"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="@dimen/sp_sixteen" />
+
+            <ImageView
+                android:id="@+id/recomand_item_imgl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/dp_five"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/arrow_right" />
+        </RelativeLayout>
+        <TextView
+            android:layout_marginTop="@dimen/dp_five"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/order_info_express"
+            android:textSize="@dimen/sp_fourteen" />
+
+        <com.jph.xibaibai.mview.CustomGridView
+            android:id="@+id/recommand_album"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_five"
+            android:horizontalSpacing="@dimen/dp_five"
+            android:numColumns="3"></com.jph.xibaibai.mview.CustomGridView>
+
+        <TextView
+            android:id="@+id/recommand_remark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_five"
+            android:textSize="@dimen/sp_fourteen" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -17,4 +17,9 @@ public class MainFragment extends BaseFragment{
     protected void onCreateView(View contentView) {
 
     }
+
+    @Override
+    public void onSuccess(int taskId, String flag, Object... params) {
+
+    }
 }

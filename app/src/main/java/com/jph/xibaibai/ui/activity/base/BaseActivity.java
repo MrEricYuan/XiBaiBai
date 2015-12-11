@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Toast;
 
-import com.blueware.agent.android.BlueWare;
 import com.jph.xibaibai.R;
 import com.jph.xibaibai.model.http.XRequestCallBack;
 import com.lidroid.xutils.ViewUtils;
@@ -111,6 +110,11 @@ public class BaseActivity extends AppCompatActivity implements Init, XRequestCal
 
     @Override
     public void onSuccess(int taskId, Object... params) {
+
+    }
+
+    @Override
+    public void onSuccess(int taskId, String flag, Object... params) {
 
     }
 

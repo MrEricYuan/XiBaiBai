@@ -37,4 +37,6 @@
     <color name="them_color">#106ab1</color>
     <color name="rg_code_color">#dddddd</color>
     <color name="home_web_color">#679e18</color>
+
+    <color name="hint_color">#898989</color>
 </resources>

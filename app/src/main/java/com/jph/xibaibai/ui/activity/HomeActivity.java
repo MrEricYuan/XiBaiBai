@@ -47,7 +47,7 @@ import java.util.concurrent.TimeUnit;
  * Created by Eric on 2015/12/1.
  * 软件的主页
  */
-public class HomeActivity extends BaseActivity implements View.OnClickListener,AdapterView.OnItemClickListener {
+public class HomeActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
     // ViewPage子View的List
     private List<View> viewList = null;
     // 广告的List
@@ -125,13 +125,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,A
         super.initView();
         drawerLayout.setScrimColor(0x32000000);// 设置半透明度
         if (!StringUtil.isNull(SharePerferenceUtil.getLocationInfo(HomeActivity.this).getCity())) {
-                String cityName = SharePerferenceUtil.getLocationInfo(HomeActivity.this).getCity();
-                if (cityName.contains("市")) {
-                    cityName = cityName.replace("市", "");
-                }
-                home_location_tv.setText(cityName);
-                diyproduct_lv.setFocusable(false);
-                Log.i("Tag", "City=>" + cityName);
+            String cityName = SharePerferenceUtil.getLocationInfo(HomeActivity.this).getCity();
+            if (cityName.contains("市")) {
+                cityName = cityName.replace("市", "");
+            }
+            home_location_tv.setText(cityName);
+            diyproduct_lv.setFocusable(false);
+            Log.i("Tag", "City=>" + cityName);
         }
         diyproduct_lv.setOnItemClickListener(this);
     }
@@ -150,7 +150,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,A
             case Tasks.BEAUTYATACODE:
                 beautyList = BeautyProductParse.beautyDataParse(responseJson.getResult().toString());
                 if (beautyList != null && beautyList.size() > 0) {
-                    for(int i = 0;i<beautyList.size();i++){
+                    for (int i = 0; i < beautyList.size(); i++) {
                         initBeautydatas(beautyList.get(i).getP_sort());
                     }
                 }
@@ -170,7 +170,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,A
      * 初始化美容数据
      */
     private void initBeautydatas(int i) {
-        switch (i){
+        switch (i) {
             case 0:
                 beauty1_name.setText(beautyList.get(i).getP_name());
                 beauty1_price.setText((int) beautyList.get(i).getP_price() + "元");
@@ -339,7 +339,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,A
     }
 
     @OnClick({R.id.home_washcar_btn, R.id.home_center_btn, R.id.home_inspa_rl, R.id.home_crystal_wax_rl, R.id.home_engine_wash_rl,
-            R.id.home_coating_rl, R.id.home_plant_rl,R.id.menu_order_layout,R.id.menu_ticket_layout})
+            R.id.home_coating_rl, R.id.home_plant_rl, R.id.menu_order_layout, R.id.menu_ticket_layout, R.id.menu_feedback_layout, R.id.menu_contact_layout})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -350,43 +350,51 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,A
                 toggleLeftLayout();
                 break;
             case R.id.home_inspa_rl:// 内饰SPA
-                if(beautyList != null && beautyList.size() > 0){
-                    HomeWebActivity.startWebActivity(HomeActivity.this,beautyList.get(0),0);
+                if (beautyList != null && beautyList.size() > 0) {
+                    HomeWebActivity.startWebActivity(HomeActivity.this, beautyList.get(0), 0);
                 }
                 break;
             case R.id.home_crystal_wax_rl:// 精制水晶蜡
-                if(beautyList != null && beautyList.size() > 0){
-                    HomeWebActivity.startWebActivity(HomeActivity.this,beautyList.get(1),0);
+                if (beautyList != null && beautyList.size() > 0) {
+                    HomeWebActivity.startWebActivity(HomeActivity.this, beautyList.get(1), 0);
                 }
                 break;
             case R.id.home_engine_wash_rl:// 发送机舱干洗
-                if(beautyList != null && beautyList.size() > 0){
-                    HomeWebActivity.startWebActivity(HomeActivity.this,beautyList.get(2),0);
+                if (beautyList != null && beautyList.size() > 0) {
+                    HomeWebActivity.startWebActivity(HomeActivity.this, beautyList.get(2), 0);
                 }
                 break;
             case R.id.home_coating_rl:// 皮革上光镀膜
-                if(beautyList != null && beautyList.size() > 0){
-                    HomeWebActivity.startWebActivity(HomeActivity.this,beautyList.get(3),0);
+                if (beautyList != null && beautyList.size() > 0) {
+                    HomeWebActivity.startWebActivity(HomeActivity.this, beautyList.get(3), 0);
                 }
                 break;
             case R.id.home_plant_rl:// 天然植物蜡
-                if(beautyList != null && beautyList.size() > 0){
-                    HomeWebActivity.startWebActivity(HomeActivity.this,beautyList.get(4),0);
+                if (beautyList != null && beautyList.size() > 0) {
+                    HomeWebActivity.startWebActivity(HomeActivity.this, beautyList.get(4), 0);
                 }
                 break;
-            case R.id.menu_ticket_layout: // 优惠券
-                startActivity(new Intent(HomeActivity.this,SelectTicketActivity.class));
+            case R.id.menu_ticket_layout: // 我的礼券
+                startActivity(new Intent(HomeActivity.this, MyCouponsActivity.class));
                 break;
             case R.id.menu_order_layout: // 我的订单
                 startActivity(new Intent(HomeActivity.this, MyOrderSetActivity.class));
                 break;
+            case R.id.menu_feedback_layout://反馈
+                startActivity(new Intent(HomeActivity.this, FeedbackActivity.class));
+                break;
+            case R.id.menu_contact_layout:
+                startActivity(CustomPhoneActivity.class);
+                break;
+
         }
     }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        switch (parent.getId()){
+        switch (parent.getId()) {
             case R.id.home_diyproduct_lv:
-                HomeWebActivity.startWebActivity(HomeActivity.this,diySubyList.get(position),1);
+                HomeWebActivity.startWebActivity(HomeActivity.this, diySubyList.get(position), 1);
                 break;
         }
     }

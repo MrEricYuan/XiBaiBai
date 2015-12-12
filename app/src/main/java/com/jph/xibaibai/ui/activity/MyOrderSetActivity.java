@@ -14,10 +14,13 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.jph.xibaibai.R;
 import com.jph.xibaibai.adapter.MyOrderAdapter;
+import com.jph.xibaibai.alipay.Alipay;
+import com.jph.xibaibai.alipay.Product;
 import com.jph.xibaibai.model.entity.ConfirmPay;
 import com.jph.xibaibai.model.entity.MyOrder;
 import com.jph.xibaibai.model.entity.ResponseJson;
 import com.jph.xibaibai.model.http.APIRequests;
+import com.jph.xibaibai.model.http.BaseAPIRequest;
 import com.jph.xibaibai.model.http.IAPIRequests;
 import com.jph.xibaibai.model.http.Tasks;
 import com.jph.xibaibai.ui.activity.base.TitleActivity;
@@ -63,6 +66,7 @@ public class MyOrderSetActivity extends TitleActivity implements PullToRefreshBa
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             MyOrder opOrder = (MyOrder) msg.obj;
+
             if (opOrder != null) {
                 String orderId = opOrder.getOrderId();
                 Intent intent = null;
@@ -97,11 +101,20 @@ public class MyOrderSetActivity extends TitleActivity implements PullToRefreshBa
             String action = intent.getAction();
             if (Constants.IntentAction.COMMENT_SUCCEED.equals(action)) {
                 String orderId = intent.getStringExtra("orderId");
-                if (opMap.containsKey(orderId)) {
+                if (opMap != null && opMap.containsKey(orderId)) {
                     MyOrder opOrder = opMap.get(orderId);
                     opOrder.setState(getString(R.string.after_comment));
                     opOrder.setCurrentState(6);
                     myOrderAdapter.notifyDataSetChanged();
+                } else {
+                    for (MyOrder mo : myOrderShowList) {
+                        if (mo.getOrderId().equals(orderId)) {
+                            mo.setState(getString(R.string.after_comment));
+                            mo.setCurrentState(6);
+                            myOrderAdapter.notifyDataSetChanged();
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -148,7 +161,6 @@ public class MyOrderSetActivity extends TitleActivity implements PullToRefreshBa
         switch (taskId) {
             case Tasks.ORDER_LIST:
                 myOrderDataList = OrderParse.getInstance().parseMyOrderList(responseJson.getResult().toString());
-                showToast("isAdd:" + isAdd);
                 if (myOrderDataList != null && !myOrderDataList.isEmpty()) {
                     if (isAdd) {
                         myOrderShowList.addAll(myOrderDataList);
@@ -191,7 +203,14 @@ public class MyOrderSetActivity extends TitleActivity implements PullToRefreshBa
                 ConfirmPay confirmPay = OrderParse.getInstance().parseConfirmPay(responseJson.getResult().toString());
                 if (confirmPay != null) {
                     if (!StringUtil.isNull(confirmPay.getExtra())) showToast(confirmPay.getExtra());
-//                    pay(confirmPay);
+                    if (opMap != null && opMap.containsKey(flag)) {
+                        MyOrder currentOpOrder = opMap.get(flag);
+                        currentOpOrder.setCurrentState(1);
+                        currentOpOrder.setState(getString(R.string.myorder_deliverying));
+                        pay(confirmPay, currentOpOrder);
+                    }
+
+
                 }
                 break;
         }
@@ -264,6 +283,36 @@ public class MyOrderSetActivity extends TitleActivity implements PullToRefreshBa
     protected void onDestroy() {
         super.onDestroy();
         localBroadcastManager.unregisterReceiver(receiver);
+        opMap.clear();
+
+    }
+
+    private void pay(final ConfirmPay confirmPay, final MyOrder myOrder) {
+        if ("0.0".equals(confirmPay.getPayPrice())) {
+            return;
+        }
+        Product product = new Product("洗车服务",
+                "洗车服务", Double.parseDouble(confirmPay.getPayPrice()), myOrder.getOrderNo());
+
+        Alipay alipay = new Alipay(this, BaseAPIRequest.URL_API
+                + "/alipay_return");
+        alipay.setCallBack(new Alipay.CallBack() {
+            @Override
+            public void onSuccess() {
+                Intent intentResult = new Intent(MyOrderSetActivity.this, AfterPayActivity.class);
+                intentResult.putExtra("orderId", myOrder.getOrderId());
+                intentResult.putExtra("confirm_pay", confirmPay);
+                startActivity(intentResult);
+                showToast("支付成功");
+                finish();
+            }
+
+            @Override
+            public void onFailed() {
+                showToast("支付失败");
+            }
+        });
+        alipay.pay(product);
     }
 
 

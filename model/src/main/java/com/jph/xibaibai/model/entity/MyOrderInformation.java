@@ -37,6 +37,25 @@ public class MyOrderInformation implements Serializable {
     private String couponOffset="0.0";
     private List<Product> serviceList;
 
+    private int commentLevel;
+    private String commentContent;
+
+    public int getCommentLevel() {
+        return commentLevel;
+    }
+
+    public void setCommentLevel(int commentLevel) {
+        this.commentLevel = commentLevel;
+    }
+
+    public String getCommentContent() {
+        return commentContent;
+    }
+
+    public void setCommentContent(String commentContent) {
+        this.commentContent = commentContent;
+    }
+
     public String getCouponOffset() {
         return couponOffset;
     }

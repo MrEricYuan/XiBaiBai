@@ -7,9 +7,15 @@ import android.widget.TextView;
 
 import com.jph.xibaibai.R;
 import com.jph.xibaibai.adapter.OrderProductAdapter;
+import com.jph.xibaibai.model.entity.ConfirmPay;
 import com.jph.xibaibai.model.entity.MyOrderInformation;
+import com.jph.xibaibai.model.entity.ResponseJson;
+import com.jph.xibaibai.model.http.APIRequests;
+import com.jph.xibaibai.model.http.IAPIRequests;
+import com.jph.xibaibai.model.http.Tasks;
 import com.jph.xibaibai.mview.CustomListView;
 import com.jph.xibaibai.ui.activity.base.TitleActivity;
+import com.jph.xibaibai.utils.parsejson.OrderParse;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 /**
@@ -18,7 +24,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
  * 创建时间：2015/12/11 16:47
  * 描述：$TODO
  */
-public class AfterPayActivity extends TitleActivity{
+public class AfterPayActivity extends TitleActivity {
     private MyOrderInformation myOrderInformation;
     private OrderProductAdapter orderProductAdapter;
 
@@ -52,6 +58,9 @@ public class AfterPayActivity extends TitleActivity{
     @ViewInject(R.id.order_info_couponLayout)
     private LinearLayout order_info_couponLayout;
 
+    private IAPIRequests mApiRequest;
+    private String orderId;
+    private ConfirmPay confirmPay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +71,15 @@ public class AfterPayActivity extends TitleActivity{
     @Override
     public void initData() {
         super.initData();
+        orderId = getIntent().getStringExtra("orderId");
         myOrderInformation = (MyOrderInformation) getIntent().getSerializableExtra("my_order_info");
-        if (myOrderInformation!=null)
+        confirmPay = (ConfirmPay) getIntent().getSerializableExtra("confirm_pay");
+        if (myOrderInformation != null)
             setOrderData();
-        else
-            finish();
+        else {
+            mApiRequest = new APIRequests(this);
+            mApiRequest.getOrderInformation(orderId);
+        }
 
     }
 
@@ -77,8 +90,9 @@ public class AfterPayActivity extends TitleActivity{
     }
 
     private void setOrderData() {
-        if (myOrderInformation != null) {
-
+        if (myOrderInformation != null && confirmPay != null) {
+            myOrderInformation.setPayPrice(confirmPay.getPayPrice());
+            myOrderInformation.setCouponOffset(confirmPay.getCouponPrice());
             if (myOrderInformation.getServiceList() != null && !myOrderInformation.getServiceList().isEmpty()) {
                 orderProductAdapter = new OrderProductAdapter(myOrderInformation.getServiceList(), this);
                 order_pro_lv.setAdapter(orderProductAdapter);
@@ -106,9 +120,15 @@ public class AfterPayActivity extends TitleActivity{
         }
     }
 
-
-
-
-
-
+    @Override
+    public void onSuccess(int taskId, String flag, Object... params) {
+        super.onSuccess(taskId, flag, params);
+        ResponseJson responseJson = (ResponseJson) params[0];
+        switch (taskId) {
+            case Tasks.ORDER_INFO:
+                myOrderInformation = OrderParse.getInstance().parseOrderInfo(responseJson.getResult().toString());
+                setOrderData();
+                break;
+        }
+    }
 }

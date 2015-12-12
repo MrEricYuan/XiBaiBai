@@ -456,4 +456,17 @@ public interface IAPIRequests {
      * @param uid
      */
     void confirmPay(String orderId,int uid);
+
+    /**
+     * 获取我的礼券信息
+     * @param uid
+     */
+    void getMyCouponInfo(int uid);
+
+    /**
+     * 兑换优惠码
+     * @param uid
+     * @param couponCode
+     */
+    void exchangeCoupon(int uid, String couponCode);
 }

@@ -38,6 +38,7 @@
             android:id="@+id/ticket_lv"
             android:dividerHeight="@dimen/dp_zero"
             android:divider="@null"
+            android:listSelector="@android:color/transparent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></com.jph.xibaibai.mview.CustomListView>
     </LinearLayout>

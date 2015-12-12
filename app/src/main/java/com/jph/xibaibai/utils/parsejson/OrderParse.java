@@ -73,6 +73,8 @@ public class OrderParse {
                             myOrder.setCurrentState(Integer.parseInt(mObject.getString("order_state")));
                         if (mObject.has("servicetime") && !mObject.isNull("servicetime") && !StringUtil.isNull(mObject.getString("servicetime")))
                             myOrder.setServiceTime(mObject.getString("servicetime"));
+                        if (mObject.has("order_num") && !mObject.isNull("order_num") && !StringUtil.isNull(mObject.getString("order_num")))
+                            myOrder.setOrderNo(mObject.getString("order_num"));
                         myOrderList.add(myOrder);
                     }
                 }
@@ -130,6 +132,11 @@ public class OrderParse {
                     orderinfo.setServiceTime(mObject.getString("servicetime"));
                 if (mObject.has("coupons") && !mObject.isNull("coupons") && !StringUtil.isNull(mObject.getString("coupons")))
                     orderinfo.setCouponOffset(mObject.getString("coupons"));
+
+                if (mObject.has("order_star") && !mObject.isNull("order_star") && StringUtil.isNumeric(mObject.getString("order_star")))
+                    orderinfo.setCommentLevel(Integer.parseInt(mObject.getString("order_star")));
+                if (mObject.has("user_evaluate") && !mObject.isNull("user_evaluate") && !StringUtil.isNull(mObject.getString("user_evaluate")))
+                    orderinfo.setCommentContent(mObject.getString("user_evaluate"));
                 if (mObject.has("washimg") && !mObject.isNull("washimg")) {
                     JSONObject jsonObject = mObject.getJSONObject("washimg");
                     if (jsonObject != null) {
@@ -175,6 +182,8 @@ public class OrderParse {
                                     recommand.getDiyData().setId(Integer.parseInt(jsonObject.getString("p_id")));
                                 if (jsonObject.has("p_name") && !jsonObject.isNull("p_name") && !StringUtil.isNull(jsonObject.getString("p_name")))
                                     recommand.getDiyData().setP_name(jsonObject.getString("p_name"));
+                                if (jsonObject.has("detailurl") && !jsonObject.isNull("detailurl") && !StringUtil.isNull(jsonObject.getString("detailurl")))
+                                    recommand.getDiyData().setLinkPath(jsonObject.getString("detailurl"));
                                 if (jsonObject.has("remark") && !jsonObject.isNull("remark") && !StringUtil.isNull(jsonObject.getString("remark")))
                                     recommand.setRemark(jsonObject.getString("remark"));
                                 if (jsonObject.has("images") && !jsonObject.isNull("images")) {
@@ -244,12 +253,12 @@ public class OrderParse {
             JSONObject mObject = new JSONObject(data);
             if (mObject != null) {
                 confirm = new ConfirmPay();
-                if (mObject.has("") && !mObject.isNull("") && !StringUtil.isNull(mObject.getString("")))
-                    confirm.setPayPrice(mObject.getString(""));
-                if (mObject.has("") && !mObject.isNull("") && !StringUtil.isNull(mObject.getString("")))
-                    confirm.setCouponPrice(mObject.getString(""));
-                if (mObject.has("") && !mObject.isNull("") && !StringUtil.isNull(mObject.getString("")))
-                    confirm.setExtra(mObject.getString(""));
+                if (mObject.has("payprice") && !mObject.isNull("payprice") && !StringUtil.isNull(mObject.getString("payprice")))
+                    confirm.setPayPrice(mObject.getString("payprice"));
+                if (mObject.has("couponsprice") && !mObject.isNull("couponsprice") && !StringUtil.isNull(mObject.getString("couponsprice")))
+                    confirm.setCouponPrice(mObject.getString("couponsprice"));
+                if (mObject.has("msg") && !mObject.isNull("msg") && !StringUtil.isNull(mObject.getString("msg")))
+                    confirm.setExtra(mObject.getString("msg"));
             }
 
         } catch (Exception e) {

@@ -58,7 +58,7 @@ public class OrderProductAdapter extends BaseAdapter {
         Product product=products.get(position);
         if (product!=null){
             holder.order_ppro_item_name.setText(product.getP_name());
-            holder.order_ppro_item_price.setText(mContext.getString(R.string.sign_yuan)+product.getP_price());
+            holder.order_ppro_item_price.setText(mContext.getString(R.string.sign_yuan)+" "+product.getP_price());
         }
         return convertView;
     }

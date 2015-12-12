@@ -639,7 +639,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
     @Override
     public void sendComment(String orderId, int uid, String comment, int level) {
         RequestParams requestParams = createRequestParams();
-        requestParams.addBodyParameter("orderId", orderId);
+        requestParams.addBodyParameter("orderid", orderId);
         requestParams.addBodyParameter("evaluate", comment);
         requestParams.addBodyParameter("star", String.valueOf(level));
         request(XRequestCallBack, Tasks.ORDER_COMMENT, "/evaluate", requestParams,null);
@@ -648,7 +648,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
     @Override
     public void getOrderInformation(String orderId) {
         RequestParams requestParams = createRequestParams();
-        requestParams.addBodyParameter("orderid", /*orderId*/"290");
+        requestParams.addBodyParameter("orderid", orderId);
         request(XRequestCallBack, Tasks.ORDER_INFO, "/orderDetail", requestParams,orderId);
     }
 
@@ -674,7 +674,23 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
         RequestParams requestParams = createRequestParams();
         requestParams.addBodyParameter("orderid", orderId);
         requestParams.addBodyParameter("uid", String.valueOf(uid));
-        request(XRequestCallBack, Tasks.CONFIRM_PAY, "/orderCancel", requestParams,orderId);
+        request(XRequestCallBack, Tasks.CONFIRM_PAY, "/confirmPay", requestParams,orderId);
+    }
+
+    @Override
+    public void getMyCouponInfo(int uid) {
+        RequestParams requestParams = createRequestParams();
+        requestParams.addBodyParameter("uid", String.valueOf(uid));
+        request(XRequestCallBack, Tasks.MY_COUPONS, "/couponsInfo", requestParams,null);
+    }
+
+    @Override
+    public void exchangeCoupon(int uid, String couponCode) {
+        Log.v("XHttpRequest","uid:"+uid+" code:"+couponCode);
+        RequestParams requestParams = createRequestParams();
+        requestParams.addBodyParameter("uid", String.valueOf(uid));
+        requestParams.addBodyParameter("exchnum", couponCode);
+        request(XRequestCallBack, Tasks.EXCHANGE_COUPON, "/exchangeCoupons", requestParams,null);
     }
 
 }

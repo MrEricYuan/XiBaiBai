@@ -15,6 +15,7 @@ import com.jph.xibaibai.model.entity.ArtificerRecommand;
 import com.jph.xibaibai.model.entity.Product;
 import com.jph.xibaibai.mview.CustomGridView;
 import com.jph.xibaibai.ui.activity.BigImageActivity;
+import com.jph.xibaibai.ui.activity.WebActivity;
 import com.jph.xibaibai.utils.StringUtil;
 
 import java.util.ArrayList;
@@ -66,13 +67,13 @@ public class OrderRecommandAdapter extends BaseAdapter {
         }
         final ArtificerRecommand recommand = recommandList.get(position);
         if (recommand != null) {
-            Product product = recommand.getDiyData();
+            final Product product = recommand.getDiyData();
             if (product != null) {
                 holder.recommand_diy_name.setText(product.getP_name());
                 holder.recommand_diyLayot.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        WebActivity.startWebActivity(mContext,product.getP_name(),product.getLinkPath());
                     }
                 });
             }

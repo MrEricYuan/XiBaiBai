@@ -43,7 +43,7 @@ public class SelectTicketActivity extends TitleActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket);
-        mAPIRequests.getTicketList(/*uid*/154);
+        mAPIRequests.getTicketList(uid);
     }
 
     @Override

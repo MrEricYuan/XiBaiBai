@@ -7,6 +7,7 @@ package com.jph.xibaibai.model.entity;
  * 描述：我的订单*/
 public class MyOrder {
     private String orderId;
+    private String orderNo;
     private String orderName;
     private String price;
     private String state;
@@ -28,6 +29,14 @@ public class MyOrder {
      * 7已取消
      */
     private int currentState=-1;
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
+    }
 
     public String getServiceTime() {
         return serviceTime;

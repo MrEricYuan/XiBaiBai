@@ -135,6 +135,12 @@
         <activity
             android:name=".ui.activity.BigImageActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.MyCouponsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.InputCouponActivity"
+            android:screenOrientation="portrait"/>
         <receiver android:name="com.jph.xibaibai.receiver.ConnectionChangeReceiver"/>
 
         <!-- 支付宝-->

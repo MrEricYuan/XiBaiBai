@@ -3,6 +3,7 @@ package com.jph.xibaibai.utils.parsejson;
 import android.util.Log;
 
 import com.jph.xibaibai.model.entity.Coupon;
+import com.jph.xibaibai.model.entity.MyGiftCoupon;
 import com.jph.xibaibai.utils.StringUtil;
 
 import org.json.JSONArray;
@@ -26,7 +27,7 @@ public class TicketParse {
             JSONArray jsonArray = new JSONArray(json);
             if (jsonArray != null && jsonArray.length() > 0) {
                 ticketList = new ArrayList<Coupon>();
-                Log.v("parse","data'size="+jsonArray.length());
+                Log.v("parse", "data'size=" + jsonArray.length());
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject mObject = jsonArray.getJSONObject(i);
                     if (mObject != null) {
@@ -54,11 +55,29 @@ public class TicketParse {
                         ticketList.add(coupon);
                     }
                 }
-                Log.v("parse","after parse data'size="+ticketList.size());
+                Log.v("parse", "after parse data'size=" + ticketList.size());
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return ticketList;
+    }
+
+    public static MyGiftCoupon getMyGiftCoupon(String data) {
+        if (StringUtil.isNull(data)) return null;
+        MyGiftCoupon giftCoupon = null;
+        try {
+            JSONObject jsonObject = new JSONObject(data);
+            if (jsonObject != null) {
+                giftCoupon = new MyGiftCoupon();
+                if (jsonObject.has("ruleUrl") && !jsonObject.isNull("ruleUrl") && !StringUtil.isNull(jsonObject.getString("ruleUrl")))
+                    giftCoupon.setChangeCouponUrl(jsonObject.getString("ruleUrl"));
+                if (jsonObject.has("couponsCount") && !jsonObject.isNull("couponsCount") && !StringUtil.isNull(jsonObject.getString("couponsCount")))
+                    giftCoupon.setCouponAmount(jsonObject.getString("couponsCount"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return giftCoupon;
     }
 }

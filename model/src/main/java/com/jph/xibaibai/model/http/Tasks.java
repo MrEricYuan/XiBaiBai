@@ -222,4 +222,14 @@ public interface Tasks {
      */
     int CONFIRM_PAY=0xA9805;
 
+    /**
+     *我的礼券
+     */
+    int MY_COUPONS=0xA9806;
+
+    /**
+     * 兑换优惠码
+     */
+    int EXCHANGE_COUPON =0xA98067;
+
 }

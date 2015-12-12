@@ -116,6 +116,7 @@
 
                 </LinearLayout>
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/order_info_priceLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -573,11 +574,16 @@
             </LinearLayout>
             <!--评价-->
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/order_info_commentLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_ten"
+                    android:background="#f1f1f1"/>
 
                 <TextView
                     android:id="@+id/order_info_commentLabel"
@@ -599,24 +605,26 @@
                     android:layout_marginLeft="@dimen/dp_thirty"
                     android:layout_marginRight="@dimen/dp_thirty"
                     android:paddingBottom="@dimen/dp_ten"
-                    android:paddingTop="@dimen/dp_ten">
+                    >
 
                     <TextView
+                        android:layout_marginTop="@dimen/dp_ten"
                         android:id="@+id/order_info_goComent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:background="@drawable/btn_common_bg"
-                        android:paddingBottom="@dimen/dp_five"
                         android:paddingLeft="@dimen/dp_ten"
                         android:paddingRight="@dimen/dp_ten"
                         android:paddingTop="@dimen/dp_five"
+                        android:paddingBottom="@dimen/dp_five"
                         android:text="@string/order_info_tocomment"
+                        android:gravity="center"
                         android:textColor="@color/them_color"
-                        android:textSize="@dimen/sp_tweenty"
-                        android:visibility="gone" />
+                        android:textSize="@dimen/sp_seventeen"/>
 
                     <LinearLayout
+                        android:layout_marginTop="@dimen/dp_five"
                         android:id="@+id/order_info_commentInfoLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -628,7 +636,7 @@
                             style="@style/little_roomRatingBar"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_five"
+                            android:layout_marginTop="@dimen/dp_two"
                             android:isIndicator="true"
                             android:numStars="5"
                             android:stepSize="1" />
@@ -637,8 +645,8 @@
                             android:id="@+id/order_info_commentContent"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_five"
-                            android:textSize="@dimen/sp_sixteen" />
+                            android:layout_marginTop="@dimen/dp_two"
+                            android:textSize="@dimen/sp_fourteen" />
                     </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
@@ -646,9 +654,11 @@
     </ScrollView>
 
     <LinearLayout
+      android:visibility="gone"
         android:id="@+id/order_pay_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_fourty_eight"
+        android:background="@color/white"
         android:layout_alignParentBottom="true">
 
         <Button

@@ -1,12 +1,17 @@
 package com.jph.xibaibai.ui.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -30,6 +35,7 @@ import com.jph.xibaibai.utils.MImageLoader;
 import com.jph.xibaibai.utils.StringUtil;
 import com.jph.xibaibai.utils.SystermUtils;
 import com.jph.xibaibai.utils.parsejson.OrderParse;
+import com.jph.xibaibai.utils.sp.SPUserInfo;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
@@ -43,6 +49,7 @@ import java.util.List;
  */
 public class OrderInfoActivity extends TitleActivity implements View.OnClickListener {
     private String orderId;
+    private int uid;
     private MyOrderInformation myOrderInformation;
     private IAPIRequests mApiRequest;
     private OrderProductAdapter orderProductAdapter;
@@ -90,6 +97,10 @@ public class OrderInfoActivity extends TitleActivity implements View.OnClickList
     private ImageView order_before_album;
     @ViewInject(R.id.order_after_album)
     private ImageView order_after_album;
+    @ViewInject(R.id.order_info_commentLabel)
+    private TextView order_info_commentLabel;
+    @ViewInject(R.id.order_info_commentContent)
+    private TextView order_info_commentContent;
 
     @ViewInject(R.id.order_info_commentLayout)
     private LinearLayout order_info_commentLayout;
@@ -108,6 +119,22 @@ public class OrderInfoActivity extends TitleActivity implements View.OnClickList
     @ViewInject(R.id.order_info_artificerRecommand)
     private CustomListView order_info_artificerRecommand;
 
+    @ViewInject(R.id.coment_level)
+    private RatingBar coment_level;
+
+    private IntentFilter intentFilter;
+    private LocalBroadcastManager localBroadcastManager;
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (com.jph.xibaibai.utils.Constants.IntentAction.COMMENT_SUCCEED.equals(action)) {
+                if (mApiRequest == null)
+                    mApiRequest = new APIRequests(OrderInfoActivity.this);
+                mApiRequest.getOrderInformation(orderId);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,8 +146,13 @@ public class OrderInfoActivity extends TitleActivity implements View.OnClickList
     public void initData() {
         super.initData();
         orderId = getIntent().getStringExtra("orderId");
+        uid = SPUserInfo.getsInstance(this).getSPInt(SPUserInfo.KEY_USERID);
         mApiRequest = new APIRequests(this);
         mApiRequest.getOrderInformation(orderId);
+        localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(com.jph.xibaibai.utils.Constants.IntentAction.COMMENT_SUCCEED);
+        localBroadcastManager.registerReceiver(receiver, intentFilter);
     }
 
     @Override
@@ -133,6 +165,7 @@ public class OrderInfoActivity extends TitleActivity implements View.OnClickList
     public void initListener() {
         super.initListener();
         pay_btn.setOnClickListener(this);
+        order_info_goComent.setOnClickListener(this);
     }
 
     @Override
@@ -158,11 +191,14 @@ public class OrderInfoActivity extends TitleActivity implements View.OnClickList
     private void setOrderData() {
         if (myOrderInformation != null) {
             int currentState = myOrderInformation.getState();
-            if (currentState > 0) {
+            if (currentState == 0) {
+                order_pay_layout.setVisibility(View.VISIBLE);
+            } else {
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
                 layoutParams.bottomMargin = 0;
                 order_info_scLayout.setLayoutParams(layoutParams);
                 order_pay_layout.setVisibility(View.GONE);
+                order_info_priceLayout.setVisibility(View.VISIBLE);
             }
             switch (currentState) {
                 case 0:
@@ -187,9 +223,12 @@ public class OrderInfoActivity extends TitleActivity implements View.OnClickList
                 case 5:
                     order_info_opLayout.setVisibility(View.VISIBLE);
                     order_info_goComent.setVisibility(View.VISIBLE);
+                    order_info_commentLayout.setVisibility(View.VISIBLE);
                     order_info_commentInfoLayout.setVisibility(View.GONE);
                     break;
                 case 6:
+                    order_info_commentLayout.setVisibility(View.VISIBLE);
+                    order_info_commentLabel.setText(getString(R.string.order_info_commented));
                     order_info_opLayout.setVisibility(View.VISIBLE);
                     order_info_goComent.setVisibility(View.GONE);
                     order_info_commentInfoLayout.setVisibility(View.VISIBLE);
@@ -198,12 +237,8 @@ public class OrderInfoActivity extends TitleActivity implements View.OnClickList
                     order_info_commentLayout.setVisibility(View.GONE);
                     break;
             }
-            if (!"0.0".equals(myOrderInformation.getPayPrice())) {
-                order_info_payAmount.setText(getString(R.string.sign_yuan) + myOrderInformation.getPayPrice());
-                order_info_priceLayout.setVisibility(View.VISIBLE);
-            }
             if (!"0.0".equals(myOrderInformation.getCouponOffset())) {
-                order_info_couponAmount.setText(getString(R.string.sign_yuan) + myOrderInformation.getCouponOffset());
+                order_info_couponAmount.setText(getString(R.string.sign_yuan) +" "+ myOrderInformation.getCouponOffset());
                 order_info_couponLayout.setVisibility(View.VISIBLE);
             }
 
@@ -232,8 +267,8 @@ public class OrderInfoActivity extends TitleActivity implements View.OnClickList
                 MImageLoader.getInstance(this).displayImage(Constants.BASE_URL + SystermUtils.replacePicpath(myOrderInformation.getAfterAlbum().get(0)), order_after_album);
                 order_after_album.setOnClickListener(this);
             }
-
-            order_info_total.setText(getString(R.string.sign_yuan) + myOrderInformation.getOrderPrice());
+            order_info_payAmount.setText(getString(R.string.sign_yuan) +" "+ myOrderInformation.getPayPrice());
+            order_info_total.setText(getString(R.string.sign_yuan) +" "+ myOrderInformation.getOrderPrice());
             order_info_serviceTime.setText(myOrderInformation.getServiceTime());
             order_info_carinfo.setText(myOrderInformation.getCarInfo());
             order_info_cartype.setText(myOrderInformation.getCarType());
@@ -243,6 +278,8 @@ public class OrderInfoActivity extends TitleActivity implements View.OnClickList
             order_info_driver.setText(myOrderInformation.getDriverName());
             order_info_time.setText(myOrderInformation.getOrderTime());
             order_info_paytype.setText(myOrderInformation.getPayType());
+            coment_level.setProgress(myOrderInformation.getCommentLevel());
+            order_info_commentContent.setText(myOrderInformation.getCommentContent());
 
 
         }
@@ -262,12 +299,20 @@ public class OrderInfoActivity extends TitleActivity implements View.OnClickList
                     showToast(getString(R.string.order_tel_error));
                 break;
             case R.id.pay_btn:
+                if (mApiRequest == null)
+                    mApiRequest = new APIRequests(this);
+                mApiRequest.confirmPay(orderId, uid);
                 break;
             case R.id.order_after_album:
                 showAlbum(myOrderInformation.getAfterAlbum());
                 break;
             case R.id.order_before_album:
                 showAlbum(myOrderInformation.getBeforeAlbum());
+                break;
+            case R.id.order_info_goComent:
+                Intent intent = new Intent(this, SendCommentActivity.class);
+                intent.putExtra("orderId", orderId);
+                startActivity(intent);
                 break;
         }
     }
@@ -288,6 +333,8 @@ public class OrderInfoActivity extends TitleActivity implements View.OnClickList
                 myOrderInformation.setCouponOffset(confirmPay.getCouponPrice());
                 Intent intentResult = new Intent(OrderInfoActivity.this, AfterPayActivity.class);
                 intentResult.putExtra("my_order_info", myOrderInformation);
+                intentResult.putExtra("confirm_pay", confirmPay);
+                intentResult.putExtra("oderId", myOrderInformation.getOrderId());
                 startActivity(intentResult);
                 showToast("支付成功");
                 finish();
@@ -315,5 +362,11 @@ public class OrderInfoActivity extends TitleActivity implements View.OnClickList
         intent.putExtra("pos", 0);
         startActivity(intent);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        localBroadcastManager.unregisterReceiver(receiver);
     }
 }

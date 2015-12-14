@@ -1,15 +1,16 @@
 package com.jph.xibaibai.ui.activity.base;
 
-import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Toast;
 
-import com.jph.xibaibai.R;
 import com.jph.xibaibai.model.http.XRequestCallBack;
+import com.jph.xibaibai.mview.CustomProgressDialog;
 import com.lidroid.xutils.ViewUtils;
 
 /**
@@ -21,13 +22,11 @@ public class BaseActivity extends AppCompatActivity implements Init, XRequestCal
     protected final String TAG = getClass().getSimpleName();
 
     private boolean destroyed;
-    private ProgressDialog progressDialog;
+    private CustomProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCanceledOnTouchOutside(false);
         destroyed = false;
         AppManager.getInstance().addActivity(this);
 //        BlueWare.withApplicationToken("BA9C5DB973D3FDF10D10935FC1E939FD49").start(this.getApplication());
@@ -145,18 +144,21 @@ public class BaseActivity extends AppCompatActivity implements Init, XRequestCal
     }
 
     public void showProgressDialog() {
-        progressDialog.setMessage(getString(R.string.dialog_watting));
+        if (progressDialog == null) {
+            progressDialog = CustomProgressDialog.createDialog(this);
+        }
         progressDialog.show();
-    }
-
-    public void showProgressDialog(String str) {
-        progressDialog.setMessage(str);
-        progressDialog.show();
-    }
-
-    public void showProgressDialog(int resId) {
-        progressDialog.setMessage(getString(resId));
-        progressDialog.show();
+        progressDialog.setCancelable(false);
+        progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode,
+                                 KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    dialog.dismiss();
+                }
+                return false;
+            }
+        });
     }
 
     public void dissmissProgressDialog() {

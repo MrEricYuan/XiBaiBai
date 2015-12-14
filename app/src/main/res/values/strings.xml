@@ -60,7 +60,7 @@
     <string name="myorder_title">我的订单</string>
     <string name="myorder_ordertime">下单时间：</string>
     <string name="myorder_servicetime">服务时间：</string>
-    <string name="myorder_carinfo">车型：</string>
+    <string name="myorder_carinfo">车\t\t\t型：</string>
     <string name="myorder_type">类别：</string>
     <string name="myorder_plateno">车牌：</string>
     <string name="myorder_carLocation">汽车位置：</string>

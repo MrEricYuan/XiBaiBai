@@ -63,7 +63,7 @@ public class MyOrderAdapter extends BaseAdapter {
             holder.order_item_time = (TextView) convertView.findViewById(R.id.order_item_time);
             holder.order_item_carinfo = (TextView) convertView.findViewById(R.id.order_item_carinfo);
             holder.order_item_cartype = (TextView) convertView.findViewById(R.id.order_item_cartype);
-            holder.order_item_carplateno = (TextView) convertView.findViewById(R.id.order_item_carplateno);
+            holder.order_item_orderNo = (TextView) convertView.findViewById(R.id.order_item_orderNo);
             holder.order_item_location = (TextView) convertView.findViewById(R.id.order_item_location);
             holder.order_common_btn = (TextView) convertView.findViewById(R.id.order_common_btn);
             holder.order_special_btn = (TextView) convertView.findViewById(R.id.order_special_btn);
@@ -82,9 +82,9 @@ public class MyOrderAdapter extends BaseAdapter {
             holder.order_item_name.setText(myOrder.getOrderName());
             holder.order_item_servicetime.setText(myOrder.getServiceTime());
             holder.order_item_time.setText(myOrder.getOrderTime());
-            holder.order_item_carinfo.setText(myOrder.getCarInfo());
+            holder.order_item_carinfo.setText(myOrder.getCarType());
             holder.order_item_cartype.setText(myOrder.getCarType());
-            holder.order_item_carplateno.setText(myOrder.getCarPlateNo());
+            holder.order_item_orderNo.setText(myOrder.getOrderNo());
             holder.order_item_location.setText(myOrder.getCarLocation());
             holder.order_item_price.setText(mContext.getString(R.string.sign_yuan) + myOrder.getPrice());
             holder.order_item_state.setText(myOrder.getState());
@@ -170,7 +170,7 @@ public class MyOrderAdapter extends BaseAdapter {
         private TextView order_item_time;
         private TextView order_item_carinfo;
         private TextView order_item_cartype;
-        private TextView order_item_carplateno;
+        private TextView order_item_orderNo;
         private TextView order_item_location;
         private TextView order_common_btn;
         private TextView order_special_btn;

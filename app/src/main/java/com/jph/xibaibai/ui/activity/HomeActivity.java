@@ -488,7 +488,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 }
                 break;
             case R.id.home_service_cityList_layout:
-                startActivity(ServiceCityActivity.class);
+//                startActivity(ServiceCityActivity.class);
+                showProgressDialog();
                 break;
         }
     }

@@ -62,27 +62,26 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_thirty"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingTop="@dimen/dp_five"
+        android:paddingBottom="@dimen/dp_five"
         android:paddingLeft="@dimen/my_order_lor"
         android:paddingRight="@dimen/my_order_lor">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/myorder_ordertime"
+            android:text="@string/myorder_carLocation"
             android:textSize="@dimen/sp_sixteen" />
 
         <TextView
-            android:id="@+id/order_item_time"
+            android:id="@+id/order_item_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/dp_five"
             android:textSize="@dimen/sp_sixteen" />
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_thirty"
@@ -107,6 +106,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_thirty"
         android:orientation="horizontal"
@@ -129,6 +129,10 @@
             android:textSize="@dimen/sp_sixteen" />
     </LinearLayout>
 
+
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_thirty"
@@ -140,11 +144,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/myorder_plateno"
+            android:text="@string/myorder_ordertime"
             android:textSize="@dimen/sp_sixteen" />
 
         <TextView
-            android:id="@+id/order_item_carplateno"
+            android:id="@+id/order_item_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -152,25 +156,26 @@
             android:textSize="@dimen/sp_sixteen" />
     </LinearLayout>
 
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dp_thirty"
         android:orientation="horizontal"
-        android:paddingTop="@dimen/dp_five"
-        android:paddingBottom="@dimen/dp_five"
         android:paddingLeft="@dimen/my_order_lor"
         android:paddingRight="@dimen/my_order_lor">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/myorder_carLocation"
+            android:layout_gravity="center_vertical"
+            android:text="@string/order_info_no"
             android:textSize="@dimen/sp_sixteen" />
 
         <TextView
-            android:id="@+id/order_item_location"
+            android:id="@+id/order_item_orderNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/dp_five"
             android:textSize="@dimen/sp_sixteen" />
     </LinearLayout>

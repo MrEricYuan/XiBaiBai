@@ -611,7 +611,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case R.id.main_vg_order:
                 //订单
-                startActivity(OrderActivity.class);
                 break;
             case R.id.main_vg_wallet:
                 //钱包

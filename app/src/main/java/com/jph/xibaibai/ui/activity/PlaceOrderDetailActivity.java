@@ -44,6 +44,8 @@ public class PlaceOrderDetailActivity extends TitleActivity implements View.OnCl
 
     public static String CARTYOEFLAG = "carType";
 
+    public static String SERVICETIMEFLAG = "serviceTimeFlag";
+
     private IAPIRequests mAPIRequests = null;
 
     private ConfirmOrder confirmOrder = null; // 上个界面传来的数据
@@ -57,6 +59,8 @@ public class PlaceOrderDetailActivity extends TitleActivity implements View.OnCl
     private List<com.jph.xibaibai.model.entity.Product> cachProductList = null; // 缓存选择洗车服务
 
     private double totalPrice = 0.0;
+
+    private int serviceTime = 0;
 
     @ViewInject(R.id.dorder_name_tv)
     TextView dorder_name_tv; //车主
@@ -84,6 +88,11 @@ public class PlaceOrderDetailActivity extends TitleActivity implements View.OnCl
     @Override
     public void initView() {
         setTitle("支付订单");
+        if(serviceTime == 2){
+            dorder_service_time.setText(getString(R.string.main_txt_now));
+        }else if(serviceTime == 3){
+            dorder_service_time.setText(getIntent().getStringExtra(SERVICETIMEFLAG));
+        }
     }
 
     @Override
@@ -92,6 +101,7 @@ public class PlaceOrderDetailActivity extends TitleActivity implements View.OnCl
         mAPIRequests = new APIRequests(this);
         confirmOrder = (ConfirmOrder) getIntent().getSerializableExtra(ODERDATAS);
         carType = getIntent().getIntExtra(CARTYOEFLAG, 1);
+        serviceTime = getIntent().getIntExtra(SERVICETIMEFLAG,0);
         if (confirmOrder != null) {
             cachProductList = confirmOrder.getCachProductList();
             setConfirmDatas();

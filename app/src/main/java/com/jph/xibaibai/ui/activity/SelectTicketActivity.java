@@ -1,7 +1,9 @@
 package com.jph.xibaibai.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import com.jph.xibaibai.R;
@@ -19,25 +21,30 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.List;
 
+import javax.sql.RowSetReader;
+
 /**
  * 项目:XiBaiBai
  * 作者：Hi-Templar
  * 创建时间：2015/12/7 11:30
  * 描述：$TODO
  */
-public class SelectTicketActivity extends TitleActivity implements View.OnClickListener {
+public class SelectTicketActivity extends TitleActivity implements View.OnClickListener,AdapterView.OnItemClickListener {
 
     @ViewInject(R.id.ticket_rule_layout)
     LinearLayout ticket_rule_layout;
     @ViewInject(R.id.ticket_lv)
     CustomListView ticket_lv;
 
+    private List<Coupon> ticketList = null;
+
     private TicketAdapter ticketAdapter;
 
     private IAPIRequests mAPIRequests;
 
     private int uid;
-
+    // 从下单页面进入
+    private boolean isPlaceOrder = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +58,7 @@ public class SelectTicketActivity extends TitleActivity implements View.OnClickL
         super.initView();
         setTitle(getString(R.string.ticket_title));
         ticket_lv.setAdapter(null);
+        ticket_lv.setOnItemClickListener(this);
     }
 
     @Override
@@ -58,6 +66,7 @@ public class SelectTicketActivity extends TitleActivity implements View.OnClickL
         super.initData();
         mAPIRequests = new APIRequests(this);
         uid = SPUserInfo.getsInstance(SelectTicketActivity.this).getSPInt(SPUserInfo.KEY_USERID);
+        isPlaceOrder = getIntent().getBooleanExtra("isPlaceOrder",false);
     }
 
     @Override
@@ -72,7 +81,7 @@ public class SelectTicketActivity extends TitleActivity implements View.OnClickL
         ResponseJson responseJson = (ResponseJson) params[0];
         switch (taskId) {
             case Tasks.TICKET_LIST:
-                List<Coupon> ticketList = TicketParse.getCouponList(responseJson.getResult().toString());
+                ticketList = TicketParse.getCouponList(responseJson.getResult().toString());
                 if (ticketList != null && !ticketList.isEmpty()) {
                     ticketAdapter = new TicketAdapter(ticketList, this);
                     ticket_lv.setAdapter(ticketAdapter);
@@ -86,6 +95,19 @@ public class SelectTicketActivity extends TitleActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.ticket_rule_layout:
                 break;
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if(!isPlaceOrder){
+            return;
+        }
+        if (ticketList != null && !ticketList.isEmpty()) {
+            Intent intent = new Intent();
+            intent.putExtra(PlaceOrdersActivity.COUPONSFLAG,ticketList.get(position));
+            setResult(RESULT_OK,intent);
+            finish();
         }
     }
 }

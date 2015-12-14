@@ -20,7 +20,8 @@ public class Coupon implements Serializable {
 
     private int number;//优惠卷号码	Int
     private int state;//	状态	Int
-    private long time;//使用时间时间戳	Int
+    //使用时间时间戳	Int
+//    private long time;
     private int id;//抵用卷ID
     private int uid;
     private int type;
@@ -77,14 +78,6 @@ public class Coupon implements Serializable {
 
     public void setState(int state) {
         this.state = state;
-    }
-
-    public long getTime() {
-        return time;
-    }
-
-    public void setTime(long time) {
-        this.time = time;
     }
 
     public int getId() {

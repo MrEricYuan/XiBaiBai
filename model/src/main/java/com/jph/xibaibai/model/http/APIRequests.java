@@ -300,7 +300,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
     public void getTicketList(int uid) {
         RequestParams requestParams = createRequestParams();
         requestParams.addBodyParameter("uid", String.valueOf(uid));
-        request(XRequestCallBack, Tasks.TICKET_LIST, "/user_coupons_select", requestParams,null);
+        request(XRequestCallBack, Tasks.TICKET_LIST, "/userCoupons", requestParams,null);
     }
 
     /**
@@ -313,7 +313,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
     public void getCoupons(int uid) {
         RequestParams requestParams = createRequestParams();
         requestParams.addBodyParameter("uid", String.valueOf(uid));
-        request(XRequestCallBack, Tasks.GETCOUPONS, "/user_coupons_select", requestParams,null);
+        request(XRequestCallBack, Tasks.GETCOUPONS, "/userCoupons", requestParams,null);
     }
 
     /**

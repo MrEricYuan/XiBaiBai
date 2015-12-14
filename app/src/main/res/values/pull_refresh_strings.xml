@@ -9,5 +9,7 @@
     <string name="pull_to_refresh_from_bottom_pull_label">上拉加载更多</string>
     <string name="pull_to_refresh_from_bottom_release_label">释放加载数据</string>
     <string name="pull_to_refresh_from_bottom_refreshing_label">正在加载</string>
+    <string name="no_coupons">暂无可用的优惠券</string>
+    <string name="coupons_size">张</string>
 
 </resources>

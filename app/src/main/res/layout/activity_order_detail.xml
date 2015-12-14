@@ -63,7 +63,85 @@
                     android:layout_height="1dp"
                     android:layout_marginLeft="@dimen/dp_fifteen"
                     android:background="@mipmap/line_one" />
+                <!--车辆信息-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_ten"
+                    android:background="@color/white"
+                    android:orientation="vertical">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:layout_width="@dimen/dp_fourty"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/dp_ten"
+                                android:src="@mipmap/pay_carinfo" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:gravity="center_vertical"
+                            android:text="车辆信息"
+                            android:textColor="@color/black_one"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="@dimen/dp_twelve"
+                        android:background="@mipmap/line_one" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp">
+
+                        <TextView
+                            android:id="@+id/dorder_carnum_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:layout_marginLeft="@dimen/dp_fourty"
+                            android:gravity="center_vertical"
+                            android:paddingRight="10dp"
+                            android:text=""
+                            android:textColor="@color/black_two"
+                            android:textSize="@dimen/sp_fifteen" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="@dimen/dp_fourty"
+                        android:background="@mipmap/line_one" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp">
+
+                        <TextView
+                            android:id="@+id/dorder_carlocate_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:layout_marginLeft="@dimen/dp_fourty"
+                            android:gravity="center_vertical"
+                            android:paddingRight="10dp"
+                            android:text=""
+                            android:textColor="@color/black_two"
+                            android:textSize="@dimen/sp_fifteen" />
+                    </RelativeLayout>
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -104,85 +182,6 @@
                     android:divider="@android:color/transparent"
                     android:scrollbars="none"
                     android:visibility="visible" />
-            </LinearLayout>
-            <!--车辆信息-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_ten"
-                android:background="@color/white"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RelativeLayout
-                        android:layout_width="@dimen/dp_fourty"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="@dimen/dp_ten"
-                            android:src="@mipmap/pay_carinfo" />
-                    </RelativeLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:gravity="center_vertical"
-                        android:text="车辆信息"
-                        android:textColor="@color/black_one"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="@dimen/dp_twelve"
-                    android:background="@mipmap/line_one" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp">
-
-                    <TextView
-                        android:id="@+id/dorder_carnum_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:layout_marginLeft="@dimen/dp_fourty"
-                        android:gravity="center_vertical"
-                        android:paddingRight="10dp"
-                        android:text=""
-                        android:textColor="@color/black_two"
-                        android:textSize="@dimen/sp_fifteen" />
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="@dimen/dp_fourty"
-                    android:background="@mipmap/line_one" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp">
-
-                    <TextView
-                        android:id="@+id/dorder_carlocate_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:layout_marginLeft="@dimen/dp_fourty"
-                        android:gravity="center_vertical"
-                        android:paddingRight="10dp"
-                        android:text=""
-                        android:textColor="@color/black_two"
-                        android:textSize="@dimen/sp_fifteen" />
-                </RelativeLayout>
             </LinearLayout>
             <!--用户信息-->
             <LinearLayout

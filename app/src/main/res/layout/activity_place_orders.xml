@@ -217,6 +217,7 @@
                 android:layout_height="@dimen/dp_eight"
                 android:background="@color/bg_gray_one"/>
             <RelativeLayout
+                android:id="@+id/place_coupons_rl"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_fourty_eight"
                 android:paddingLeft="@dimen/dp_ten">

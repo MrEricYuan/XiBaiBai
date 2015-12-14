@@ -54,6 +54,8 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
     public static String HOMEWEB_PRODUCT_FLAG = "homeWeb_productFlag";
     // 地图页面进入下单页面
     public static String MAPADDRESS = "mapAddressInfo";
+    // 优惠券的标志
+    public static String COUPONSFLAG = "couponsFlag";
     // 获取HomeWeb传入的标志
     private int homeWebFlag = -1;
     // 访问网络
@@ -76,6 +78,8 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
     private final int locateIntentCode = 1003;
     // 预约时间点
     public final int timeScopeCode = 1010;
+    // 优惠券
+    public final int couponsCode = 1020;
     // diy选中的列表
     private List<Product> diyProductList = null;
     // 选中diy的适配器
@@ -122,6 +126,8 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
     private int couponsId = -1;
     // 优惠券的位置
     private int position = -1;
+    // 是否用户自己选择了优惠券
+    private boolean isChoiceCoupons = false;
 
     @ViewInject(R.id.places_submit_tv)
     TextView common_submit_tv;
@@ -150,7 +156,7 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
     @ViewInject(R.id.place_location_tv)
     TextView location_tv;
     @ViewInject(R.id.place_coupons_tv)
-    TextView coupons_tv;
+    TextView coupons_tv; // 优惠券显示
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -231,6 +237,18 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
                 appointTimeId = data.getIntExtra("selectedTimeScopeId", 0);
                 if (appointDay != 0) {
                     yuyue_time.setText(data.getStringExtra("selectedDate") + data.getStringExtra("selectedTimeScope"));
+                }
+                break;
+            case couponsCode:
+                Coupon coupon = (Coupon) data.getSerializableExtra(COUPONSFLAG);
+                if(coupon != null){
+                    couponsId = coupon.getId();
+                    couponsPrice = Double.parseDouble(coupon.getCoupons_price());
+                    if(totalPrice == 0.0){
+                        coupons_tv.setText(getString(R.string.coupons_use) + couponsPrice);
+                    }else {
+                        caculateTotalPrice();
+                    }
                 }
                 break;
         }
@@ -326,12 +344,20 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
         } else {
             totalPrice = diyTotalPrice + beautyTotalPrice;
         }
-        if(couponsPrice >= totalPrice){
-            coupons_tv.setText(getString(R.string.coupons_use)+totalPrice);
-            totalPrice = 0.0;
+        if(totalPrice != 0.0){
+            if(couponsPrice >= totalPrice){
+                coupons_tv.setText(getString(R.string.coupons_use)+totalPrice);
+                totalPrice = 0.0;
+            }else {
+                coupons_tv.setText(getString(R.string.coupons_use) + couponsPrice);
+                totalPrice = totalPrice - couponsPrice;
+            }
         }else {
-            coupons_tv.setText(getString(R.string.coupons_use) + couponsPrice);
-            totalPrice = totalPrice - couponsPrice;
+            if(couponsList != null && couponsList.size() > 0){
+                coupons_tv.setText(couponsList.size() + getString(R.string.coupons_size));
+            }else {
+                coupons_tv.setText(getString(R.string.no_coupons));
+            }
         }
         total_price.setText(getString(R.string.DIYSub_totalPrice) + totalPrice);
     }
@@ -423,15 +449,17 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
         intent.setClass(PlaceOrdersActivity.this, PlaceOrderDetailActivity.class);
         intent.putExtra(PlaceOrderDetailActivity.ODERDATAS, confirmOrder);
         intent.putExtra(PlaceOrderDetailActivity.CARTYOEFLAG, carType);
+        if(checkState[2]){
+            intent.putExtra(PlaceOrderDetailActivity.SERVICETIMEFLAG, 2);
+        }else if(checkState[3]){
+            intent.putExtra(PlaceOrderDetailActivity.SERVICETIMEFLAG, 3);
+            intent.putExtra(PlaceOrderDetailActivity.SERVICETIMEFLAG, yuyue_time.getText().toString());
+        }
         startActivity(intent);
     }
 
-    private void getProductId() {
-
-    }
-
     @OnClick({R.id.title_img_left, R.id.place_extral_rl, R.id.place_allwash_rl, R.id.place_diyitem_rl, R.id.place_beauty_rl,
-            R.id.place_lacation_rl, R.id.place_shangmen_rl, R.id.place_yuyue_rl})
+            R.id.place_lacation_rl, R.id.place_shangmen_rl, R.id.place_yuyue_rl,R.id.place_coupons_rl})
     @Override
     public void onClick(View v) {
         Intent intent = new Intent();
@@ -521,6 +549,11 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
             case R.id.places_submit_tv: // 提交订单
                 packageData();
                 break;
+            case R.id.place_coupons_rl:// 优惠券
+                intent.setClass(PlaceOrdersActivity.this, SelectTicketActivity.class);
+                intent.putExtra("isPlaceOrder",true);
+                startActivityForResult(intent, couponsCode);
+                break;
         }
     }
 
@@ -599,9 +632,10 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
             return;
         }
         if (couponsList.size() == 0) {
+            coupons_tv.setText(getString(R.string.no_coupons));
             return;
         }
-        Log.i("Tag", "couponsList=" + couponsList.size());
+        coupons_tv.setText(couponsList.size() + getString(R.string.coupons_size));
         long litleTime = Long.parseLong(couponsList.get(0).getExpired_time());
         couponsId = couponsList.get(0).getId();
         position = 0;
@@ -610,7 +644,6 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
             // 得到现金抵用券
             if (coupon.getState() == 0) {
                 if (litleTime > Long.parseLong(coupon.getExpired_time())) {
-                    Log.i("Tag", "couponsList=" + litleTime + "//" + Long.parseLong(coupon.getExpired_time()));
                     litleTime = Long.parseLong(coupon.getExpired_time());
                     position = i;
                     couponsId = coupon.getId();

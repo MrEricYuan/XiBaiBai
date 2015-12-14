@@ -132,10 +132,13 @@
     <string name="input_coupon_title">优惠码兑换</string>
 
 
-   <!-- <string name="order_info_commented">操作信息</string>-->
+    <!-- <string name="order_info_commented">操作信息</string>-->
     <string name="address_select">选择车辆位置</string>
     <string name="car_set">现在设置吧</string>
     <string name="car_set_tip">您还没设置车辆哦</string>
     <string name="coupons_use">抵扣￥</string>
 
+    <!--服务城市-->
+    <string name="service_city_more">我们正在努力为更多的城市提供服务</string>
+    <string name="service_city_title">服务城市</string>
 </resources>

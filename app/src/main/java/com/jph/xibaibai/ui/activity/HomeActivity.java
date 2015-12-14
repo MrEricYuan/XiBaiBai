@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -27,6 +28,7 @@ import com.jph.xibaibai.model.entity.HomeAdBean;
 import com.jph.xibaibai.model.entity.Product;
 import com.jph.xibaibai.model.entity.ResponseJson;
 import com.jph.xibaibai.model.entity.UserInfo;
+import com.jph.xibaibai.model.entity.Version;
 import com.jph.xibaibai.model.http.APIRequests;
 import com.jph.xibaibai.model.http.IAPIRequests;
 import com.jph.xibaibai.model.http.Tasks;
@@ -39,10 +41,14 @@ import com.jph.xibaibai.utils.StringUtil;
 import com.jph.xibaibai.utils.SystermUtils;
 import com.jph.xibaibai.utils.parsejson.BeautyProductParse;
 import com.jph.xibaibai.utils.parsejson.HomeDataParse;
+import com.jph.xibaibai.utils.parsejson.VersionParse;
 import com.jph.xibaibai.utils.sp.SPUserInfo;
 import com.jph.xibaibai.utils.sp.SharePerferenceUtil;
+import com.jph.xibaibai.utils.updateversion.UpdateUtil;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,6 +126,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     TextView menu_user_name;
     @ViewInject(R.id.menu_user_phone)
     TextView menu_user_phone;
+    @ViewInject(R.id.menu_soft_version)
+    TextView menu_soft_version;
+
+
+    @ViewInject(R.id.home_scroll_layout)
+    private ScrollView home_scroll_layout;
 
     private Handler handler = new Handler() {
         @Override
@@ -143,6 +155,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         apiRequests.getAddress(uid);
         apiRequests.getCar(uid);
         apiRequests.getUserInfo(uid);
+        apiRequests.getVersionInfo();
     }
 
     @Override
@@ -165,6 +178,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             diyproduct_lv.setFocusable(false);
             Log.i("Tag", "City=>" + cityName);
         }
+        menu_soft_version.setText("V " + SystermUtils.getClientVersion(this));
+
         diyproduct_lv.setOnItemClickListener(this);
     }
 
@@ -184,6 +199,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onSuccess(int taskId, Object... params) {
         super.onSuccess(taskId, params);
+        home_scroll_layout.setFocusable(false);
         ResponseJson responseJson = (ResponseJson) params[0];
         switch (taskId) {
             case Tasks.ADCODE:
@@ -229,6 +245,21 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 MImageLoader.getInstance(HomeActivity.this).displayImageM(userInfo.getU_img(), main_img_head);
                 menu_user_name.setText(userInfo.getUname());
                 menu_user_phone.setText(userInfo.getIphone());
+                break;
+            case Tasks.VERSIONINFO:
+                //版本更新
+                if (!StringUtil.isNull(responseJson.getResult().toString())) {
+                    try {
+                        Version version = VersionParse.getVersionInfo(responseJson.getResult().toString());
+                        if (version != null) {
+                            Log.i("Tag", "versionPath:" + version.getPath());
+                            new UpdateUtil(HomeActivity.this, version);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 break;
         }
     }
@@ -407,7 +438,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
 
     @OnClick({R.id.home_map_img, R.id.home_washcar_btn, R.id.home_center_btn, R.id.home_inspa_rl, R.id.home_crystal_wax_rl, R.id.home_engine_wash_rl,
-            R.id.home_coating_rl, R.id.home_plant_rl, R.id.menu_ticket_layout})
+            R.id.home_coating_rl, R.id.home_plant_rl, R.id.home_service_cityList_layout})
 
     @Override
     public void onClick(View v) {
@@ -456,12 +487,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                     HomeWebActivity.startWebActivity(HomeActivity.this, beautyList.get(4), 0);
                 }
                 break;
-            case R.id.menu_ticket_layout: // 我的礼券
-                startActivity(new Intent(HomeActivity.this, MyCouponsActivity.class));
+            case R.id.home_service_cityList_layout:
+                startActivity(ServiceCityActivity.class);
+                break;
         }
     }
 
-    @OnClick({R.id.menu_ticket_layout, R.id.menu_order_layout, R.id.menu_car_layout, R.id.menu_addr_layout, R.id.menu_user_info,  R.id.menu_feedback_layout, R.id.menu_contact_layout})
+    @OnClick({R.id.menu_ticket_layout, R.id.menu_order_layout, R.id.menu_car_layout, R.id.menu_addr_layout, R.id.menu_user_info, R.id.menu_feedback_layout, R.id.menu_contact_layout})
     public void onClickInLeft(View v) {
         switch (v.getId()) {
             case R.id.menu_ticket_layout: // 优惠券

@@ -93,7 +93,7 @@ public class XHttpRequest extends RequestCallBack<String> {
                             responseJson.getMsg());
                 }
             } catch (Exception e) {
-                Log.e("Tag", "http-error:" + e.getMessage());
+                Log.e(TAG, "http-error:" + e.getMessage());
                 XRequestCallBack.onFailed(taskId, 0,
                         SERVER_ERROR);
             }

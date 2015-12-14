@@ -153,6 +153,8 @@
         <activity
             android:name=".ui.activity.LocateSelectActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.ServiceCityActivity"
+            android:screenOrientation="portrait"/>
 
         <receiver android:name="com.jph.xibaibai.receiver.ConnectionChangeReceiver" />
 

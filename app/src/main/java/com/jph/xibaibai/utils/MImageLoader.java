@@ -77,6 +77,11 @@ public class MImageLoader {
     public void displayImage(String uri, ImageView imageView,
                              DisplayImageOptions displayImageOptions) {
         imageLoader.displayImage(uri, imageView);
+
+    }
+
+    public void displayImage(String uri, ImageView imageView, ImageLoadingListener imageLoadingListener) {
+        imageLoader.displayImage(uri, imageView, imageLoadingListener);
     }
 
     public void loadImage(String uri) {

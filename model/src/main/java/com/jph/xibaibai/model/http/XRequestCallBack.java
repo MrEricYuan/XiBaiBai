@@ -21,6 +21,13 @@ public interface XRequestCallBack {
 	void onSuccess(int taskId, Object... params);
 
 	/**
+	 * 带参数的刷新界面的回调方法
+	 *
+	 * @param taskId
+	 * @param params
+	 */
+	void onSuccess(int taskId,String flag,Object... params);
+	/**
 	 * 
 	 * 请求结束
 	 * 

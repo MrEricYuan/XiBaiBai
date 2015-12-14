@@ -72,7 +72,7 @@ public class SelectTicketActivity extends TitleActivity implements View.OnClickL
         ResponseJson responseJson = (ResponseJson) params[0];
         switch (taskId) {
             case Tasks.TICKET_LIST:
-                List<Coupon> ticketList = TicketParse.getCouponList(responseJson.getResult() + "");
+                List<Coupon> ticketList = TicketParse.getCouponList(responseJson.getResult().toString());
                 if (ticketList != null && !ticketList.isEmpty()) {
                     ticketAdapter = new TicketAdapter(ticketList, this);
                     ticket_lv.setAdapter(ticketAdapter);

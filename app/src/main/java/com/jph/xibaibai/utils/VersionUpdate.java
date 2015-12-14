@@ -188,6 +188,11 @@ public class VersionUpdate implements XRequestCallBack {
     }
 
     @Override
+    public void onSuccess(int taskId, String flag, Object... params) {
+
+    }
+
+    @Override
     public void onPrepare(int taskId) {
 
     }

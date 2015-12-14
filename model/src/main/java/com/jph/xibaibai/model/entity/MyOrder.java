@@ -7,6 +7,7 @@ package com.jph.xibaibai.model.entity;
  * 描述：我的订单*/
 public class MyOrder {
     private String orderId;
+    private String orderNo;
     private String orderName;
     private String price;
     private String state;
@@ -15,9 +16,46 @@ public class MyOrder {
     private String carType;
     private String carPlateNo;
     private String carLocation;
+    private String serviceTime;
+
+    /**
+     * 0未付款
+     * 1派单中
+     * 2已派单
+     * 3在路上
+     * 4进行中
+     * 5未评价
+     * 6已评价
+     * 7已取消
+     */
+    private int currentState=-1;
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
+    }
+
+    public String getServiceTime() {
+        return serviceTime;
+    }
+
+    public void setServiceTime(String serviceTime) {
+        this.serviceTime = serviceTime;
+    }
 
     public String getOrderId() {
         return orderId;
+    }
+
+    public int getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(int currentState) {
+        this.currentState = currentState;
     }
 
     public void setOrderId(String orderId) {

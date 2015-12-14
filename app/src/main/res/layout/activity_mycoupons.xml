@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/dp_ten"
+        android:id="@+id/mycoupon_change_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_fifty"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_twenty"
+        android:paddingRight="@dimen/dp_twenty">
+
+        <ImageView
+            android:id="@+id/mycoupon_change_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/mycoupon_change_img" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/arrow_right" />
+
+        <TextView
+            android:layout_marginLeft="@dimen/dp_ten"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/mycoupon_change_left"
+            android:text="@string/mycoupons_change_lable"
+            android:textSize="@dimen/sp_sixteen" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/dp_fifteen">
+        <RelativeLayout
+            android:id="@+id/mycoupon_coupon_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_fifty"
+            android:background="@color/white"
+            android:paddingLeft="@dimen/dp_twenty"
+            android:paddingRight="@dimen/dp_twenty">
+
+            <ImageView
+                android:id="@+id/mycoupon_coupon_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/mycoupon_coupon_img" />
+
+            <ImageView
+                android:id="@+id/mycoupon_coupon_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/arrow_right" />
+
+            <TextView
+                android:layout_marginLeft="@dimen/dp_ten"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/mycoupon_coupon_left"
+                android:text="@string/mycoupons_coupon_lable"
+                android:textSize="@dimen/sp_sixteen" />
+            <TextView
+                android:id="@+id/mycoupon_coupon_num"
+                android:layout_toLeftOf="@+id/mycoupon_coupon_right"
+                android:layout_marginRight="@dimen/dp_ten"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="0"
+                android:textSize="@dimen/sp_sixteen" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_one"
+            android:layout_marginLeft="@dimen/dp_fifteen"
+            android:layout_marginRight="@dimen/dp_fifteen"
+            android:visibility="gone"
+            android:background="@mipmap/mycoupon_split_img"/>
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/mycoupon_points_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_fifty"
+            android:background="@color/white"
+            android:paddingLeft="@dimen/dp_twenty"
+            android:paddingRight="@dimen/dp_twenty">
+
+            <ImageView
+                android:id="@+id/mycoupon_points_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/mycoupon_points_img" />
+
+            <ImageView
+                android:id="@+id/mycoupon_point_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/arrow_right" />
+
+            <TextView
+                android:layout_marginLeft="@dimen/dp_ten"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/mycoupon_points_left"
+                android:text="@string/mycoupons_points_lable"
+                android:textSize="@dimen/sp_sixteen" />
+            <TextView
+                android:id="@+id/mycoupon_points_num"
+                android:layout_toLeftOf="@+id/mycoupon_point_right"
+                android:layout_marginRight="@dimen/dp_ten"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="0"
+                android:textSize="@dimen/sp_sixteen" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

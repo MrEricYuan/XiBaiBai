@@ -11,7 +11,6 @@ import com.jph.xibaibai.adapter.base.BaseRecyclerAdapter;
 import com.jph.xibaibai.model.entity.TimeScope;
 import com.jph.xibaibai.mview.DividerGridItemDecoration;
 import com.jph.xibaibai.ui.activity.ApointmentTimeActivity;
-import com.jph.xibaibai.ui.activity.ReserveActivity;
 import com.jph.xibaibai.ui.fragment.base.BaseFragment;
 import com.jph.xibaibai.utils.StringUtil;
 import com.jph.xibaibai.utils.SystermUtils;
@@ -126,4 +125,8 @@ public class TimeScopeFragment extends BaseFragment implements BaseRecyclerAdapt
         timeScopeAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onSuccess(int taskId, String flag, Object... params) {
+
+    }
 }

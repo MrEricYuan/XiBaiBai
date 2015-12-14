@@ -203,4 +203,33 @@ public interface Tasks {
     // 订单列表
     int ORDER_LIST = 0xA9800;
 
+    /**
+     * 评价订单
+     */
+    int ORDER_COMMENT=0xA9801;
+
+    /**
+     * 订单详情
+     */
+    int ORDER_INFO=0xA9802;
+    /**
+     * 删除订单
+     */
+    int DELETE_ORDER=0xA9804;
+
+    /**
+     * 支付确认优惠券
+     */
+    int CONFIRM_PAY=0xA9805;
+
+    /**
+     *我的礼券
+     */
+    int MY_COUPONS=0xA9806;
+
+    /**
+     * 兑换优惠码
+     */
+    int EXCHANGE_COUPON =0xA98067;
+
 }

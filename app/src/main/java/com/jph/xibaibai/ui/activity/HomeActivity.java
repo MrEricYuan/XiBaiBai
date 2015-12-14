@@ -32,7 +32,6 @@ import com.jph.xibaibai.model.http.IAPIRequests;
 import com.jph.xibaibai.model.http.Tasks;
 import com.jph.xibaibai.model.utils.Constants;
 import com.jph.xibaibai.mview.MyViewPager;
-import com.jph.xibaibai.mview.SelfDialogView;
 import com.jph.xibaibai.mview.SetInfoDialogView;
 import com.jph.xibaibai.ui.activity.base.BaseActivity;
 import com.jph.xibaibai.utils.MImageLoader;
@@ -45,8 +44,6 @@ import com.jph.xibaibai.utils.sp.SharePerferenceUtil;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -58,6 +55,8 @@ import java.util.concurrent.TimeUnit;
  * 软件的主页
  */
 public class HomeActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
+
+
     //用户的id
     private int uid;
     // ViewPage子View的List
@@ -176,7 +175,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             SystermUtils.isUpdateCar = false;
             apiRequests.getCar(uid);
         }
-        if(SystermUtils.isUpdateInfo){
+        if (SystermUtils.isUpdateInfo) {
             SystermUtils.isUpdateInfo = false;
             apiRequests.getUserInfo(uid);
         }
@@ -406,13 +405,15 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         super.onBackPressed();
     }
 
+
     @OnClick({R.id.home_map_img, R.id.home_washcar_btn, R.id.home_center_btn, R.id.home_inspa_rl, R.id.home_crystal_wax_rl, R.id.home_engine_wash_rl,
-            R.id.home_coating_rl, R.id.home_plant_rl, R.id.menu_order_layout, R.id.menu_ticket_layout, R.id.menu_car_layout})
+            R.id.home_coating_rl, R.id.home_plant_rl, R.id.menu_ticket_layout})
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.home_map_img:
-                if(defaultCar == null){
+                if (defaultCar == null) {
                     showSetAddressDialog();
                     return;
                 }
@@ -421,7 +422,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(intent);
                 break;
             case R.id.home_washcar_btn:// 一键洗车
-                if(defaultCar == null){
+                if (defaultCar == null) {
                     showSetAddressDialog();
                     return;
                 }
@@ -455,10 +456,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                     HomeWebActivity.startWebActivity(HomeActivity.this, beautyList.get(4), 0);
                 }
                 break;
+            case R.id.menu_ticket_layout: // 我的礼券
+                startActivity(new Intent(HomeActivity.this, MyCouponsActivity.class));
         }
     }
 
-    @OnClick({R.id.menu_ticket_layout, R.id.menu_order_layout, R.id.menu_car_layout,R.id.menu_addr_layout,R.id.menu_user_info})
+    @OnClick({R.id.menu_ticket_layout, R.id.menu_order_layout, R.id.menu_car_layout, R.id.menu_addr_layout, R.id.menu_user_info,  R.id.menu_feedback_layout, R.id.menu_contact_layout})
     public void onClickInLeft(View v) {
         switch (v.getId()) {
             case R.id.menu_ticket_layout: // 优惠券
@@ -467,6 +470,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.menu_order_layout: // 我的订单
                 startActivity(new Intent(HomeActivity.this, MyOrderSetActivity.class));
                 break;
+            case R.id.menu_feedback_layout://反馈
+                startActivity(new Intent(HomeActivity.this, FeedbackActivity.class));
+                break;
+            case R.id.menu_contact_layout:
+                startActivity(CustomPhoneActivity.class);
+                break;
+
             case R.id.menu_car_layout: //车辆列表
                 startActivity(CarsActivity.class);
                 break;
@@ -490,7 +500,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     public void showSetAddressDialog() {
-        if(dialog == null){
+        if (dialog == null) {
             dialog = new SetInfoDialogView(HomeActivity.this);
         }
         dialog.setMsgTips(getString(R.string.car_set_tip));

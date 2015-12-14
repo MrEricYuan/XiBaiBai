@@ -3,7 +3,6 @@ package com.jph.xibaibai.utils;
 import android.os.Environment;
 
 import com.jph.xibaibai.R;
-import com.jph.xibaibai.model.entity.DIYSubBean;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -47,5 +46,9 @@ public interface Constants {
      * 更新apk的存放位置
      */
     public static String APK_PATH = ROOT_PATH + "/xbb/apk/xbb.apk";
+
+    public interface IntentAction{
+        public static  final String COMMENT_SUCCEED="com.jph.xibaibai.comment_succeed";
+    }
 
 }

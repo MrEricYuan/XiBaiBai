@@ -348,4 +348,9 @@ public class ParkInfoFragment extends BaseFragment implements View.OnClickListen
                 break;
         }
     }
+
+    @Override
+    public void onSuccess(int taskId, String flag, Object... params) {
+
+    }
 }

@@ -30,17 +30,17 @@ public class TicketAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return ticketList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return ticketList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -49,15 +49,15 @@ public class TicketAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.ticket_item_layout, null);
-            holder.ticket_decline_tv= (TextView) convertView.findViewById(R.id.ticket_decline_tv);
-            holder.ticket_item_price= (TextView) convertView.findViewById(R.id.ticket_item_price);
-            holder.ticket_item_name= (TextView) convertView.findViewById(R.id.ticket_item_name);
+            holder.ticket_decline_tv = (TextView) convertView.findViewById(R.id.ticket_decline_tv);
+            holder.ticket_item_price = (TextView) convertView.findViewById(R.id.ticket_item_price);
+            holder.ticket_item_name = (TextView) convertView.findViewById(R.id.ticket_item_name);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Coupon coupon=ticketList.get(position);
-        if (coupon!=null){
+        Coupon coupon = ticketList.get(position);
+        if (coupon != null) {
             holder.ticket_item_name.setText(coupon.getCoupons_name());
             holder.ticket_decline_tv.setText(coupon.getExpired_time());
             holder.ticket_item_price.setText(coupon.getCoupons_price());

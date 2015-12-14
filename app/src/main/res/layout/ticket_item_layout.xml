@@ -2,11 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/dp_thirty">
+    android:paddingRight="@dimen/dp_thirty"
+    android:paddingTop="@dimen/dp_ten"
+    android:paddingBottom="@dimen/dp_ten"
+    android:paddingLeft="@dimen/dp_thirty">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_hundred_sixty"
+        android:layout_height="@dimen/dp_hundred_fourty"
         android:background="@mipmap/ticket_item_bg"
         android:padding="@dimen/dp_ten">
 
@@ -20,7 +23,7 @@
             android:id="@+id/ticket_item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+          android:layout_marginTop="@dimen/dp_fourty"
             android:layout_marginLeft="@dimen/dp_twenty"
             android:text="洗车券"
             android:textColor="@color/black"
@@ -30,8 +33,8 @@
             android:id="@+id/ticket_price_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_fourty"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_twenty"
             android:orientation="horizontal">
 

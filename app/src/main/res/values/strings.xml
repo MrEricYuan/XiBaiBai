@@ -53,12 +53,13 @@
     <!--选择优惠券-->
     <string name="ticket_money_unit">元</string>
     <string name="ticket_decline">有效期至</string>
-    <string name="ticket_title">优惠券</string>
+    <string name="ticket_title">我的优惠券</string>
     <string name="ticket_rule">使用规则</string>
 
     <!--我的订单-->
     <string name="myorder_title">我的订单</string>
-    <string name="myorder_time">时间：</string>
+    <string name="myorder_ordertime">下单时间：</string>
+    <string name="myorder_servicetime">服务时间：</string>
     <string name="myorder_carinfo">车型：</string>
     <string name="myorder_type">类别：</string>
     <string name="myorder_plateno">车牌：</string>
@@ -67,15 +68,74 @@
     <string name="myorder_delete">删除订单</string>
     <string name="myorder_pay">支付订单</string>
     <string name="myorder_comment">评价订单</string>
+    <string name="myorder_canceled">已取消</string>
+    <string name="myorder_deliverying">派单中</string>
 
     <string name="no_more_data">暂无更多数据</string>
+    <string name="sign_yuan">¥</string>
     <!--订单详情-->
     <string name="order_info_service">订单内容</string>
+    <string name="order_info_total">合计</string>
+    <string name="order_info_couponAmout">优惠券抵扣</string>
+    <string name="order_info_payAmount">实际支付</string>
     <string name="order_info_employee">操作信息</string>
+    <string name="order_info_employeeName">技师名称：</string>
+    <string name="order_info_employeeTel">电\t\t\t话：</string>
+    <string name="order_info_pic">照片</string>
+    <string name="order_info_before">洗车前</string>
+    <string name="order_info_after">洗车后</string>
+    <string name="order_info_suggest">建议内容：</string>
+    <string name="order_info_express">建议缘由</string>
     <string name="order_info_nocomment">未评价</string>
-    <string name="order_info_commented">操作信息</string>
+    <string name="order_info_commented">我的评价</string>
+    <string name="order_info_tocomment">添加评价</string>
+    <string name="order_info_topay">去支付</string>
+    <string name="order_info_details">订单信息</string>
+    <string name="order_info_serviceTime">服务时间：</string>
+    <string name="order_info_no">订单编号：</string>
+    <string name="order_info_time">订单时间：</string>
+    <string name="order_info_payType">支付方式：</string>
+    <string name="order_info_driver">车主名称：</string>
+    <string name="order_info_car">车辆信息：</string>
+    <string name="order_info_carplateno">车\t\t\t牌：</string>
+    <string name="order_info_carType">车辆类别：</string>
+    <string name="order_info_carloc">车辆位置：</string>
+    <string name="order_info_title">订单详情</string>
+    <string name="order_info_recommandbz">备注：</string>
+    <string name="order_tel_error">联系信息有误</string>
+
+    <!--评价订单-->
+    <string name="comment_title">评价订单</string>
+    <string name="comment_label">评价</string>
+    <string name="comment_hint">请在此输入您的宝贵意见，谢谢~</string>
+    <string name="comment_submit">提交</string>
+    <string name="comment_content_long">请输入500字以内的评价</string>
+    <string name="comment_succeed">订单评论成功</string>
+    <string name="after_comment">已评价</string>
+    <!--意见反馈-->
+    <string name="feeedback_title">意见反馈</string>
+    <string name="feeedback_hint">请在此输入您的宝贵意见，谢谢~</string>
+    <string name="feedback_content_long">请输入400字以内的意见</string>
+    <string name="opeartion_succeed">反馈成功</string>
+
+    <!--我的礼券-->
+    <string name="mycoupons_title">我的礼券</string>
+    <string name="mycoupons_change_lable">兑换优惠码</string>
+    <string name="mycoupons_coupon_unit">张</string>
+    <string name="mycoupons_points_lable">积分</string>
+    <string name="mycoupons_points_unit">分</string>
+    <string name="mycoupons_coupon_lable">优惠券</string>
+
+    <!--兑换优惠码-->
+    <string name="input_coupon_submit">兑换</string>
+    <string name="exchange_succed">兑换成功</string>
+    <string name="input_coupon_title">优惠码兑换</string>
+
+
+   <!-- <string name="order_info_commented">操作信息</string>-->
     <string name="address_select">选择车辆位置</string>
     <string name="car_set">现在设置吧</string>
     <string name="car_set_tip">您还没设置车辆哦</string>
     <string name="coupons_use">抵扣￥</string>
+
 </resources>

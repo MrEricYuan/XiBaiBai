@@ -11,12 +11,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
+            android:layout_marginTop="@dimen/dp_twenty"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:id="@+id/ticket_rule_layout"
             android:layout_marginRight="@dimen/dp_thirty"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_fourty"
+            android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:orientation="horizontal">
             <ImageView
@@ -35,7 +36,9 @@
 
         <com.jph.xibaibai.mview.CustomListView
             android:id="@+id/ticket_lv"
-            android:dividerHeight="@dimen/dp_fifteen"
+            android:dividerHeight="@dimen/dp_zero"
+            android:divider="@null"
+            android:listSelector="@android:color/transparent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></com.jph.xibaibai.mview.CustomListView>
     </LinearLayout>

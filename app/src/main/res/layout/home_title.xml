@@ -22,6 +22,7 @@
             android:src="@mipmap/home_xibaibai"
             android:padding="@dimen/dp_two"/>
         <LinearLayout
+            android:id="@+id/home_service_cityList_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"

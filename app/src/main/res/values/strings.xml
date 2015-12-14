@@ -60,7 +60,7 @@
     <string name="myorder_title">我的订单</string>
     <string name="myorder_ordertime">下单时间：</string>
     <string name="myorder_servicetime">服务时间：</string>
-    <string name="myorder_carinfo">车型：</string>
+    <string name="myorder_carinfo">车\t\t\t型：</string>
     <string name="myorder_type">类别：</string>
     <string name="myorder_plateno">车牌：</string>
     <string name="myorder_carLocation">汽车位置：</string>
@@ -132,10 +132,13 @@
     <string name="input_coupon_title">优惠码兑换</string>
 
 
-   <!-- <string name="order_info_commented">操作信息</string>-->
+    <!-- <string name="order_info_commented">操作信息</string>-->
     <string name="address_select">选择车辆位置</string>
     <string name="car_set">现在设置吧</string>
     <string name="car_set_tip">您还没设置车辆哦</string>
     <string name="coupons_use">抵扣￥</string>
 
+    <!--服务城市-->
+    <string name="service_city_more">我们正在努力为更多的城市提供服务</string>
+    <string name="service_city_title">服务城市</string>
 </resources>

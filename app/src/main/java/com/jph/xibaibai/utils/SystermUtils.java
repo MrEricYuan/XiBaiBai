@@ -1,6 +1,8 @@
 package com.jph.xibaibai.utils;
 
-import android.util.Log;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -8,7 +10,6 @@ import android.widget.ListView;
 
 import com.jph.xibaibai.model.entity.Car;
 import com.jph.xibaibai.model.entity.DIYSubBean;
-import com.jph.xibaibai.ui.activity.ApointmentTimeActivity;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -77,7 +78,7 @@ public class SystermUtils {
      */
     public static Calendar getCalendar(long time) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Long timeNum = new Long(time*1000);
+        Long timeNum = new Long(time * 1000);
         String d = format.format(timeNum);
         try {
             Date date = format.parse(d);
@@ -145,16 +146,34 @@ public class SystermUtils {
         return false;
     }
 
-    public static double getTwonum(double origitalNum){
+    public static double getTwonum(double origitalNum) {
         DecimalFormat df = new DecimalFormat("#.00");
         return Double.parseDouble(df.format(origitalNum));
     }
 
-    public static String replacePicpath(String picPath){
+    public static String replacePicpath(String picPath) {
         String path = "";
-        if(!StringUtil.isNull(picPath)){
-            path = picPath.substring(1,picPath.length());
+        if (!StringUtil.isNull(picPath)) {
+            path = picPath.substring(1, picPath.length());
         }
         return path;
+    }
+
+    /**
+     * 获取当前应用的版本号
+     *
+     * @return
+     * @throws PackageManager.NameNotFoundException
+     */
+    public static String getClientVersion(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

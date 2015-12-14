@@ -32,7 +32,6 @@ import com.jph.xibaibai.model.http.IAPIRequests;
 import com.jph.xibaibai.model.http.Tasks;
 import com.jph.xibaibai.model.utils.Constants;
 import com.jph.xibaibai.mview.MyViewPager;
-import com.jph.xibaibai.mview.SelfDialogView;
 import com.jph.xibaibai.mview.SetInfoDialogView;
 import com.jph.xibaibai.ui.activity.base.BaseActivity;
 import com.jph.xibaibai.utils.MImageLoader;
@@ -44,8 +43,6 @@ import com.jph.xibaibai.utils.sp.SPUserInfo;
 import com.jph.xibaibai.utils.sp.SharePerferenceUtil;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;

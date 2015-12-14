@@ -16,26 +16,36 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.jph.xibaibai.R;
 import com.jph.xibaibai.adapter.HomeDIYAdapter;
 import com.jph.xibaibai.adapter.HomepageAdapter;
+import com.jph.xibaibai.model.entity.AllAddress;
+import com.jph.xibaibai.model.entity.AllCar;
+import com.jph.xibaibai.model.entity.Car;
 import com.jph.xibaibai.model.entity.HomeAdBean;
 import com.jph.xibaibai.model.entity.Product;
 import com.jph.xibaibai.model.entity.ResponseJson;
+import com.jph.xibaibai.model.entity.UserInfo;
 import com.jph.xibaibai.model.http.APIRequests;
 import com.jph.xibaibai.model.http.IAPIRequests;
 import com.jph.xibaibai.model.http.Tasks;
 import com.jph.xibaibai.model.utils.Constants;
 import com.jph.xibaibai.mview.MyViewPager;
+import com.jph.xibaibai.mview.SelfDialogView;
+import com.jph.xibaibai.mview.SetInfoDialogView;
 import com.jph.xibaibai.ui.activity.base.BaseActivity;
 import com.jph.xibaibai.utils.MImageLoader;
 import com.jph.xibaibai.utils.StringUtil;
 import com.jph.xibaibai.utils.SystermUtils;
 import com.jph.xibaibai.utils.parsejson.BeautyProductParse;
 import com.jph.xibaibai.utils.parsejson.HomeDataParse;
+import com.jph.xibaibai.utils.sp.SPUserInfo;
 import com.jph.xibaibai.utils.sp.SharePerferenceUtil;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +58,10 @@ import java.util.concurrent.TimeUnit;
  * 软件的主页
  */
 public class HomeActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
+
+
+    //用户的id
+    private int uid;
     // ViewPage子View的List
     private List<View> viewList = null;
     // 广告的List
@@ -66,6 +80,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     private List<Product> diySubyList = null;
     // DIY适配器
     private HomeDIYAdapter homeDIYAdapter = null;
+    // 得到用户的家庭和公司的地址
+    private AllAddress allAddress = null;
+    // 所有车辆
+    private Car defaultCar = null;
+    // 提示设置车辆的对话框
+    private SetInfoDialogView dialog = null;
 
     @ViewInject(R.id.home_drawerlayout)
     private DrawerLayout drawerLayout;
@@ -97,6 +117,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     private TextView beauty5_price;// 植物蜡价格
     @ViewInject(R.id.home_diyproduct_lv)
     private ListView diyproduct_lv; // diy列表
+    @ViewInject(R.id.main_img_head)
+    ImageView main_img_head;
+    @ViewInject(R.id.menu_user_name)
+    TextView menu_user_name;
+    @ViewInject(R.id.menu_user_phone)
+    TextView menu_user_phone;
 
     private Handler handler = new Handler() {
         @Override
@@ -114,10 +140,19 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        apiRequests = new APIRequests(this);
         apiRequests.getCarouselAd();
         apiRequests.getBeatyDatas();
         apiRequests.getHomeDIYDatas();
+        apiRequests.getAddress(uid);
+        apiRequests.getCar(uid);
+        apiRequests.getUserInfo(uid);
+    }
+
+    @Override
+    public void initData() {
+        super.initData();
+        apiRequests = new APIRequests(this);
+        uid = SPUserInfo.getsInstance(this).getSPInt(SPUserInfo.KEY_USERID);
     }
 
     @Override
@@ -134,6 +169,19 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             Log.i("Tag", "City=>" + cityName);
         }
         diyproduct_lv.setOnItemClickListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (SystermUtils.isUpdateCar) {
+            SystermUtils.isUpdateCar = false;
+            apiRequests.getCar(uid);
+        }
+        if (SystermUtils.isUpdateInfo) {
+            SystermUtils.isUpdateInfo = false;
+            apiRequests.getUserInfo(uid);
+        }
     }
 
     @Override
@@ -162,6 +210,28 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                     diyproduct_lv.setAdapter(homeDIYAdapter);
                     SystermUtils.setListViewHeight(diyproduct_lv);
                 }
+                break;
+            case Tasks.GETADDRESS:
+                if (responseJson.getResult() != null) {
+                    allAddress = JSON.parseObject(responseJson.getResult().toString(), AllAddress.class);
+                    SPUserInfo.getsInstance(this).setSP(SPUserInfo.KEY_ALL_ADDRESS, responseJson.getResult().toString());
+                }
+                break;
+            case Tasks.GETCAR:
+                if (responseJson.getResult() != null) {
+                    AllCar allCar = JSON.parseObject(responseJson.getResult().toString(), AllCar.class);
+                    if (allCar != null) {
+                        defaultCar = allCar.getDefaultCar();
+                        SystermUtils.defaultCar = defaultCar;
+                    }
+                }
+                break;
+            case Tasks.GETUSERINFO:
+                SPUserInfo.getsInstance(this).setSP(SPUserInfo.KEY_USERINFO, responseJson.getResult().toString());
+                UserInfo userInfo = JSON.parseObject(responseJson.getResult().toString(), UserInfo.class);
+                MImageLoader.getInstance(HomeActivity.this).displayImageM(userInfo.getU_img(), main_img_head);
+                menu_user_name.setText(userInfo.getUname());
+                menu_user_phone.setText(userInfo.getIphone());
                 break;
         }
     }
@@ -338,12 +408,27 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         super.onBackPressed();
     }
 
-    @OnClick({R.id.home_washcar_btn, R.id.home_center_btn, R.id.home_inspa_rl, R.id.home_crystal_wax_rl, R.id.home_engine_wash_rl,
-            R.id.home_coating_rl, R.id.home_plant_rl, R.id.menu_order_layout, R.id.menu_ticket_layout, R.id.menu_feedback_layout, R.id.menu_contact_layout})
+
+    @OnClick({R.id.home_map_img, R.id.home_washcar_btn, R.id.home_center_btn, R.id.home_inspa_rl, R.id.home_crystal_wax_rl, R.id.home_engine_wash_rl,
+            R.id.home_coating_rl, R.id.home_plant_rl, R.id.menu_ticket_layout})
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.home_map_img:
+                if (defaultCar == null) {
+                    showSetAddressDialog();
+                    return;
+                }
+                Intent intent = new Intent(HomeActivity.this, LocateSelectActivity.class);
+                intent.putExtra(LocateSelectActivity.WHEREINTO, 1);
+                startActivity(intent);
+                break;
             case R.id.home_washcar_btn:// 一键洗车
+                if (defaultCar == null) {
+                    showSetAddressDialog();
+                    return;
+                }
                 startActivity(new Intent(HomeActivity.this, PlaceOrdersActivity.class));
                 break;
             case R.id.home_center_btn:// 个人中心
@@ -376,6 +461,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case R.id.menu_ticket_layout: // 我的礼券
                 startActivity(new Intent(HomeActivity.this, MyCouponsActivity.class));
+        }
+    }
+
+    @OnClick({R.id.menu_ticket_layout, R.id.menu_order_layout, R.id.menu_car_layout, R.id.menu_addr_layout, R.id.menu_user_info,  R.id.menu_feedback_layout, R.id.menu_contact_layout})
+    public void onClickInLeft(View v) {
+        switch (v.getId()) {
+            case R.id.menu_ticket_layout: // 优惠券
+                startActivity(new Intent(HomeActivity.this, SelectTicketActivity.class));
                 break;
             case R.id.menu_order_layout: // 我的订单
                 startActivity(new Intent(HomeActivity.this, MyOrderSetActivity.class));
@@ -387,7 +480,17 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(CustomPhoneActivity.class);
                 break;
 
+            case R.id.menu_car_layout: //车辆列表
+                startActivity(CarsActivity.class);
+                break;
+            case R.id.menu_addr_layout://常用地址
+                startActivity(AddressActivity.class);
+                break;
+            case R.id.menu_user_info:
+                startActivity(ProfileCenterActivity.class);
+                break;
         }
+        toggleLeftLayout();
     }
 
     @Override
@@ -397,5 +500,26 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 HomeWebActivity.startWebActivity(HomeActivity.this, diySubyList.get(position), 1);
                 break;
         }
+    }
+
+    public void showSetAddressDialog() {
+        if (dialog == null) {
+            dialog = new SetInfoDialogView(HomeActivity.this);
+        }
+        dialog.setMsgTips(getString(R.string.car_set_tip));
+        dialog.setMessage(getString(R.string.car_set));
+        dialog.setClickListener(new SetInfoDialogView.SetClickListener() {
+            @Override
+            public void cancel() {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void confirm() {
+                dialog.dismiss();
+                startActivity(CarsActivity.class);
+            }
+        });
+        dialog.show();
     }
 }

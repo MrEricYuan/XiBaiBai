@@ -2,63 +2,102 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    android:padding="@dimen/margin_l">
+    android:paddingTop="@dimen/dp_ten">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:background="@color/white"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/itemcar_txt_title"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_weight="1"
-            android:text="奔驰 CLA260 白色"
-            android:textColor="@color/txt_black"
-            android:textSize="@dimen/txtsize_l" />
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_ten">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_five"
+                android:src="@mipmap/mycar_img" />
 
-        <ImageView
-            android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_ten"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/itemcar_txt_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="川A 123456"
+                    android:textColor="@color/black_one"
+                    android:textSize="@dimen/sp_sixteen" />
+
+                <TextView
+                    android:id="@+id/itemcar_txt_platenum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_two"
+                    android:text="奥迪 白色 轿车"
+                    android:textColor="@color/black_one"
+                    android:textSize="@dimen/sp_sixteen" />
+            </LinearLayout>
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_go" />
+            android:layout_marginLeft="@dimen/dp_fifteen"
+            android:layout_marginRight="@dimen/dp_fifteen"
+            android:layout_marginBottom="@dimen/dp_eight">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/itemcar_check_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/mycar_checked"/>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_s"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/itemcar_txt_platenum"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_weight="1"
-            android:text="@string/main_txt_platenum"
-            android:textColor="@color/txt_gray"
-            android:textSize="@dimen/txtsize_m" />
-
-        <TextView
-            android:id="@+id/itemcar_txt_default"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/red"
-            android:paddingBottom="3dp"
-            android:paddingLeft="@dimen/margin_s"
-            android:paddingRight="@dimen/margin_s"
-            android:paddingTop="3dp"
-            android:text="默认车辆"
-            android:textColor="@color/white"
-            android:textSize="@dimen/txtsize_m" />
+                <TextView
+                    android:id="@+id/itemcar_txt_default"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="设为默认"
+                    android:layout_marginLeft="@dimen/dp_five"
+                    android:textColor="@color/black_two"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/sp_sixteen"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/itemcar_edit_tv"
+                    android:layout_width="@dimen/dp_sixty"
+                    android:layout_height="@dimen/dp_thirty"
+                    android:background="@drawable/mycar_edit_bg"
+                    android:gravity="center"
+                    android:text="编辑"/>
+                <TextView
+                    android:id="@+id/itemcar_delete_tv"
+                    android:layout_width="@dimen/dp_sixty"
+                    android:layout_height="@dimen/dp_thirty"
+                    android:layout_marginLeft="@dimen/dp_fifteen"
+                    android:background="@drawable/mycar_edit_bg"
+                    android:gravity="center"
+                    android:text="删除"/>
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

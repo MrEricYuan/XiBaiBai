@@ -12,10 +12,20 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.jph.xibaibai.R;
+import com.jph.xibaibai.model.entity.AllCar;
+import com.jph.xibaibai.model.entity.Car;
 import com.jph.xibaibai.model.entity.Product;
+import com.jph.xibaibai.model.entity.ResponseJson;
+import com.jph.xibaibai.model.http.APIRequests;
+import com.jph.xibaibai.model.http.IAPIRequests;
+import com.jph.xibaibai.model.http.Tasks;
+import com.jph.xibaibai.mview.SetInfoDialogView;
 import com.jph.xibaibai.ui.activity.base.TitleActivity;
 import com.jph.xibaibai.utils.StringUtil;
+import com.jph.xibaibai.utils.SystermUtils;
+import com.jph.xibaibai.utils.sp.SPUserInfo;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -32,6 +42,8 @@ public class HomeWebActivity extends TitleActivity implements View.OnClickListen
     public static final String INTENTKEY_OBJECT_DATA = "intentkey_object_product";
     // 传入从哪儿进入
     public static final String INTENTKEY_STRING_FLAG = "intentkey_string_flag";
+    //用户的id
+    private int uid;
     // 传入的Product对象
     private Product product = null;
     // 标题
@@ -42,6 +54,12 @@ public class HomeWebActivity extends TitleActivity implements View.OnClickListen
     private int formWhere = 0;
     //当前选中的产品
     private List<Product> productList = null;
+    // 所有车辆
+    private Car defaultCar = null;
+    // 访问网络
+    private IAPIRequests apiRequests;
+    // 提示设置车辆的对话框
+    private SetInfoDialogView dialog = null;
 
     @ViewInject(R.id.web_webview)
     private WebView webView;
@@ -54,6 +72,7 @@ public class HomeWebActivity extends TitleActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
+        apiRequests.getCar(uid);
         webView.loadUrl(webUrl);
     }
 
@@ -65,9 +84,19 @@ public class HomeWebActivity extends TitleActivity implements View.OnClickListen
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(SystermUtils.isUpdateCar){
+            apiRequests.getCar(uid);
+        }
+    }
+
+    @Override
     public void initData() {
         super.initData();
         productList = new ArrayList<>();
+        apiRequests = new APIRequests(this);
+        uid = SPUserInfo.getsInstance(this).getSPInt(SPUserInfo.KEY_USERID);
         product = (Product) getIntent().getSerializableExtra(INTENTKEY_OBJECT_DATA);
         if (product != null) {
             webTitle = product.getP_name();
@@ -105,9 +134,30 @@ public class HomeWebActivity extends TitleActivity implements View.OnClickListen
         });
     }
 
+    @Override
+    public void onSuccess(int taskId, Object... params) {
+        super.onSuccess(taskId, params);
+        ResponseJson responseJson = (ResponseJson) params[0];
+        switch (taskId){
+            case Tasks.GETCAR:
+                if (responseJson.getResult() != null) {
+                    AllCar allCar = JSON.parseObject(responseJson.getResult().toString(), AllCar.class);
+                    if (allCar != null) {
+                        defaultCar = allCar.getDefaultCar();
+                        SystermUtils.defaultCar = defaultCar;
+                    }
+                }
+                break;
+        }
+    }
+
     @OnClick({R.id.home_web_choice, R.id.home_web_place})
     @Override
     public void onClick(View v) {
+        if(defaultCar == null){
+            showSetAddressDialog();
+            return;
+        }
         Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.home_web_choice:
@@ -128,5 +178,25 @@ public class HomeWebActivity extends TitleActivity implements View.OnClickListen
                 startActivity(intent);
                 break;
         }
+    }
+    public void showSetAddressDialog() {
+        if(dialog == null){
+            dialog = new SetInfoDialogView(HomeWebActivity.this);
+        }
+        dialog.setMsgTips(getString(R.string.car_set_tip));
+        dialog.setMessage(getString(R.string.car_set));
+        dialog.setClickListener(new SetInfoDialogView.SetClickListener() {
+            @Override
+            public void cancel() {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void confirm() {
+                dialog.dismiss();
+                startActivity(CarsActivity.class);
+            }
+        });
+        dialog.show();
     }
 }

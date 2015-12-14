@@ -3,15 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
-    <include
+    <!--<include
         android:id="@+id/place_title_layout"
-        layout="@layout/include_title"/>
-    <include
-        layout="@layout/submit_common"/>
+        layout="@layout/include_title"/>-->
+    <!--<include
+        layout="@layout/submit_common"/>-->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/place_title_layout"
         android:paddingBottom="@dimen/dp_fourty_eight"
         android:scrollbars="none">
         <LinearLayout
@@ -62,7 +61,7 @@
                         android:id="@+id/place_extral_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="￥258.00"
+                        android:text="￥0.0"
                         android:textSize="@dimen/sp_sixteen"
                         android:layout_marginLeft="@dimen/dp_five"
                         android:layout_centerVertical="true"/>
@@ -101,7 +100,7 @@
                         android:id="@+id/place_allwash_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="￥50.00"
+                        android:text="￥0.0"
                         android:layout_marginLeft="@dimen/dp_five"
                         android:textSize="@dimen/sp_sixteen"
                         android:layout_centerVertical="true"/>
@@ -239,6 +238,7 @@
                         android:layout_gravity="center_vertical"/>
                 </LinearLayout>
                 <TextView
+                    android:id="@+id/place_coupons_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -284,12 +284,13 @@
                         android:layout_gravity="center_vertical"/>
                 </LinearLayout>
                 <TextView
+                    android:id="@+id/place_location_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/place_locate_layout"
                     android:layout_toLeftOf="@+id/place_locate_right"
-                    android:text="四川省成都市高新区天府大道南段城南名著"
+                    android:text=""
                     android:layout_marginLeft="@dimen/dp_eight"
                     android:layout_marginRight="@dimen/dp_eight"
                     android:ellipsize="end"
@@ -372,7 +373,7 @@
                     android:id="@+id/place_yuyue_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12-01 09:00-10:100"
+                    android:text=""
                     android:layout_toLeftOf="@+id/place_reserver_rb"
                     android:layout_marginRight="@dimen/dp_ten"
                     android:textSize="@dimen/sp_sixteen"
@@ -393,5 +394,40 @@
                 android:background="@mipmap/line_one"/>
         </LinearLayout>
     </ScrollView>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_fourty_eight"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@mipmap/place_price_show"
+            android:layout_weight="3">
+            <TextView
+                android:id="@+id/place_total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="合计：￥0.00"
+                android:layout_marginRight="@dimen/dp_ten"
+                android:textSize="@dimen/sp_sixteen"
+                android:textColor="@color/them_color"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@mipmap/place_submit"
+            android:layout_weight="2">
+            <TextView
+                android:id="@+id/places_submit_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="提交订单"
+                android:textColor="@android:color/white"
+                android:gravity="center"
+                android:textSize="@dimen/sp_sixteen"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>

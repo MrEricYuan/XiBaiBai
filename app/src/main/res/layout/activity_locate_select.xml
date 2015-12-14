@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/locate_main_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_zero"
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:layout_width="@dimen/dp_two_hundred_ten"
+                android:layout_height="@dimen/dp_hundred_eleven"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@mipmap/locate_show">
+
+                <TextView
+                    android:id="@+id/locate_txt1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_eight"
+                    android:layout_marginTop="@dimen/dp_eight"
+                    android:layout_centerHorizontal="true"
+                    android:text="当前位置"
+                    android:textSize="@dimen/sp_sixteen" />
+
+                <TextView
+                    android:id="@+id/locate_detail_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_two"
+                    android:layout_marginLeft="@dimen/dp_eight"
+                    android:layout_marginRight="@dimen/dp_eight"
+                    android:layout_below="@+id/locate_txt1"
+                    android:text="正在定位..."
+                    android:textSize="@dimen/sp_fifteen" />
+                <Button
+                    android:id="@+id/locate_remark_btn"
+                    android:layout_width="@dimen/dp_fourty"
+                    android:layout_height="@dimen/dp_twenty_three"
+                    android:background="@mipmap/locate_remark"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="@dimen/dp_twenty"
+                    android:layout_marginRight="@dimen/dp_ten"
+                    android:textSize="@dimen/sp_sixteen"
+                    android:textColor="@color/white"
+                    android:text="备注"/>
+                <TextView
+                    android:id="@+id/locate_remark_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:textSize="@dimen/sp_fifteen"
+                    android:text=""
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:layout_marginLeft="@dimen/dp_eight"
+                    android:layout_marginBottom="@dimen/dp_twenty_three"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_zero"
+            android:layout_weight="1" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_fifteen"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dp_fourty"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/locate_home_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/locate_home"/>
+        <ImageView
+            android:id="@+id/locate_company_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/locate_company"
+            android:layout_marginTop="@dimen/dp_ten"/>
+        <ImageView
+            android:id="@+id/locate_current_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/locate_current"
+            android:layout_marginTop="@dimen/dp_ten"/>
+    </LinearLayout>
+</RelativeLayout>

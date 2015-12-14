@@ -1,288 +1,336 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
+    <include layout="@layout/submit_common" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
-        android:fillViewport="true">
+        android:layout_marginBottom="@dimen/dp_fourty_eight"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@color/bg_gray"
-                android:gravity="center_vertical"
-                android:textColor="@color/black"
-                android:paddingLeft="10dp"
-                android:text="用户信息"
-                android:textSize="16sp"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg_gray"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@color/white">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/black"
-                    android:paddingLeft="20dp"
-                    android:text="车主"
-                    android:textSize="16sp"/>
-                <TextView
-                    android:id="@+id/dorder_name_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/black"
-                    android:paddingRight="10dp"
-                    android:text=""
-                    android:layout_alignParentRight="true"
-                    android:textSize="16sp"/>
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/bg_gray"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@color/white">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/black"
-                    android:paddingLeft="20dp"
-                    android:text="电话"
-                    android:textSize="16sp"/>
-                <TextView
-                    android:id="@+id/dorder_phone_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/black"
-                    android:paddingRight="10dp"
-                    android:text=""
-                    android:layout_alignParentRight="true"
-                    android:textSize="16sp"/>
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg_gray"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@color/bg_gray"
-                android:gravity="center_vertical"
-                android:textColor="@color/black"
-                android:paddingLeft="10dp"
-                android:text="车辆信息"
-                android:textSize="16sp"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@color/white">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/black"
-                    android:paddingLeft="20dp"
-                    android:text="车牌号"
-                    android:textSize="16sp"/>
-                <TextView
-                    android:id="@+id/dorder_carnum_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/black"
-                    android:paddingRight="10dp"
-                    android:text=""
-                    android:layout_alignParentRight="true"
-                    android:textSize="16sp"/>
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/bg_gray"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@color/white">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/black"
-                    android:paddingLeft="20dp"
-                    android:text="车型"
-                    android:textSize="16sp"/>
-                <TextView
-                    android:id="@+id/dorder_cartype_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/black"
-                    android:paddingRight="10dp"
-                    android:text=""
-                    android:layout_alignParentRight="true"
-                    android:textSize="16sp"/>
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/bg_gray"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@color/white">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/black"
-                    android:paddingLeft="20dp"
-                    android:text="位置"
-                    android:textSize="16sp"/>
-                <TextView
-                    android:id="@+id/dorder_carlocate_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/black"
-                    android:paddingRight="10dp"
-                    android:text=""
-                    android:layout_alignParentRight="true"
-                    android:textSize="16sp"/>
-            </RelativeLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@color/bg_gray"
-                android:gravity="center_vertical"
-                android:textColor="@color/black"
-                android:paddingLeft="10dp"
-                android:text="服务内容"
-                android:textSize="16sp"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg_gray"/>
-            <ListView
-                android:id="@+id/detail_product_lv"
+            <!--服务时间、订单内容-->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:scrollbars="none"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg_gray"/>
+                android:orientation="vertical">
 
-            <View
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/dp_fourty"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:src="@mipmap/pay_orderinfo" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:gravity="center_vertical"
+                        android:text="服务时间"
+                        android:textColor="@color/black_one"
+                        android:textSize="@dimen/sp_sixteen" />
+
+                    <TextView
+                        android:id="@+id/dorder_service_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_marginLeft="@dimen/dp_ten"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/black_two"
+                        android:textSize="@dimen/sp_fifteen" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/dp_fifteen"
+                    android:background="@mipmap/line_one" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/dp_fourty"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:src="@mipmap/pay_orderinfo" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:gravity="center_vertical"
+                        android:text="订单内容"
+                        android:textColor="@color/black_one"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/dp_fifteen"
+                    android:background="@mipmap/line_one" />
+
+                <ListView
+                    android:id="@+id/detail_product_lv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/dp_fourty"
+                    android:divider="@android:color/transparent"
+                    android:scrollbars="none"
+                    android:visibility="visible" />
+            </LinearLayout>
+            <!--车辆信息-->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg_gray"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_ten"
                 android:background="@color/white"
-                android:paddingLeft="20dp"
-                android:paddingRight="10dp">
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/dp_fourty"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/dp_ten"
+                            android:src="@mipmap/pay_carinfo" />
+                    </RelativeLayout>
+
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/red"
-                        android:text="总价："/>
+                        android:layout_height="48dp"
+                        android:gravity="center_vertical"
+                        android:text="车辆信息"
+                        android:textColor="@color/black_one"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/dp_twelve"
+                    android:background="@mipmap/line_one" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp">
+
                     <TextView
-                        android:id="@+id/detail_totalprice_tv"
+                        android:id="@+id/dorder_carnum_tv"
                         android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_marginLeft="@dimen/dp_fourty"
+                        android:gravity="center_vertical"
+                        android:paddingRight="10dp"
+                        android:text=""
+                        android:textColor="@color/black_two"
+                        android:textSize="@dimen/sp_fifteen" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/dp_fourty"
+                    android:background="@mipmap/line_one" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp">
+
+                    <TextView
+                        android:id="@+id/dorder_carlocate_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_marginLeft="@dimen/dp_fourty"
+                        android:gravity="center_vertical"
+                        android:paddingRight="10dp"
+                        android:text=""
+                        android:textColor="@color/black_two"
+                        android:textSize="@dimen/sp_fifteen" />
+                </RelativeLayout>
+            </LinearLayout>
+            <!--用户信息-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/dp_ten"
+                android:background="@color/white">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/dp_fourty"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginLeft="10dp"
-                        android:textColor="@color/red"
-                        android:text=""/>
-            </RelativeLayout>
+                        android:layout_gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/dp_ten"
+                            android:src="@mipmap/pay_userinfo" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:gravity="center_vertical"
+                        android:text="用户信息"
+                        android:textColor="@color/black_one"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/dp_twelve"
+                    android:background="@mipmap/line_one" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp">
+
+                    <TextView
+                        android:id="@+id/dorder_name_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_marginLeft="@dimen/dp_fourty"
+                        android:gravity="center_vertical"
+                        android:paddingRight="10dp"
+                        android:text=""
+                        android:textColor="@color/black_two"
+                        android:textSize="@dimen/sp_fifteen" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/dp_fourty"
+                    android:background="@color/bg_gray" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp">
+
+                    <TextView
+                        android:id="@+id/dorder_phone_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_marginLeft="@dimen/dp_fourty"
+                        android:gravity="center_vertical"
+                        android:paddingRight="10dp"
+                        android:text=""
+                        android:textColor="@color/black_two"
+                        android:textSize="@dimen/sp_fifteen" />
+                </RelativeLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:orientation="horizontal"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:orientation="horizontal">
+                android:visibility="gone">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:textSize="16sp"
+                    android:text="优惠券："
                     android:textColor="@color/black"
-                    android:text="优惠券："/>
+                    android:textSize="16sp" />
+
                 <TextView
                     android:id="@+id/detail_coupons_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:textSize="16sp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
+                    android:text=""
                     android:textColor="@color/black"
-                    android:text=""/>
+                    android:textSize="16sp" />
             </LinearLayout>
 
-            <RadioGroup
-                android:id="@+id/dorder_rgroup_payway"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:checkedButton="@+id/payorder_rbtn_alipay"
-                android:orientation="vertical">
+                android:layout_height="@dimen/dp_fourty_eight"
+                android:layout_marginTop="@dimen/dp_ten"
+                android:background="@color/white">
 
-                <RadioButton
-                    android:id="@+id/dorder_rbtn_alipay"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:id="@+id/zhifubao_ll"
+                    android:layout_width="@dimen/dp_fourty"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_ten"
+                        android:src="@mipmap/pay_zhifubao" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="48dp"
-                    android:background="@drawable/selector_bg_transparent_gray"
-                    android:button="@null"
-                    android:drawableLeft="@drawable/icon_alipay"
-                    android:drawablePadding="@dimen/margin_s"
-                    android:drawableRight="@drawable/selector_diy_rbtn_check"
-                    android:paddingLeft="@dimen/margin_l"
-                    android:paddingRight="@dimen/margin_l"
+                    android:layout_toRightOf="@+id/zhifubao_ll"
+                    android:gravity="center_vertical"
+                    android:paddingRight="10dp"
                     android:text="支付宝"
-                    android:textColor="@color/txt_black"
-                    android:textSize="@dimen/txtsize_l"
-                    android:textStyle="bold" />
-            </RadioGroup>
+                    android:textColor="@color/black_one"
+                    android:textSize="16sp" />
 
-            <Button
-                android:id="@+id/dorder_btn_pay"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="@dimen/margin_l"
-                android:background="@drawable/shape_bg_btn_orange"
-                android:text="确认支付"
-                android:textColor="@color/white"
-                android:textSize="@dimen/txtsize_l" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_ten"
+                    android:src="@mipmap/place_unchecked" />
+            </RelativeLayout>
+
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+</RelativeLayout>

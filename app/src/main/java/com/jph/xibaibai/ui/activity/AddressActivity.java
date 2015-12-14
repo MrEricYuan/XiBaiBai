@@ -2,7 +2,9 @@ package com.jph.xibaibai.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -20,33 +22,31 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 
 /**
  * 地址车位
- * Created by jph on 2015/8/28.
+ * Created by Eric on 2015/12/12.
  */
 public class AddressActivity extends TitleActivity implements View.OnClickListener {
 
     private static final int REQUEST_CODE_HOME = 1023;
-    private static final int REQUEST_CODE_HOME_PARK = 1024;
     private static final int REQUEST_CODE_COMPANY = 1025;
-    private static final int REQUEST_CODE_COMPANY_PARK = 1026;
+    public static final String RESULT_ADDRESS = "resultAddress";
 
     private IAPIRequests mAPIRequests;
     private AllAddress allAddress;
     private int uid;
 
-    @ViewInject(R.id.address_txt_home)
+    @ViewInject(R.id.usead_home_locate)
     TextView mTxtHome;
-    @ViewInject(R.id.address_txt_home_park)
+    @ViewInject(R.id.usead_home_mark)
     TextView mTxtHomePark;
-    @ViewInject(R.id.address_txt_company)
+    @ViewInject(R.id.usead_company_locate)
     TextView mTxtCpmpany;
-    @ViewInject(R.id.address_txt_company_park)
+    @ViewInject(R.id.usead_company_mark)
     TextView mTxtCpmpanyPark;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address);
-
         mAPIRequests.getAddress(uid);
     }
 
@@ -60,113 +60,51 @@ public class AddressActivity extends TitleActivity implements View.OnClickListen
     @Override
     public void initView() {
         super.initView();
-        setTitle("常用地址车位");
+        setTitle("常用地址");
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) {
+        if (resultCode != RESULT_OK || data == null) {
             return;
         }
-
+        Address address = (Address) data.getSerializableExtra(RESULT_ADDRESS);
+        if(address == null){
+            return;
+        }
         switch (requestCode) {
             case REQUEST_CODE_HOME:
-                Address addressRHome = (Address) data.getSerializableExtra(GetLocationActivity.RESULT_ADDRESS);
-                mTxtHome.setText(addressRHome.getAddress());
-                allAddress.setHomeAddress(addressRHome);
-                try {
-                    Address address0 = addressRHome.clone();
-                    address0.setAddress_info(null);
-                    mAPIRequests.setAddress(address0);
-                } catch (CloneNotSupportedException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case REQUEST_CODE_HOME_PARK:
-                String homePark = data.getStringExtra(InputActivity.RESULT_CONTENT);
-                mTxtHomePark.setText(homePark);
-                allAddress.getHomeAddress().setAddress_info(homePark);
-                try {
-                    Address address0 = allAddress.getHomeAddress().clone();
-                    address0.setAddress(null);
-                    address0.setAddress_lg(null);
-                    address0.setAddress_lt(null);
-                    mAPIRequests.setAddress(address0);
-                } catch (CloneNotSupportedException e) {
-                    e.printStackTrace();
-                }
+                mTxtHome.setText(address.getAddress());
+                mTxtHomePark.setText(address.getAddress_info());
+                address.setAddress_type(0);
                 break;
             case REQUEST_CODE_COMPANY:
-                Address addressRCompany = (Address) data.getSerializableExtra(GetLocationActivity.RESULT_ADDRESS);
-                mTxtCpmpany.setText(addressRCompany.getAddress());
-                allAddress.setCompanyAddress(addressRCompany);
-                try {
-                    Address address0 = addressRCompany.clone();
-                    address0.setAddress_info(null);
-                    mAPIRequests.setAddress(address0);
-                } catch (CloneNotSupportedException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case REQUEST_CODE_COMPANY_PARK:
-                String companyPark = data.getStringExtra(InputActivity.RESULT_CONTENT);
-                mTxtCpmpanyPark.setText(companyPark);
-                allAddress.getCompanyAddress().setAddress_info(companyPark);
-                try {
-                    Address address0 = allAddress.getCompanyAddress().clone();
-                    address0.setAddress(null);
-                    address0.setAddress_lg(null);
-                    address0.setAddress_lt(null);
-                    mAPIRequests.setAddress(address0);
-                } catch (CloneNotSupportedException e) {
-                    e.printStackTrace();
-                }
+                mTxtCpmpany.setText(address.getAddress());
+                mTxtCpmpanyPark.setText(address.getAddress_info());
+                address.setAddress_type(1);
                 break;
         }
+        address.setUid(uid);
+        mAPIRequests.setAddress(address);
     }
 
-    @OnClick({R.id.address_txt_home, R.id.address_txt_home_park, R.id.address_txt_company, R.id.address_txt_company_park})
+    @OnClick({R.id.usead_home_ll, R.id.usead_company_ll})
     @Override
     public void onClick(View v) {
+        Intent intent = new Intent();
         switch (v.getId()) {
-            case R.id.address_txt_home:
+            case R.id.usead_home_ll:
                 //选择家地址
-                Address addressHome = allAddress.getHomeAddress();
-                Intent intentHome = new Intent(this, GetLocationActivity.class);
-                if (addressHome == null) {
-                    addressHome = new Address();
-                }
-                intentHome.putExtra(GetLocationActivity.EXTRA_INIT_ADDRESS, addressHome);
-                startActivityForResult(intentHome, REQUEST_CODE_HOME);
+                intent.setClass(AddressActivity.this, LocateSelectActivity.class);
+                intent.putExtra(LocateSelectActivity.WHEREINTO, 3);
+                startActivityForResult(intent, REQUEST_CODE_HOME);
                 break;
-            case R.id.address_txt_home_park:
+            case R.id.usead_company_ll:
                 //家停车位
-                Address addressHomePark = allAddress.getHomeAddress();
-                Intent intentHomePark = new Intent(this, InputActivity.class);
-                if (addressHomePark != null) {
-                    intentHomePark.putExtra(InputActivity.EXTRA_INIT_CONTENT, addressHomePark.getAddress_info());
-                }
-                startActivityForResult(intentHomePark, REQUEST_CODE_HOME_PARK);
-                break;
-            case R.id.address_txt_company:
-                //公司地址
-                Address addressCompany = allAddress.getCompanyAddress();
-                Intent intentCompany = new Intent(this, GetLocationActivity.class);
-                if (addressCompany == null) {
-                    addressCompany = new Address();
-                }
-                intentCompany.putExtra(GetLocationActivity.EXTRA_INIT_ADDRESS, addressCompany);
-                startActivityForResult(intentCompany, REQUEST_CODE_COMPANY);
-                break;
-            case R.id.address_txt_company_park:
-                //公司车位
-                Address addressCompanyPark = allAddress.getCompanyAddress();
-                Intent intentCompanyPark = new Intent(this, InputActivity.class);
-                if (addressCompanyPark != null) {
-                    intentCompanyPark.putExtra(InputActivity.EXTRA_INIT_CONTENT, addressCompanyPark.getAddress_info());
-                }
-                startActivityForResult(intentCompanyPark, REQUEST_CODE_COMPANY_PARK);
+                intent.setClass(AddressActivity.this, LocateSelectActivity.class);
+                intent.putExtra(LocateSelectActivity.WHEREINTO, 3);
+                startActivityForResult(intent, REQUEST_CODE_COMPANY);
                 break;
         }
     }
@@ -180,31 +118,22 @@ public class AddressActivity extends TitleActivity implements View.OnClickListen
                 //查询用户地址
                 allAddress = null;
                 if (responseJson.getResult() != null) {
+                    Log.i("Tag","Address=>"+responseJson.getResult().toString());
                     allAddress = JSON.parseObject(responseJson.getResult().toString(), AllAddress.class);
                 }
-                if (allAddress == null) {
-                    allAddress = new AllAddress();
-                }
-                Address addressHome = allAddress.getHomeAddress();
-                if (addressHome != null) {
-                    mTxtHome.setText(addressHome.getAddress());
-                    mTxtHomePark.setText(addressHome.getAddress_info());
-                } else {
-                    addressHome = new Address();
-                    addressHome.setUid(uid);
-                    allAddress.setHomeAddress(addressHome);
-                }
+                if (allAddress != null) {
+                    Address addressHome = allAddress.getHomeAddress();
+                    if (addressHome != null) {
+                        mTxtHome.setText(addressHome.getAddress());
+                        mTxtHomePark.setText(addressHome.getAddress_info());
+                    }
 
-                Address addressCompany = allAddress.getCompanyAddress();
-                if (addressCompany != null) {
-                    mTxtCpmpany.setText(addressCompany.getAddress());
-                    mTxtCpmpanyPark.setText(addressCompany.getAddress_info());
-                } else {
-                    addressCompany = new Address();
-                    addressCompany.setUid(uid);
-                    allAddress.setCompanyAddress(addressCompany);
+                    Address addressCompany = allAddress.getCompanyAddress();
+                    if (addressCompany != null) {
+                        mTxtCpmpany.setText(addressCompany.getAddress());
+                        mTxtCpmpanyPark.setText(addressCompany.getAddress_info());
+                    }
                 }
-
                 break;
         }
     }

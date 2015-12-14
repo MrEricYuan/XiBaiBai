@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.jph.xibaibai.R;
 import com.jph.xibaibai.model.entity.BeautyItemProduct;
+import com.jph.xibaibai.model.entity.Product;
 
 import java.util.List;
 
@@ -16,11 +17,11 @@ import java.util.List;
  */
 public class ConfirmProductAdapter extends BaseAdapter {
 
-    private List<BeautyItemProduct> productList = null;
+    private List<Product> productList = null;
 
     private int carType;
 
-    public ConfirmProductAdapter(List<BeautyItemProduct> productList,int carType){
+    public ConfirmProductAdapter(List<Product> productList,int carType){
         this.productList = productList;
         this.carType = carType;
     }
@@ -52,11 +53,11 @@ public class ConfirmProductAdapter extends BaseAdapter {
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
-        BeautyItemProduct product = productList.get(position);
+        Product product = productList.get(position);
         holder.item_product_name.setText(product.getP_name());
-        if(carType == 1){
+        if(carType == 0){
             holder.item_product_price.setText("￥"+product.getP_price());
-        }else if(carType == 2){
+        }else if(carType == 1){
             holder.item_product_price.setText("￥"+product.getP_price2());
         }
         return convertView;

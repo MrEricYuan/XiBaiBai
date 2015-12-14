@@ -91,14 +91,14 @@ public class RecyclerTimeScopeAdapter extends
         Calendar currentCalendar = SystermUtils.getCalendar(SystermUtils.getTimeScope(currentTime));
         Log.i("Tag", "getCheckDay()=" + reserveActivity.getCheckDay());
         if (reserveActivity.getCheckDay() == day && reserveActivity.getCheckTimeScopeId() == timeScope.getId()) {
-            viewHolder.vgBg.setBackgroundColor(resources.getColor(R.color.txt_red));
+            viewHolder.vgBg.setBackgroundColor(resources.getColor(R.color.them_color));
             viewHolder.txtTime.setTextColor(resources.getColor(R.color.white));
             viewHolder.txtEnable.setTextColor(resources.getColor(R.color.white));
         } else {
             viewHolder.vgBg.setBackgroundColor(resources.getColor(R.color.transparent));
             if (isReservable(position)) {
-                viewHolder.txtTime.setTextColor(resources.getColor(R.color.txt_red));
-                viewHolder.txtEnable.setTextColor(resources.getColor(R.color.txt_red));
+                viewHolder.txtTime.setTextColor(resources.getColor(R.color.black_one));
+                viewHolder.txtEnable.setTextColor(resources.getColor(R.color.black_one));
             } else {
                 viewHolder.txtTime.setTextColor(resources.getColor(R.color.txt_darkgray));
                 viewHolder.txtEnable.setTextColor(resources.getColor(R.color.txt_darkgray));

@@ -402,7 +402,9 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
             requestParams.addBodyParameter("file", order.getFileVoice());
         }
 
+
         request(XRequestCallBack, Tasks.NEWORDER, "/order_insert", requestParams,null);
+
     }
 
     @Override
@@ -420,8 +422,11 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
         requestParams.addBodyParameter("address_lg", address.getAddress_lg());
         requestParams.addBodyParameter("address_lt", address.getAddress_lt());
         requestParams.addBodyParameter("address_info", address.getAddress_info());
+        Log.i("Tag", "地址备注=>" + address.getAddress_info()+"address_lg="+address.getAddress_lg()+"address_lt="+address.getAddress_lt());
         requestParams.addBodyParameter("address_type", String.valueOf(address.getAddress_type()));
+
         request(XRequestCallBack, Tasks.SETADDRESS, "/address_insert", requestParams,null);
+
     }
 
     @Override
@@ -483,10 +488,10 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
 
     @Override
     public void confirmOrderInfo(ConfirmOrder confirmOrder) {
-        Log.i("Tag", "执行了confirmOrderInfo");
         RequestParams requestParams = createRequestParams();
         requestParams.addBodyParameter("uid", confirmOrder.getUserId());
         requestParams.addBodyParameter("location", confirmOrder.getCarAddress());
+        requestParams.addBodyParameter("remark", confirmOrder.getReMark());
         requestParams.addBodyParameter("location_lg", confirmOrder.getCarLocateLg());
         requestParams.addBodyParameter("location_lt", confirmOrder.getCarLocateLt());
         requestParams.addBodyParameter("p_ids", confirmOrder.getProductId());
@@ -494,6 +499,11 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
         requestParams.addBodyParameter("c_ids", confirmOrder.getCarsId());
         if (confirmOrder.getCouponsId() != -1) {
             requestParams.addBodyParameter("coupons_id", confirmOrder.getCouponsId() + "");
+        }
+        if(confirmOrder.getAppointDay() != 0){
+            requestParams.addBodyParameter("day", confirmOrder.getAppointDay()+"");
+            requestParams.addBodyParameter("p_order_time_cid", confirmOrder.getAppointTimeId()+"");
+            Log.i("Tag", "day=" + confirmOrder.getAppointDay() + "/p_order_time_cid="+confirmOrder.getAppointTimeId());
         }
         Log.i("Tag", "uid=" + confirmOrder.getUserId());
         Log.i("Tag", "location=" + confirmOrder.getCarAddress());
@@ -507,7 +517,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
             requestParams.addBodyParameter("remark", confirmOrder.getReMark());
         }
         if (!"".equals(confirmOrder.getAppointDay())) {
-            requestParams.addBodyParameter("day", confirmOrder.getAppointDay());
+            requestParams.addBodyParameter("day", confirmOrder.getAppointDay()+"");
         }
         if (confirmOrder.getAudioFile() != null) {
             requestParams.addBodyParameter("audio", confirmOrder.getAudioFile());

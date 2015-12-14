@@ -580,8 +580,8 @@ public class PlaceOrderActivity extends TitleActivity implements View.OnClickLis
                 }
                 Intent orderDetIntent = new Intent(PlaceOrderActivity.this, PlaceOrderDetailActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(PlaceOrderDetailActivity.orderDatas, confirmOrder);
-                bundle.putSerializable(PlaceOrderDetailActivity.carTypeFlag, carType);
+                bundle.putSerializable(PlaceOrderDetailActivity.ODERDATAS, confirmOrder);
+                bundle.putSerializable(PlaceOrderDetailActivity.CARTYOEFLAG, carType);
                 orderDetIntent.putExtras(bundle);
                 startActivity(orderDetIntent);
                 break;

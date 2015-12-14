@@ -138,7 +138,6 @@ public class BaseActivity extends AppCompatActivity implements Init, XRequestCal
     public void startActivity(Class<?> cls) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
-
     }
 
     public void showProgressDialog() {

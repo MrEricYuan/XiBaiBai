@@ -1,7 +1,11 @@
 package com.jph.xibaibai.ui.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,7 +16,9 @@ import com.alibaba.fastjson.JSON;
 import com.jph.xibaibai.R;
 import com.jph.xibaibai.adapter.ChoiceBeautyAdapter;
 import com.jph.xibaibai.adapter.ChoiceDIYAdapter;
+import com.jph.xibaibai.model.entity.Address;
 import com.jph.xibaibai.model.entity.BeautyItemProduct;
+import com.jph.xibaibai.model.entity.ConfirmOrder;
 import com.jph.xibaibai.model.entity.Coupon;
 import com.jph.xibaibai.model.entity.DIYSubBean;
 import com.jph.xibaibai.model.entity.MyCoupons;
@@ -22,6 +28,7 @@ import com.jph.xibaibai.model.http.APIRequests;
 import com.jph.xibaibai.model.http.IAPIRequests;
 import com.jph.xibaibai.model.http.Tasks;
 import com.jph.xibaibai.ui.activity.base.BaseActivity;
+import com.jph.xibaibai.ui.activity.base.TitleActivity;
 import com.jph.xibaibai.utils.Constants;
 import com.jph.xibaibai.utils.StringUtil;
 import com.jph.xibaibai.utils.SystermUtils;
@@ -32,17 +39,21 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
  * Created by Eric on 2015/12/1.
  * 新下单页面
  */
-public class PlaceOrdersActivity extends BaseActivity implements View.OnClickListener {
+public class PlaceOrdersActivity extends TitleActivity implements View.OnClickListener {
     // HomeWeb传入的选择的产品
     public static String HOMEWEB_PRODUCT_LIST = "homeWeb_productList";
     // HomeWeb传入的选择的产品的标志（美容或者DIY）
     public static String HOMEWEB_PRODUCT_FLAG = "homeWeb_productFlag";
+    // 地图页面进入下单页面
+    public static String MAPADDRESS = "mapAddressInfo";
     // 获取HomeWeb传入的标志
     private int homeWebFlag = -1;
     // 访问网络
@@ -61,6 +72,10 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
     private final int diyIntentCode = 1001;
     // 美容项目请求码
     private final int beautyIntentCode = 1002;
+    // 车辆位置
+    private final int locateIntentCode = 1003;
+    // 预约时间点
+    public final int timeScopeCode = 1010;
     // diy选中的列表
     private List<Product> diyProductList = null;
     // 选中diy的适配器
@@ -69,6 +84,8 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
     private List<Product> beautyProductList = null;
     // 美容项目的选中的适配器
     private ChoiceBeautyAdapter choiceBeautyAdapter = null;
+    // 所有产品的封装
+    private List<Product> allProductList = null;
     // DIY总价格
     private double diyTotalPrice = 0.0;
     // 美容总价格
@@ -79,11 +96,35 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
     private double allCarWashPrice = 0.0;
     // 总价格
     private double totalPrice = 0.0;
+    // 选中产品的id的拼接
+    private String productId = "";
     // 外部洗车洗车方式的id
     private int extralWashCarId = 0;
     // 内+外洗车方式的id
     private int allWashCarId = 0;
+    // 车辆位置
+    private Address address = null;
 
+    private LocalBroadcastManager lBManager = null;
+
+    private LocalReceiver localReceiver = null;
+    // 预约的日期
+    private long appointDay = 0;
+    // 预约的时间段
+    private int appointTimeId = 0;
+    // 确认订单数据的封装
+    private ConfirmOrder confirmOrder = null;
+    // 从优惠券界面选中的优惠券
+    private Coupon choiceCoupon = null;
+    // 抵用券价格
+    private double couponsPrice = 0.0;
+    // 优惠券的id
+    private int couponsId = -1;
+    // 优惠券的位置
+    private int position = -1;
+
+    @ViewInject(R.id.places_submit_tv)
+    TextView common_submit_tv;
     @ViewInject(R.id.title_txt)
     private TextView title_txt;
     @ViewInject(R.id.place_extral_check)
@@ -98,7 +139,7 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
     private ListView place_choicediy_lv; // 已经选中的DIY项目
     @ViewInject(R.id.place_choicebeauty_lv)
     private ListView place_choicebeauty_lv; // 已选中的美容项目
-    @ViewInject(R.id.common_total_price)
+    @ViewInject(R.id.place_total_price)
     private TextView total_price; // 总价
     @ViewInject(R.id.place_yuyue_time)
     private TextView yuyue_time; // 预约时间
@@ -106,10 +147,16 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
     private ImageView shangmen_rb;
     @ViewInject(R.id.place_reserver_rb)
     private ImageView reserver_rb;
+    @ViewInject(R.id.place_location_tv)
+    TextView location_tv;
+    @ViewInject(R.id.place_coupons_tv)
+    TextView coupons_tv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_orders);
+        getDataBroadcast();
     }
 
     @Override
@@ -117,8 +164,10 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
         super.initData();
         initOtherDatas();
         uid = SPUserInfo.getsInstance(this).getSPInt(SPUserInfo.KEY_USERID);
+        address = (Address) getIntent().getSerializableExtra(MAPADDRESS);
         apiRequests = new APIRequests(this);
         apiRequests.getWashPrice();
+        apiRequests.getCoupons(uid);
     }
 
     /**
@@ -143,6 +192,8 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
     public void initView() {
         super.initView();
         title_txt.setText(getString(R.string.place_order));
+        setAddressInfo();
+        common_submit_tv.setOnClickListener(this);
     }
 
     @Override
@@ -163,6 +214,25 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
                 beautyProductList = (List<Product>) data.getSerializableExtra("beautyProductList");
                 initBeautyAdapter();
                 break;
+            case locateIntentCode:
+                address = (Address) data.getSerializableExtra("LocateAddress");
+                if (address != null) {
+                    if (address.getAddress().contains(getString(R.string.place_provence))) {
+                        String[] str = address.getAddress().split(getString(R.string.place_provence));
+                        Log.i("Tag", "str=>" + str.length);
+                        location_tv.setText(str[1] + address.getAddress_info());
+                    } else {
+                        location_tv.setText(address.getAddress_info() + address.getAddress_info());
+                    }
+                }
+                break;
+            case timeScopeCode:
+                appointDay = data.getLongExtra("selectedDay", 0);
+                appointTimeId = data.getIntExtra("selectedTimeScopeId", 0);
+                if (appointDay != 0) {
+                    yuyue_time.setText(data.getStringExtra("selectedDate") + data.getStringExtra("selectedTimeScope"));
+                }
+                break;
         }
     }
 
@@ -180,14 +250,15 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
             place_choicediy_lv.setVisibility(View.GONE);
         }
         SystermUtils.setListViewHeight(place_choicediy_lv);
+        caculateTotalPrice();
     }
 
     /**
      * 初始化美容选中项目的适配器
      */
     private void initBeautyAdapter() {
-        if(isFreeWashCar()){
-            if(checkState[0]){
+        if (isFreeWashCar()) {
+            if (checkState[0]) {
                 checkState[0] = false;
                 extral_check.setImageResource(R.mipmap.place_unchecked);
             }
@@ -196,10 +267,10 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
             place_choicebeauty_lv.setVisibility(View.VISIBLE);
             choiceBeautyAdapter = new ChoiceBeautyAdapter(beautyProductList, carType);
             place_choicebeauty_lv.setAdapter(choiceBeautyAdapter);
-            caculateTotalPrice();
         } else {
             place_choicebeauty_lv.setVisibility(View.GONE);
         }
+        caculateTotalPrice();
         SystermUtils.setListViewHeight(place_choicebeauty_lv);
     }
 
@@ -255,6 +326,13 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
         } else {
             totalPrice = diyTotalPrice + beautyTotalPrice;
         }
+        if(couponsPrice >= totalPrice){
+            coupons_tv.setText(getString(R.string.coupons_use)+totalPrice);
+            totalPrice = 0.0;
+        }else {
+            coupons_tv.setText(getString(R.string.coupons_use) + couponsPrice);
+            totalPrice = totalPrice - couponsPrice;
+        }
         total_price.setText(getString(R.string.DIYSub_totalPrice) + totalPrice);
     }
 
@@ -272,12 +350,88 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
             case Tasks.GETCOUPONS://得到优惠券
                 if (!StringUtil.isNull(responseJson.getResult().toString())) {
                     couponsList = JSON.parseArray(responseJson.getResult().toString(), Coupon.class);
+                    getCouponsMoney();
+                    if(couponsId != -1){
+                        couponsPrice = Double.parseDouble(couponsList.get(position).getCoupons_price());
+                    }
+                    Log.i("Tag", "couponsPrice=>" + couponsPrice + "/couponsId=" + couponsId);
                 }
         }
     }
 
+    private void packageData() {
+        productId = "";
+        if (address == null) {
+            showToast("请先设置车辆位置");
+            return;
+        }
+        if (allProductList == null) {
+            allProductList = new ArrayList<>();
+        } else {
+            allProductList.removeAll(allProductList);
+        }
+        if (checkState[0] && washCarPriceList != null) {
+            allProductList.add(washCarPriceList.get(0));
+            productId = productId + extralWashCarId + ",";
+        }
+        if (checkState[1] && washCarPriceList != null) {
+            allProductList.add(washCarPriceList.get(1));
+            productId = productId + allWashCarId + ",";
+        }
+        if (diyProductList != null) {
+            allProductList.addAll(diyProductList);
+            for (Product product : diyProductList) {
+                productId = productId + product.getId() + ",";
+            }
+        }
+        if (beautyProductList != null) {
+            allProductList.addAll(beautyProductList);
+            for (Product product : beautyProductList) {
+                productId = productId + product.getId() + ",";
+            }
+        }
+        if (StringUtil.isNull(productId)) {
+            showToast("请选择服务项目");
+            return;
+        }
+        if (checkState[3] && appointDay == 0) {
+            showToast("请设置预约时间点");
+            return;
+        }
+        if (!checkState[2] && !checkState[3]) {
+            showToast("请设置服务时间");
+            return;
+        }
+        if (confirmOrder == null) {
+            confirmOrder = new ConfirmOrder();
+        }
+        confirmOrder.setUserId(uid + "");
+        confirmOrder.setCarAddress(address.getAddress());
+        confirmOrder.setReMark(address.getAddress_info());
+        confirmOrder.setCarLocateLg(address.getAddress_lg());  // 经度
+        confirmOrder.setCarLocateLt(address.getAddress_lt()); //纬度
+        confirmOrder.setCachProductList(allProductList);
+        Log.i("Tag", "产品总价:" + totalPrice);
+        confirmOrder.setAllTotalPrice(totalPrice + "");
+        confirmOrder.setAppointDay(appointDay);
+        confirmOrder.setAppointTimeId(appointTimeId);
+        if (!StringUtil.isNull(productId)) {
+            productId = productId.substring(0, productId.length() - 1);
+        }
+        confirmOrder.setProductId(productId);
+        Intent intent = new Intent();
+        intent.setClass(PlaceOrdersActivity.this, PlaceOrderDetailActivity.class);
+        intent.putExtra(PlaceOrderDetailActivity.ODERDATAS, confirmOrder);
+        intent.putExtra(PlaceOrderDetailActivity.CARTYOEFLAG, carType);
+        startActivity(intent);
+    }
+
+    private void getProductId() {
+
+    }
+
     @OnClick({R.id.title_img_left, R.id.place_extral_rl, R.id.place_allwash_rl, R.id.place_diyitem_rl, R.id.place_beauty_rl,
-            R.id.place_lacation_rl,R.id.place_shangmen_rl,R.id.place_yuyue_rl,R.id.common_submit_tv})
+            R.id.place_lacation_rl, R.id.place_shangmen_rl, R.id.place_yuyue_rl})
     @Override
     public void onClick(View v) {
         Intent intent = new Intent();
@@ -286,7 +440,7 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.place_extral_rl: // 外部清洗
-                if(isFreeWashCar()){
+                if (isFreeWashCar()) {
                     showToast(getString(R.string.place_freewash));
                     return;
                 }
@@ -328,52 +482,140 @@ public class PlaceOrdersActivity extends BaseActivity implements View.OnClickLis
                 startActivityForResult(intent, beautyIntentCode);
                 break;
             case R.id.place_lacation_rl: // 获取车的位置信息
-
+                intent.setClass(PlaceOrdersActivity.this, AddressSelectActivity.class);
+                startActivityForResult(intent, locateIntentCode);
                 break;
             case R.id.place_shangmen_rl: // 即刻上门
-                if(checkState[2]){
+                if (checkState[2]) {
                     checkState[2] = false;
                     shangmen_rb.setImageResource(R.mipmap.place_unchecked);
-                }else {
+                } else {
                     checkState[2] = true;
                     shangmen_rb.setImageResource(R.mipmap.place_checked);
-                    if(checkState[3]){
+                    if (checkState[3]) {
+                        appointDay = 0;
+                        appointTimeId = 0;
                         checkState[3] = false;
                         reserver_rb.setImageResource(R.mipmap.place_unchecked);
                     }
                 }
-                 break;
+                break;
             case R.id.place_yuyue_rl: // 预约
-                if(checkState[3]){
+                if (checkState[3]) {
+                    appointDay = 0;
+                    appointTimeId = 0;
                     checkState[3] = false;
                     reserver_rb.setImageResource(R.mipmap.place_unchecked);
-                }else {
+                    yuyue_time.setText("");
+                } else {
                     checkState[3] = true;
                     reserver_rb.setImageResource(R.mipmap.place_checked);
-                    if(checkState[2]){
+                    if (checkState[2]) {
                         checkState[2] = false;
                         shangmen_rb.setImageResource(R.mipmap.place_unchecked);
                     }
+                    intent.setClass(PlaceOrdersActivity.this, ApointmentTimeActivity.class);
+                    startActivityForResult(intent, timeScopeCode);
                 }
                 break;
-            case R.id.common_submit_tv: // 提交订单
-
+            case R.id.places_submit_tv: // 提交订单
+                packageData();
                 break;
         }
     }
 
     /**
      * 判断是否免费外观清洗
+     *
      * @return
      */
-    private boolean isFreeWashCar(){
-        if(beautyProductList != null){
-            for(Product product:beautyProductList){
-                if(product.getP_freewash() == 1){
+    private boolean isFreeWashCar() {
+        if (beautyProductList != null) {
+            for (Product product : beautyProductList) {
+                if (product.getP_freewash() == 1) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    private void getDataBroadcast() {
+        localReceiver = new LocalReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.xbb.broadcast.UPDATE_ADDRESS");
+        //通过LocalBroadcastManager的getInstance()方法得到它的一个实例
+        lBManager = LocalBroadcastManager.getInstance(this);
+        lBManager.registerReceiver(localReceiver, intentFilter);
+    }
+
+    class LocalReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals("com.xbb.broadcast.UPDATE_ADDRESS")) {
+                if (intent == null) {
+                    return;
+                }
+                address = (Address) intent.getSerializableExtra("LocateAddress");
+                setAddressInfo();
+            }
+        }
+    }
+
+    /**
+     * 设置车辆位置信息
+     */
+    private void setAddressInfo() {
+        String location = "";
+        String carLocation = "";
+        if (address != null) {
+            location = address.getAddress();
+            if (StringUtil.isNull(location)) {
+                return;
+            }
+            if (address.getAddress().contains(getString(R.string.place_provence))) {
+                String[] str = address.getAddress().split(getString(R.string.place_provence));
+                carLocation = address.getAddress_info();
+                if (!StringUtil.isNull(carLocation)) {
+                    location_tv.setText(str[1] + address.getAddress_info());
+                } else {
+                    location_tv.setText(str[1]);
+                }
+            } else {
+                if (!StringUtil.isNull(carLocation)) {
+                    location_tv.setText(address.getAddress_info() + address.getAddress_info());
+                } else {
+                    location_tv.setText(address.getAddress_info());
+                }
+            }
+        }
+    }
+
+    /**
+     * 得到优惠的价格
+     */
+    private void getCouponsMoney() {
+        if (couponsList == null) {
+            return;
+        }
+        if (couponsList.size() == 0) {
+            return;
+        }
+        Log.i("Tag", "couponsList=" + couponsList.size());
+        long litleTime = Long.parseLong(couponsList.get(0).getExpired_time());
+        couponsId = couponsList.get(0).getId();
+        position = 0;
+        for (int i = 0; i < couponsList.size(); i++) {
+            Coupon coupon = couponsList.get(i);
+            // 得到现金抵用券
+            if (coupon.getState() == 0) {
+                if (litleTime > Long.parseLong(coupon.getExpired_time())) {
+                    Log.i("Tag", "couponsList=" + litleTime + "//" + Long.parseLong(coupon.getExpired_time()));
+                    litleTime = Long.parseLong(coupon.getExpired_time());
+                    position = i;
+                    couponsId = coupon.getId();
+                }
+            }
+        }
     }
 }

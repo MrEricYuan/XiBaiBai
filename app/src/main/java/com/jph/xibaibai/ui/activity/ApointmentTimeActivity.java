@@ -20,10 +20,16 @@ import com.jph.xibaibai.model.http.APIRequests;
 import com.jph.xibaibai.model.http.IAPIRequests;
 import com.jph.xibaibai.model.http.Tasks;
 import com.jph.xibaibai.ui.activity.base.BaseActivity;
+import com.jph.xibaibai.ui.activity.base.TitleActivity;
 import com.jph.xibaibai.ui.fragment.TimeScopeFragment;
 import com.jph.xibaibai.utils.TimeUtil;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,7 +39,7 @@ import java.util.List;
  * Created by Eric on 2015/11/8.
  * 预约时间点选择
  */
-public class ApointmentTimeActivity extends BaseActivity implements View.OnClickListener,
+public class ApointmentTimeActivity extends TitleActivity implements View.OnClickListener,
         RadioGroup.OnCheckedChangeListener, ViewPager.OnPageChangeListener {
 
     @ViewInject(R.id.apoint_rgroup_day)
@@ -44,20 +50,14 @@ public class ApointmentTimeActivity extends BaseActivity implements View.OnClick
     private RadioButton apoint_rbtn_tommorow;//明天
     @ViewInject(R.id.apoint_rbtn_aftertommorow)
     private RadioButton apoint_rbtn_aftertommorow;//后天
-    @ViewInject(R.id.apoint_time_gridview)
-    private GridView apoint_time_gridview;
-    @ViewInject(R.id.apoint_cancel_btn)
-    private Button apoint_cancel_btn; //取消按钮
-    @ViewInject(R.id.apoint_cofirm_btn)
-    private Button apoint_cofirm_btn; // 确认按钮
     @ViewInject(R.id.reserve_pager_timescope)
     private ViewPager reserve_pager_timescope;
 
     private long day0, day1, day2;
 
     private IAPIRequests mAPIRequests;
-
-    private int mCheckTimeScopeId = -1;  //时间段的id
+    //选中的时间段的id
+    private int mCheckTimeScopeId = -1;
 
     private int pagePosition = -1; // 选中的是哪一个page页面
 
@@ -77,12 +77,10 @@ public class ApointmentTimeActivity extends BaseActivity implements View.OnClick
     @Override
     public void initData() {
         apoint_rbtn_today.setText("今天");
-        day0 = System.currentTimeMillis()/1000;
+        day0 = System.currentTimeMillis() / 1000;
         day1 = day0 + 24 * 60 * 60;
         day2 = day0 + 2 * 24 * 60 * 60;
         apoint_rgroup_day.setOnCheckedChangeListener(this);
-        apoint_cancel_btn.setOnClickListener(this);
-        apoint_cofirm_btn.setOnClickListener(this);
         reserve_pager_timescope.addOnPageChangeListener(this);
     }
 
@@ -95,33 +93,33 @@ public class ApointmentTimeActivity extends BaseActivity implements View.OnClick
         apoint_rbtn_aftertommorow.setText(TimeUtil.getFormatStringByMill(day2, "MM月dd日"));
     }
 
+    @OnClick({R.id.apoint_cofirm_btn})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.apoint_cancel_btn:
-                // 取消按钮
-                finish();
-                break;
             case R.id.apoint_cofirm_btn:
                 // 确认按钮
                 Log.i("Tag", "currentDay=" + getCheckDay() + "productId=" + getCheckTimeScopeId() + "pageIndex=" + pagePosition);
-                if(allTimeScope != null){
-                }
                 Intent intent = new Intent();
-                intent.putExtra("selectedDay",getCheckDay());
-                intent.putExtra("selectedTimeScopeId", getCheckTimeScopeId());
-                intent.putExtra("selectedTimeScope",getCurrentTime());
-                intent.putExtra("selectedDate", getCurrentDate());
-                setResult(RESULT_OK,intent);
+                if (getCheckTimeScopeId() != -1) {
+                    intent.putExtra("selectedDay", getCheckDay());
+                    intent.putExtra("selectedTimeScopeId", getCheckTimeScopeId());
+                    intent.putExtra("selectedTimeScope", getCurrentTime());
+                    intent.putExtra("selectedDate", getCurrentDate());
+                }
+                setResult(RESULT_OK, intent);
                 finish();
                 break;
         }
     }
 
-    private String getCurrentDate(){
-        switch (pagePosition){
+    private String getCurrentDate() {
+        if(mCheckTimeScopeId == -1){
+            return "";
+        }
+        switch (pagePosition) {
             case 1:
-                return apoint_rbtn_tommorow.getText().toString();
+                return apoint_rbtn_today.getText().toString();
             case 2:
                 return apoint_rbtn_tommorow.getText().toString();
             case 3:
@@ -130,17 +128,32 @@ public class ApointmentTimeActivity extends BaseActivity implements View.OnClick
         return "";
     }
 
-    private String getCurrentTime(){
-        if(allTimeScope == null){
+    private String getCurrentTime() {
+        if (allTimeScope == null || mCheckTimeScopeId == -1) {
             return "";
         }
-        switch (pagePosition){
+        switch (pagePosition) {
             case 1:
-                return allTimeScope.getOne().get(getCheckTimeScopeId()).getTime();
+                for(int i = 0;i<allTimeScope.getOne().size();i++){
+                    if(allTimeScope.getOne().get(i).getId() == mCheckTimeScopeId){
+                        return allTimeScope.getOne().get(i).getTime();
+                    }
+                }
+                break;
             case 2:
-                return allTimeScope.getTwo().get(getCheckTimeScopeId()).getTime();
+                for(int i = 0;i<allTimeScope.getTwo().size();i++){
+                    if(allTimeScope.getTwo().get(i).getId() == mCheckTimeScopeId){
+                        return allTimeScope.getTwo().get(i).getTime();
+                    }
+                }
+                break;
             case 3:
-                return allTimeScope.getThree().get(getCheckTimeScopeId()).getTime();
+                for(int i = 0;i<allTimeScope.getThree().size();i++){
+                    if(allTimeScope.getThree().get(i).getId() == mCheckTimeScopeId){
+                        return allTimeScope.getThree().get(i).getTime();
+                    }
+                }
+                break;
         }
         return "";
     }
@@ -219,8 +232,8 @@ public class ApointmentTimeActivity extends BaseActivity implements View.OnClick
         return mCheckTimeScopeId;
     }
 
-    public void setCheckTimeScopeId(int checkTimeScopeId) {
-        this.mCheckTimeScopeId = checkTimeScopeId;
+    public void setCheckTimeScopeId(int mCheckTimeScopeId) {
+        this.mCheckTimeScopeId = mCheckTimeScopeId;
         for (int i = 0; i < fragAdapter.getCount(); i++) {
             TimeScopeFragment timeScopeFrag = (TimeScopeFragment) fragAdapter.getItem(i);
             timeScopeFrag.notifyRefresh();

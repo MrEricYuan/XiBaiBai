@@ -2,174 +2,112 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg"
+    android:background="@color/bg_gray_one"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/usead_home_ll"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/txtsize_l"
-        android:layout_marginTop="@dimen/txtsize_l"
-        android:text="家庭常用地址"
-        android:textColor="@color/txt_gray"
-        android:textSize="@dimen/txtsize_s" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_divider"
-        android:layout_marginTop="@dimen/margin_l"
-        android:background="@color/divider" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/margin_l"
-        android:paddingRight="@dimen/margin_l">
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/address_icon_home" />
-
-        <TextView
-            android:id="@+id/address_txt_home"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_s"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:textColor="@color/txt_black"
-            android:textSize="@dimen/txtsize_m" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_go" />
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/dp_five"
+        android:background="@color/white">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_fourty_eight"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_eight"
+                android:src="@mipmap/address_home"/>
+            <TextView
+                android:id="@+id/usead_home_locate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/sp_sixteen"
+                android:layout_marginLeft="@dimen/dp_twelve"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_one"
+            android:background="@mipmap/line_one"
+            android:layout_marginLeft="@dimen/dp_eight"
+            android:layout_marginRight="@dimen/dp_eight"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_fourty_eight"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_eight"
+                android:src="@mipmap/address_remark"/>
+            <TextView
+                android:id="@+id/usead_home_mark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/sp_sixteen"
+                android:layout_marginLeft="@dimen/dp_twelve"/>
+        </LinearLayout>
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_divider"
-        android:background="@color/divider" />
-
     <LinearLayout
+        android:id="@+id/usead_company_ll"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/margin_l"
-        android:paddingRight="@dimen/margin_l">
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/address_icon_home_park" />
-
-        <TextView
-            android:id="@+id/address_txt_home_park"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_s"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:textColor="@color/txt_black"
-            android:textSize="@dimen/txtsize_m" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_go" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_divider"
-        android:background="@color/divider" />
-
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/txtsize_l"
-        android:layout_marginTop="@dimen/txtsize_l"
-        android:text="公司常用地址"
-        android:textColor="@color/txt_gray"
-        android:textSize="@dimen/txtsize_s" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_divider"
-        android:layout_marginTop="@dimen/margin_l"
-        android:background="@color/divider" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/margin_l"
-        android:paddingRight="@dimen/margin_l">
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/address_icon_company" />
-
-        <TextView
-            android:id="@+id/address_txt_company"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_s"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:textColor="@color/txt_black"
-            android:textSize="@dimen/txtsize_m" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_go" />
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/dp_five"
+        android:background="@color/white">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_fourty_eight"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_eight"
+                android:src="@mipmap/address_company"/>
+            <TextView
+                android:id="@+id/usead_company_locate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/sp_sixteen"
+                android:layout_marginLeft="@dimen/dp_twelve"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_one"
+            android:background="@mipmap/line_one"
+            android:layout_marginLeft="@dimen/dp_eight"
+            android:layout_marginRight="@dimen/dp_eight"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_fourty_eight"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_eight"
+                android:src="@mipmap/address_remark"/>
+            <TextView
+                android:id="@+id/usead_company_mark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/sp_sixteen"
+                android:layout_marginLeft="@dimen/dp_twelve"/>
+        </LinearLayout>
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_divider"
-        android:background="@color/divider" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/margin_l"
-        android:paddingRight="@dimen/margin_l">
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/address_icon_company_park" />
-
-        <TextView
-            android:id="@+id/address_txt_company_park"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_s"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:gravity="center_vertical"
-            android:textColor="@color/txt_black"
-            android:textSize="@dimen/txtsize_m" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_go" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_divider"
-        android:background="@color/divider" />
 
 </LinearLayout>

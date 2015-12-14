@@ -22,14 +22,14 @@ import com.jph.xibaibai.model.http.IAPIRequests;
 import com.jph.xibaibai.model.http.Tasks;
 import com.jph.xibaibai.mview.DividerItemDecoration;
 import com.jph.xibaibai.ui.activity.base.TitleActivity;
+import com.jph.xibaibai.utils.SystermUtils;
 import com.jph.xibaibai.utils.sp.SPUserInfo;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 /**
  * Created by jph on 2015/8/27.
  */
-public class CarsActivity extends TitleActivity implements SwipeRefreshLayout.OnRefreshListener,
-        BaseRecyclerAdapter.OnItemClickListener, RecyclerCarAdapter.CarOnClickListener {
+public class CarsActivity extends TitleActivity implements SwipeRefreshLayout.OnRefreshListener, RecyclerCarAdapter.CarOnClickListener{
 
     private int uuid;
     private IAPIRequests mApiRequests;
@@ -66,10 +66,9 @@ public class CarsActivity extends TitleActivity implements SwipeRefreshLayout.On
         super.initView();
         setTitle("常用车辆");
         showTitleBtnRight("添加");
-
         LinearLayoutManager llm = new LinearLayoutManager(this);
         recyclerViewCar.setLayoutManager(llm);
-        recyclerViewCar.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL, R.drawable.shape_divideline_car));
+//        recyclerViewCar.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL, R.drawable.shape_divideline_car));
     }
 
     @Override
@@ -81,7 +80,6 @@ public class CarsActivity extends TitleActivity implements SwipeRefreshLayout.On
     @Override
     protected void onClickTitleRight(View v) {
         super.onClickTitleRight(v);
-
         startActivity(AddCarActivity.class);
     }
 
@@ -115,30 +113,37 @@ public class CarsActivity extends TitleActivity implements SwipeRefreshLayout.On
                     allCar = JSON.parseObject(responseJson.getResult().toString(), AllCar.class);
                 }
                 carAdapter = new RecyclerCarAdapter(allCar);
-                carAdapter.setOnItemClickListener(this);
                 carAdapter.setCarOnClickListener(this);
                 recyclerViewCar.setAdapter(carAdapter);
                 break;
             case Tasks.DELETECAR:
                 showToast("删除车辆成功");
                 carAdapter.deleteItem(deletePosition);
+                SystermUtils.isUpdateCar = true;
                 break;
             case Tasks.SETDEFAULTCAR:
                 carAdapter.getAllCar().setDefaultId(carAdapter.getItem(setDefaultPosition).getId());
                 carAdapter.notifyDataSetChanged();
+                SystermUtils.isUpdateCar = true;
                 break;
         }
     }
 
     @Override
-    public void onItemClick(View v, int position) {
+    public void onClickSetDefault(int position) {
+        setDefaultPosition = position;
+        mApiRequests.setDefaultCar(uuid, carAdapter.getItem(position).getId());
+    }
+
+    @Override
+    public void onClickEditCar(int position) {
         Intent intentEdit = new Intent(this, AddCarActivity.class);
         intentEdit.putExtra(AddCarActivity.EXTRA_CAR, carAdapter.getItem(position));
         startActivity(intentEdit);
     }
 
     @Override
-    public void onItemLongClick(View v, final int position) {
+    public void onClickDeleteCar(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("确认删除该车辆吗？");
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
@@ -154,11 +159,5 @@ public class CarsActivity extends TitleActivity implements SwipeRefreshLayout.On
         });
         builder.setNegativeButton("取消", null);
         builder.create().show();
-    }
-
-    @Override
-    public void onClickSetDefault(int position) {
-        setDefaultPosition = position;
-        mApiRequests.setDefaultCar(uuid, carAdapter.getItem(position).getId());
     }
 }

@@ -8,10 +8,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -19,10 +16,8 @@ import com.jph.xibaibai.R;
 import com.jph.xibaibai.adapter.ConfirmProductAdapter;
 import com.jph.xibaibai.alipay.Alipay;
 import com.jph.xibaibai.alipay.Product;
-import com.jph.xibaibai.model.entity.BeautyItemProduct;
 import com.jph.xibaibai.model.entity.ConfirmOrder;
 import com.jph.xibaibai.model.entity.ConfirmOrderData;
-import com.jph.xibaibai.model.entity.Order;
 import com.jph.xibaibai.model.entity.ResponseJson;
 import com.jph.xibaibai.model.entity.UserInfo;
 import com.jph.xibaibai.model.http.APIRequests;
@@ -37,8 +32,6 @@ import com.jph.xibaibai.utils.sp.SPUserInfo;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 /**
@@ -47,9 +40,9 @@ import java.util.List;
  */
 public class PlaceOrderDetailActivity extends TitleActivity implements View.OnClickListener {
 
-    public static String orderDatas = "confirmOrder";
+    public static String ODERDATAS = "confirmOrder";
 
-    public static String carTypeFlag = "carType";
+    public static String CARTYOEFLAG = "carType";
 
     private IAPIRequests mAPIRequests = null;
 
@@ -61,7 +54,9 @@ public class PlaceOrderDetailActivity extends TitleActivity implements View.OnCl
 
     private ConfirmProductAdapter confirmProductAdapter = null;
 
-    private List<BeautyItemProduct> cachProductList = null; // 缓存选择洗车服务
+    private List<com.jph.xibaibai.model.entity.Product> cachProductList = null; // 缓存选择洗车服务
+
+    private double totalPrice = 0.0;
 
     @ViewInject(R.id.dorder_name_tv)
     TextView dorder_name_tv; //车主
@@ -69,22 +64,16 @@ public class PlaceOrderDetailActivity extends TitleActivity implements View.OnCl
     TextView dorder_phone_tv; // 车主电话
     @ViewInject(R.id.dorder_carnum_tv)
     TextView dorder_carnum_tv; // 车牌号
-    @ViewInject(R.id.dorder_cartype_tv)
-    TextView dorder_cartype_tv; // 车名称
+    @ViewInject(R.id.dorder_service_time)
+    TextView dorder_service_time; // 服务时间
     @ViewInject(R.id.dorder_carlocate_tv)
     TextView dorder_carlocate_tv; // 车位置
     @ViewInject(R.id.detail_product_lv)
     ListView detail_product_lv; // 产品列表
     @ViewInject(R.id.detail_coupons_tv)
     TextView detail_coupons_tv; // 优惠券
-    @ViewInject(R.id.detail_totalprice_tv)
+    @ViewInject(R.id.common_total_price)
     TextView detail_totalprice_tv; // 总价
-    @ViewInject(R.id.dorder_rgroup_payway)
-    RadioGroup dorder_rgroup_payway; // 选择支付方式的RadioGroup
-    @ViewInject(R.id.dorder_rbtn_alipay)
-    RadioButton dorder_rbtn_alipay; // 支付宝支付
-    @ViewInject(R.id.dorder_btn_pay)
-    Button dorder_btn_pay;// 确认支付按钮
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,16 +89,13 @@ public class PlaceOrderDetailActivity extends TitleActivity implements View.OnCl
     @Override
     public void initData() {
         super.initData();
-        Bundle bundle = getIntent().getExtras();
-        confirmOrder = (ConfirmOrder) bundle.getSerializable(orderDatas);
-        carType = bundle.getInt(carTypeFlag);
         mAPIRequests = new APIRequests(this);
-        detail_product_lv.setFocusable(false);
+        confirmOrder = (ConfirmOrder) getIntent().getSerializableExtra(ODERDATAS);
+        carType = getIntent().getIntExtra(CARTYOEFLAG, 1);
         if (confirmOrder != null) {
-            cachProductList = confirmOrder.getCachList();
+            cachProductList = confirmOrder.getCachProductList();
             setConfirmDatas();
         }
-        dorder_rbtn_alipay.setChecked(true);
         detail_coupons_tv.setText("暂无可用的优惠券");
     }
 
@@ -118,20 +104,32 @@ public class PlaceOrderDetailActivity extends TitleActivity implements View.OnCl
      */
     private void setConfirmDatas() {
         String jsonUserInfo = SPUserInfo.getsInstance(this).getSP(SPUserInfo.KEY_USERINFO);
+        String addressRemark = "";
         if (!TextUtils.isEmpty(jsonUserInfo)) {
             UserInfo userInfo = JSON.parseObject(jsonUserInfo, UserInfo.class);
             dorder_name_tv.setText(userInfo.getUname());
             dorder_phone_tv.setText(userInfo.getIphone());
         }
-        dorder_carnum_tv.setText(confirmOrder.getCarNum());
-        dorder_cartype_tv.setText(confirmOrder.getCarName());
-        dorder_carlocate_tv.setText(confirmOrder.getCarAddress());
-        detail_totalprice_tv.setText("￥" + confirmOrder.getAllTotalPrice());
+        if(SystermUtils.defaultCar != null){
+            confirmOrder.setCarsId(SystermUtils.defaultCar.getId() + "");
+            dorder_carnum_tv.setText(SystermUtils.defaultCar.getC_plate_num() + "\t" + SystermUtils.defaultCar.getC_color() + "\t" + SystermUtils.defaultCar.getC_brand()); // 车牌号
+        }
         if (cachProductList != null) {
             confirmProductAdapter = new ConfirmProductAdapter(cachProductList, carType);
             detail_product_lv.setAdapter(confirmProductAdapter);
             SystermUtils.setListViewHeight(detail_product_lv);
         }
+        addressRemark = confirmOrder.getReMark();
+        if(StringUtil.isNull(addressRemark)){
+            addressRemark = "";
+        }
+        if (confirmOrder.getCarAddress().contains(getString(R.string.place_provence))) {
+            String[] str = confirmOrder.getCarAddress().split(getString(R.string.place_provence));
+            dorder_carlocate_tv.setText(str[1] + addressRemark);
+        }else {
+            dorder_carlocate_tv.setText(confirmOrder.getCarAddress() + addressRemark);
+        }
+        detail_totalprice_tv.setText("￥" + confirmOrder.getAllTotalPrice());
     }
 
     @Override
@@ -184,11 +182,11 @@ public class PlaceOrderDetailActivity extends TitleActivity implements View.OnCl
         alipay.pay(product);
     }
 
-    @OnClick({R.id.dorder_btn_pay})
+    @OnClick({R.id.common_submit_tv})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.dorder_btn_pay:
+            case R.id.common_submit_tv:
                 showDialogConfirmOrder();
                 break;
         }

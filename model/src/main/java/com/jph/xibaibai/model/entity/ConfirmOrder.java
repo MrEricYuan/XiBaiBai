@@ -28,9 +28,9 @@ public class ConfirmOrder implements Serializable {
     /**服务的总价*/
     private String allTotalPrice;
     /**预约的日期*/
-    private String appointDay;
+    private long appointDay;
     /**预约的时刻*/
-    private String appointTimeId;
+    private int appointTimeId;
     /**洗车备注说明*/
     private String reMark;
     /**洗车音频文件备注*/
@@ -39,6 +39,32 @@ public class ConfirmOrder implements Serializable {
     private int couponsId;
     /**缓存的产品*/
     private List<BeautyItemProduct> cachList;
+    /**缓存的产品*/
+    private List<Product> cachProductList;
+
+    public long getAppointDay() {
+        return appointDay;
+    }
+
+    public void setAppointDay(long appointDay) {
+        this.appointDay = appointDay;
+    }
+
+    public int getAppointTimeId() {
+        return appointTimeId;
+    }
+
+    public void setAppointTimeId(int appointTimeId) {
+        this.appointTimeId = appointTimeId;
+    }
+
+    public List<Product> getCachProductList() {
+        return cachProductList;
+    }
+
+    public void setCachProductList(List<Product> cachProductList) {
+        this.cachProductList = cachProductList;
+    }
 
     public String getCarNum() {
         return carNum;
@@ -126,22 +152,6 @@ public class ConfirmOrder implements Serializable {
 
     public void setProductId(String productId) {
         this.productId = productId;
-    }
-
-    public String getAppointDay() {
-        return appointDay;
-    }
-
-    public void setAppointDay(String appointDay) {
-        this.appointDay = appointDay;
-    }
-
-    public String getAppointTimeId() {
-        return appointTimeId;
-    }
-
-    public void setAppointTimeId(String appointTimeId) {
-        this.appointTimeId = appointTimeId;
     }
 
     public String getReMark() {

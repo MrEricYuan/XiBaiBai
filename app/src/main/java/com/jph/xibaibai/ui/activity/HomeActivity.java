@@ -16,26 +16,36 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.jph.xibaibai.R;
 import com.jph.xibaibai.adapter.HomeDIYAdapter;
 import com.jph.xibaibai.adapter.HomepageAdapter;
+import com.jph.xibaibai.model.entity.AllAddress;
+import com.jph.xibaibai.model.entity.AllCar;
+import com.jph.xibaibai.model.entity.Car;
 import com.jph.xibaibai.model.entity.HomeAdBean;
 import com.jph.xibaibai.model.entity.Product;
 import com.jph.xibaibai.model.entity.ResponseJson;
+import com.jph.xibaibai.model.entity.UserInfo;
 import com.jph.xibaibai.model.http.APIRequests;
 import com.jph.xibaibai.model.http.IAPIRequests;
 import com.jph.xibaibai.model.http.Tasks;
 import com.jph.xibaibai.model.utils.Constants;
 import com.jph.xibaibai.mview.MyViewPager;
+import com.jph.xibaibai.mview.SelfDialogView;
+import com.jph.xibaibai.mview.SetInfoDialogView;
 import com.jph.xibaibai.ui.activity.base.BaseActivity;
 import com.jph.xibaibai.utils.MImageLoader;
 import com.jph.xibaibai.utils.StringUtil;
 import com.jph.xibaibai.utils.SystermUtils;
 import com.jph.xibaibai.utils.parsejson.BeautyProductParse;
 import com.jph.xibaibai.utils.parsejson.HomeDataParse;
+import com.jph.xibaibai.utils.sp.SPUserInfo;
 import com.jph.xibaibai.utils.sp.SharePerferenceUtil;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +57,9 @@ import java.util.concurrent.TimeUnit;
  * Created by Eric on 2015/12/1.
  * 软件的主页
  */
-public class HomeActivity extends BaseActivity implements View.OnClickListener,AdapterView.OnItemClickListener {
+public class HomeActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
+    //用户的id
+    private int uid;
     // ViewPage子View的List
     private List<View> viewList = null;
     // 广告的List
@@ -66,6 +78,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,A
     private List<Product> diySubyList = null;
     // DIY适配器
     private HomeDIYAdapter homeDIYAdapter = null;
+    // 得到用户的家庭和公司的地址
+    private AllAddress allAddress = null;
+    // 所有车辆
+    private Car defaultCar = null;
+    // 提示设置车辆的对话框
+    private SetInfoDialogView dialog = null;
 
     @ViewInject(R.id.home_drawerlayout)
     private DrawerLayout drawerLayout;
@@ -97,6 +115,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,A
     private TextView beauty5_price;// 植物蜡价格
     @ViewInject(R.id.home_diyproduct_lv)
     private ListView diyproduct_lv; // diy列表
+    @ViewInject(R.id.main_img_head)
+    ImageView main_img_head;
+    @ViewInject(R.id.menu_user_name)
+    TextView menu_user_name;
+    @ViewInject(R.id.menu_user_phone)
+    TextView menu_user_phone;
 
     private Handler handler = new Handler() {
         @Override
@@ -114,10 +138,19 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,A
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        apiRequests = new APIRequests(this);
         apiRequests.getCarouselAd();
         apiRequests.getBeatyDatas();
         apiRequests.getHomeDIYDatas();
+        apiRequests.getAddress(uid);
+        apiRequests.getCar(uid);
+        apiRequests.getUserInfo(uid);
+    }
+
+    @Override
+    public void initData() {
+        super.initData();
+        apiRequests = new APIRequests(this);
+        uid = SPUserInfo.getsInstance(this).getSPInt(SPUserInfo.KEY_USERID);
     }
 
     @Override
@@ -125,15 +158,28 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,A
         super.initView();
         drawerLayout.setScrimColor(0x32000000);// 设置半透明度
         if (!StringUtil.isNull(SharePerferenceUtil.getLocationInfo(HomeActivity.this).getCity())) {
-                String cityName = SharePerferenceUtil.getLocationInfo(HomeActivity.this).getCity();
-                if (cityName.contains("市")) {
-                    cityName = cityName.replace("市", "");
-                }
-                home_location_tv.setText(cityName);
-                diyproduct_lv.setFocusable(false);
-                Log.i("Tag", "City=>" + cityName);
+            String cityName = SharePerferenceUtil.getLocationInfo(HomeActivity.this).getCity();
+            if (cityName.contains("市")) {
+                cityName = cityName.replace("市", "");
+            }
+            home_location_tv.setText(cityName);
+            diyproduct_lv.setFocusable(false);
+            Log.i("Tag", "City=>" + cityName);
         }
         diyproduct_lv.setOnItemClickListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (SystermUtils.isUpdateCar) {
+            SystermUtils.isUpdateCar = false;
+            apiRequests.getCar(uid);
+        }
+        if(SystermUtils.isUpdateInfo){
+            SystermUtils.isUpdateInfo = false;
+            apiRequests.getUserInfo(uid);
+        }
     }
 
     @Override
@@ -150,7 +196,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,A
             case Tasks.BEAUTYATACODE:
                 beautyList = BeautyProductParse.beautyDataParse(responseJson.getResult().toString());
                 if (beautyList != null && beautyList.size() > 0) {
-                    for(int i = 0;i<beautyList.size();i++){
+                    for (int i = 0; i < beautyList.size(); i++) {
                         initBeautydatas(beautyList.get(i).getP_sort());
                     }
                 }
@@ -163,6 +209,28 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,A
                     SystermUtils.setListViewHeight(diyproduct_lv);
                 }
                 break;
+            case Tasks.GETADDRESS:
+                if (responseJson.getResult() != null) {
+                    allAddress = JSON.parseObject(responseJson.getResult().toString(), AllAddress.class);
+                    SPUserInfo.getsInstance(this).setSP(SPUserInfo.KEY_ALL_ADDRESS, responseJson.getResult().toString());
+                }
+                break;
+            case Tasks.GETCAR:
+                if (responseJson.getResult() != null) {
+                    AllCar allCar = JSON.parseObject(responseJson.getResult().toString(), AllCar.class);
+                    if (allCar != null) {
+                        defaultCar = allCar.getDefaultCar();
+                        SystermUtils.defaultCar = defaultCar;
+                    }
+                }
+                break;
+            case Tasks.GETUSERINFO:
+                SPUserInfo.getsInstance(this).setSP(SPUserInfo.KEY_USERINFO, responseJson.getResult().toString());
+                UserInfo userInfo = JSON.parseObject(responseJson.getResult().toString(), UserInfo.class);
+                MImageLoader.getInstance(HomeActivity.this).displayImageM(userInfo.getU_img(), main_img_head);
+                menu_user_name.setText(userInfo.getUname());
+                menu_user_phone.setText(userInfo.getIphone());
+                break;
         }
     }
 
@@ -170,7 +238,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,A
      * 初始化美容数据
      */
     private void initBeautydatas(int i) {
-        switch (i){
+        switch (i) {
             case 0:
                 beauty1_name.setText(beautyList.get(i).getP_name());
                 beauty1_price.setText((int) beautyList.get(i).getP_price() + "元");
@@ -338,56 +406,107 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,A
         super.onBackPressed();
     }
 
-    @OnClick({R.id.home_washcar_btn, R.id.home_center_btn, R.id.home_inspa_rl, R.id.home_crystal_wax_rl, R.id.home_engine_wash_rl,
-            R.id.home_coating_rl, R.id.home_plant_rl,R.id.menu_order_layout,R.id.menu_ticket_layout})
+    @OnClick({R.id.home_map_img, R.id.home_washcar_btn, R.id.home_center_btn, R.id.home_inspa_rl, R.id.home_crystal_wax_rl, R.id.home_engine_wash_rl,
+            R.id.home_coating_rl, R.id.home_plant_rl, R.id.menu_order_layout, R.id.menu_ticket_layout, R.id.menu_car_layout})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.home_map_img:
+                if(defaultCar == null){
+                    showSetAddressDialog();
+                    return;
+                }
+                Intent intent = new Intent(HomeActivity.this, LocateSelectActivity.class);
+                intent.putExtra(LocateSelectActivity.WHEREINTO, 1);
+                startActivity(intent);
+                break;
             case R.id.home_washcar_btn:// 一键洗车
+                if(defaultCar == null){
+                    showSetAddressDialog();
+                    return;
+                }
                 startActivity(new Intent(HomeActivity.this, PlaceOrdersActivity.class));
                 break;
             case R.id.home_center_btn:// 个人中心
                 toggleLeftLayout();
                 break;
             case R.id.home_inspa_rl:// 内饰SPA
-                if(beautyList != null && beautyList.size() > 0){
-                    HomeWebActivity.startWebActivity(HomeActivity.this,beautyList.get(0),0);
+                if (beautyList != null && beautyList.size() > 0) {
+                    HomeWebActivity.startWebActivity(HomeActivity.this, beautyList.get(0), 0);
                 }
                 break;
             case R.id.home_crystal_wax_rl:// 精制水晶蜡
-                if(beautyList != null && beautyList.size() > 0){
-                    HomeWebActivity.startWebActivity(HomeActivity.this,beautyList.get(1),0);
+                if (beautyList != null && beautyList.size() > 0) {
+                    HomeWebActivity.startWebActivity(HomeActivity.this, beautyList.get(1), 0);
                 }
                 break;
             case R.id.home_engine_wash_rl:// 发送机舱干洗
-                if(beautyList != null && beautyList.size() > 0){
-                    HomeWebActivity.startWebActivity(HomeActivity.this,beautyList.get(2),0);
+                if (beautyList != null && beautyList.size() > 0) {
+                    HomeWebActivity.startWebActivity(HomeActivity.this, beautyList.get(2), 0);
                 }
                 break;
             case R.id.home_coating_rl:// 皮革上光镀膜
-                if(beautyList != null && beautyList.size() > 0){
-                    HomeWebActivity.startWebActivity(HomeActivity.this,beautyList.get(3),0);
+                if (beautyList != null && beautyList.size() > 0) {
+                    HomeWebActivity.startWebActivity(HomeActivity.this, beautyList.get(3), 0);
                 }
                 break;
             case R.id.home_plant_rl:// 天然植物蜡
-                if(beautyList != null && beautyList.size() > 0){
-                    HomeWebActivity.startWebActivity(HomeActivity.this,beautyList.get(4),0);
+                if (beautyList != null && beautyList.size() > 0) {
+                    HomeWebActivity.startWebActivity(HomeActivity.this, beautyList.get(4), 0);
                 }
                 break;
+        }
+    }
+
+    @OnClick({R.id.menu_ticket_layout, R.id.menu_order_layout, R.id.menu_car_layout,R.id.menu_addr_layout,R.id.menu_user_info})
+    public void onClickInLeft(View v) {
+        switch (v.getId()) {
             case R.id.menu_ticket_layout: // 优惠券
-                startActivity(new Intent(HomeActivity.this,SelectTicketActivity.class));
+                startActivity(new Intent(HomeActivity.this, SelectTicketActivity.class));
                 break;
             case R.id.menu_order_layout: // 我的订单
                 startActivity(new Intent(HomeActivity.this, MyOrderSetActivity.class));
                 break;
-        }
-    }
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        switch (parent.getId()){
-            case R.id.home_diyproduct_lv:
-                HomeWebActivity.startWebActivity(HomeActivity.this,diySubyList.get(position),1);
+            case R.id.menu_car_layout: //车辆列表
+                startActivity(CarsActivity.class);
+                break;
+            case R.id.menu_addr_layout://常用地址
+                startActivity(AddressActivity.class);
+                break;
+            case R.id.menu_user_info:
+                startActivity(ProfileCenterActivity.class);
                 break;
         }
+        toggleLeftLayout();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()) {
+            case R.id.home_diyproduct_lv:
+                HomeWebActivity.startWebActivity(HomeActivity.this, diySubyList.get(position), 1);
+                break;
+        }
+    }
+
+    public void showSetAddressDialog() {
+        if(dialog == null){
+            dialog = new SetInfoDialogView(HomeActivity.this);
+        }
+        dialog.setMsgTips(getString(R.string.car_set_tip));
+        dialog.setMessage(getString(R.string.car_set));
+        dialog.setClickListener(new SetInfoDialogView.SetClickListener() {
+            @Override
+            public void cancel() {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void confirm() {
+                dialog.dismiss();
+                startActivity(CarsActivity.class);
+            }
+        });
+        dialog.show();
     }
 }

@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.jph.xibaibai.model.entity.Car;
 import com.jph.xibaibai.model.entity.DIYSubBean;
 import com.jph.xibaibai.ui.activity.ApointmentTimeActivity;
 
@@ -26,6 +27,12 @@ public class SystermUtils {
     public static DIYSubBean diySubBean = new DIYSubBean();
 
     public static boolean[] beautyChoiceState;
+
+    public static Car defaultCar = null;
+
+    public static boolean isUpdateCar = false;
+
+    public static boolean isUpdateInfo = false;
 
     /**
      * 重新估算ListView的高度
@@ -70,7 +77,7 @@ public class SystermUtils {
      */
     public static Calendar getCalendar(long time) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Long timeNum = new Long(time);
+        Long timeNum = new Long(time*1000);
         String d = format.format(timeNum);
         try {
             Date date = format.parse(d);

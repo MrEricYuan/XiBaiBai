@@ -41,6 +41,15 @@
     <string name="DIYSub_totalPrice">合计：￥</string>
     <string name="beauty_title">美容项目</string>
     <string name="place_freewash">打蜡项目送外观清洗</string>
+    <string name="place_provence">省</string>
+    <string name="info_title">个人信息</string>
+    <string name="info_man">男</string>
+    <string name="info_femail">女</string>
+    <string name="info_album">相册</string>
+    <string name="info_take">拍照</string>
+    <string name="info_change_head">更换头像</string>
+    <string name="info_change_name">修改昵称</string>
+    <string name="info_change_name_tip">请输入昵称</string>
     <!--选择优惠券-->
     <string name="ticket_money_unit">元</string>
     <string name="ticket_decline">有效期至</string>
@@ -65,4 +74,8 @@
     <string name="order_info_employee">操作信息</string>
     <string name="order_info_nocomment">未评价</string>
     <string name="order_info_commented">操作信息</string>
+    <string name="address_select">选择车辆位置</string>
+    <string name="car_set">现在设置吧</string>
+    <string name="car_set_tip">您还没设置车辆哦</string>
+    <string name="coupons_use">抵扣￥</string>
 </resources>

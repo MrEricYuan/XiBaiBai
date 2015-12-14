@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jph.xibaibai.R;
@@ -53,6 +54,12 @@ public class RecyclerCarAdapter extends
         TextView txtPlateNum;
         @ViewInject(R.id.itemcar_txt_default)
         TextView txtDefault;
+        @ViewInject(R.id.itemcar_check_img)
+        ImageView icheck_img;
+        @ViewInject(R.id.itemcar_edit_tv)
+        TextView itemcar_edit_tv;
+        @ViewInject(R.id.itemcar_delete_tv)
+        TextView itemcar_delete_tv;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -78,11 +85,13 @@ public class RecyclerCarAdapter extends
         if (defaultShowable) {
             ((ViewHolder) viewHolder).txtDefault.setVisibility(View.VISIBLE);
             if (allCar.getDefaultId() == car.getId()) {
-                viewHolderCar.txtDefault.setBackgroundColor(viewHolderCar.itemView.getResources().getColor(R.color.red));
+                viewHolderCar.icheck_img.setImageResource(R.mipmap.mycar_checked);
+                viewHolderCar.txtDefault.setTextColor(viewHolderCar.itemView.getResources().getColor(R.color.them_color));
                 viewHolderCar.txtDefault.setText("默认车辆");
             } else {
-                viewHolderCar.txtDefault.setBackgroundColor(viewHolderCar.itemView.getResources().getColor(R.color.txt_gray));
-                viewHolderCar.txtDefault.setText("设为默认车辆");
+                viewHolderCar.icheck_img.setImageResource(R.mipmap.mycar_unchecked);
+                viewHolderCar.txtDefault.setTextColor(viewHolderCar.itemView.getResources().getColor(R.color.black_two));
+                viewHolderCar.txtDefault.setText("设为默认");
             }
         } else {
             ((ViewHolder) viewHolder).txtDefault.setVisibility(View.GONE);
@@ -96,11 +105,24 @@ public class RecyclerCarAdapter extends
                 carOnClickListener.onClickSetDefault(position);
             }
         });
-
+        viewHolderCar.itemcar_edit_tv.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                carOnClickListener.onClickEditCar(position);
+            }
+        });
+        viewHolderCar.itemcar_delete_tv.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                carOnClickListener.onClickDeleteCar(position);
+            }
+        });
     }
 
     public interface CarOnClickListener {
         void onClickSetDefault(int position);
+        void onClickEditCar(int position);
+        void onClickDeleteCar(int position);
     }
 
     public boolean isDefaultShowable() {

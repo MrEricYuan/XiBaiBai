@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_fourty_eight"
+        android:background="@drawable/login_cell_number"
+        android:layout_margin="@dimen/dp_fifteen">
+        <EditText
+            android:id="@+id/modify_name_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:hint="取个高逼格的昵称吧"
+            android:maxLength="10"
+            android:textColorHint="@color/bg_gray"
+            android:textColor="@color/black_one"
+            android:paddingLeft="@dimen/dp_eight"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/modify_name_btn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_fourty_five"
+        android:layout_margin="@dimen/dp_fifteen"
+        android:text="确定"
+        android:background="@drawable/btn_common_bg"/>
+</LinearLayout>

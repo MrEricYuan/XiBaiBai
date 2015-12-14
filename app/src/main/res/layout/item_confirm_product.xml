@@ -6,7 +6,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:paddingLeft="20dp"
         android:background="@color/white"
         android:paddingRight="10dp">
         <TextView
@@ -14,17 +13,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textColor="@color/black"
+            android:textColor="@color/black_two"
             android:layout_centerVertical="true"
-            android:textSize="16sp"/>
+            android:textSize="@dimen/sp_fifteen"/>
         <TextView
             android:id="@+id/item_product_price"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_eighty"
             android:layout_height="wrap_content"
             android:text=""
-            android:textColor="@color/black"
+            android:textColor="@color/red"
+            android:gravity="left"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:textSize="16sp"/>
+            android:textSize="@dimen/sp_fifteen"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_one"
+            android:background="@mipmap/line_one"
+            android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 </LinearLayout>

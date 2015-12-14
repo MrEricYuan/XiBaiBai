@@ -157,11 +157,13 @@ public class AddCarActivity extends TitleActivity implements View.OnClickListene
         ResponseJson responseJson = (ResponseJson) params[0];
         switch (taskId) {
             case Tasks.ADDCAR:
+                SystermUtils.isUpdateCar = true;
                 showToast("添加车辆成功");
                 setResult(RESULT_OK);
                 finish();
                 break;
             case Tasks.CHANGE_CAR:
+                SystermUtils.isUpdateCar = true;
                 showToast("修改车辆成功");
                 setResult(RESULT_OK);
                 finish();

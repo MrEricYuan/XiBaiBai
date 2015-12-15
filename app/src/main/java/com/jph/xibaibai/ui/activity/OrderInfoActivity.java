@@ -336,6 +336,7 @@ public class OrderInfoActivity extends TitleActivity implements View.OnClickList
                 intentResult.putExtra("confirm_pay", confirmPay);
                 intentResult.putExtra("oderId", myOrderInformation.getOrderId());
                 startActivity(intentResult);
+                localBroadcastManager.sendBroadcast(new Intent(com.jph.xibaibai.utils.Constants.IntentAction.PAY_SUCCEED).putExtra("orderId",orderId));
                 showToast("支付成功");
                 finish();
             }

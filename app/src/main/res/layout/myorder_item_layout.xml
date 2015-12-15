@@ -190,15 +190,33 @@
         android:layout_height="@dimen/dp_fifty"
         android:paddingLeft="@dimen/my_order_lor"
         android:paddingRight="@dimen/my_order_lor">
-
-        <TextView
-            android:id="@+id/order_item_price"
+        <LinearLayout
+            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:textColor="#fc3342"
-            android:textSize="@dimen/sp_seventeen" />
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/order_item_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:textColor="#fc3342"
+                android:text="￥120.0"
+                android:textSize="@dimen/sp_seventeen" />
+            <TextView
+                android:id="@+id/order_item_coupons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:textColor="#ed6329"
+                android:text="(已抵扣100元)"
+                android:visibility="gone"
+                android:textSize="@dimen/sp_twelve" />
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_centerVertical="true"
@@ -219,7 +237,7 @@
 
                  />
             <TextView
-                android:layout_marginLeft="@dimen/dp_ten"
+                android:layout_marginLeft="@dimen/dp_five"
                 android:gravity="center"
                 android:id="@+id/order_special_btn"
                 android:layout_width="wrap_content"

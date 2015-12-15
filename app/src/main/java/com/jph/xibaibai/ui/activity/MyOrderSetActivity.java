@@ -117,6 +117,24 @@ public class MyOrderSetActivity extends TitleActivity implements PullToRefreshBa
                     }
                 }
             }
+            if (Constants.IntentAction.PAY_SUCCEED.equals(action)) {
+                String orderId = intent.getStringExtra("orderId");
+                if (opMap != null && opMap.containsKey(orderId)) {
+                    MyOrder opOrder = opMap.get(orderId);
+                    opOrder.setCurrentState(1);
+                    opOrder.setState(getString(R.string.myorder_deliverying));
+                    myOrderAdapter.notifyDataSetChanged();
+                } else {
+                    for (MyOrder mo : myOrderShowList) {
+                        if (mo.getOrderId().equals(orderId)) {
+                            mo.setCurrentState(1);
+                            mo.setState(getString(R.string.myorder_deliverying));
+                            myOrderAdapter.notifyDataSetChanged();
+                            break;
+                        }
+                    }
+                }
+            }
         }
     };
 
@@ -138,6 +156,7 @@ public class MyOrderSetActivity extends TitleActivity implements PullToRefreshBa
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
         intentFilter = new IntentFilter();
         intentFilter.addAction(Constants.IntentAction.COMMENT_SUCCEED);
+        intentFilter.addAction(Constants.IntentAction.PAY_SUCCEED);
         localBroadcastManager.registerReceiver(receiver, intentFilter);
     }
 
@@ -303,8 +322,10 @@ public class MyOrderSetActivity extends TitleActivity implements PullToRefreshBa
                 intentResult.putExtra("orderId", myOrder.getOrderId());
                 intentResult.putExtra("confirm_pay", confirmPay);
                 startActivity(intentResult);
+                myOrderAdapter.notifyDataSetChanged();
                 showToast("支付成功");
-                finish();
+
+//                finish();
             }
 
             @Override

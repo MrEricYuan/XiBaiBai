@@ -567,7 +567,7 @@ public class PlaceOrderActivity extends TitleActivity implements View.OnClickLis
                 confirmOrder.setCarLocateLg(order.getLocation_lg());  // 经度
                 confirmOrder.setCarLocateLt(order.getLocation_lt()); //纬度
                 confirmOrder.setProductId(productId);
-                confirmOrder.setAllTotalPrice(allTotalPrice + "");
+                confirmOrder.setAllTotalPrice(allTotalPrice);
                 confirmOrder.setReMark(place_edt_txtdesc.getText().toString());
                 if(choiceCoupon != null){
                     confirmOrder.setCouponsId(choiceCoupon.getId());

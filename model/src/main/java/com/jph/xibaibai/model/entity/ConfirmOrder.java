@@ -26,7 +26,7 @@ public class ConfirmOrder implements Serializable {
     /**产品的id拼接*/
     private String productId;
     /**服务的总价*/
-    private String allTotalPrice;
+    private double allTotalPrice;
     /**预约的日期*/
     private long appointDay;
     /**预约的时刻*/
@@ -41,6 +41,26 @@ public class ConfirmOrder implements Serializable {
     private List<BeautyItemProduct> cachList;
     /**缓存的产品*/
     private List<Product> cachProductList;
+    // 优惠券价格
+    private double couponsPrice;
+    // 未计算优惠券总价
+    private double arigitalTotalPrice;
+
+    public double getArigitalTotalPrice() {
+        return arigitalTotalPrice;
+    }
+
+    public void setArigitalTotalPrice(double arigitalTotalPrice) {
+        this.arigitalTotalPrice = arigitalTotalPrice;
+    }
+
+    public double getCouponsPrice() {
+        return couponsPrice;
+    }
+
+    public void setCouponsPrice(double couponsPrice) {
+        this.couponsPrice = couponsPrice;
+    }
 
     public long getAppointDay() {
         return appointDay;
@@ -90,11 +110,11 @@ public class ConfirmOrder implements Serializable {
         this.cachList = cachList;
     }
 
-    public String getAllTotalPrice() {
+    public double getAllTotalPrice() {
         return allTotalPrice;
     }
 
-    public void setAllTotalPrice(String allTotalPrice) {
+    public void setAllTotalPrice(double allTotalPrice) {
         this.allTotalPrice = allTotalPrice;
     }
 

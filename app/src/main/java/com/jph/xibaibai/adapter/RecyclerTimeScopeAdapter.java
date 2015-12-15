@@ -112,8 +112,10 @@ public class RecyclerTimeScopeAdapter extends
                 String[] timeStr = timeScope.getTime().split("-");
                 String dayTime = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
                 long afternoonTime = SystermUtils.getTimeScope(dayTime + " " + timeStr[1]);
+                Log.i("Tag","currentTimeNum="+currentTimeNum+"afternoonTime="+afternoonTime);
                 if (afternoonTime <= currentTimeNum) {
                     viewHolder.vgBg.setBackgroundColor(resources.getColor(R.color.txt_e_gray));
+                    viewHolder.txtEnable.setText("不可预约");
                 }
             }
         }

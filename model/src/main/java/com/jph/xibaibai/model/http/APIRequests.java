@@ -43,6 +43,9 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
         request(XRequestCallBack, Tasks.ADCODE, "/lunbo");
     }
 
+    /**
+     * DIY项目选择
+     */
     @Override
     public void getDIYDatas() {
         request(XRequestCallBack, Tasks.DIYDATACODE, "/diyPro");
@@ -80,7 +83,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
         }
         requestParams.addBodyParameter("uid", String.valueOf(id));
         Log.i("Tag", "uname=>" + userInfo.getUname() + "/uid=>" + String.valueOf(id) + "/sex=>" + userInfo.getSex() + "/age=>" + userInfo.getAge());
-        request(XRequestCallBack, Tasks.CHANGEUSERINFO, "/user_msg_up", requestParams,null);
+        request(XRequestCallBack, Tasks.CHANGEUSERINFO, "/updateUserInfo", requestParams,null);
     }
 
     /**
@@ -93,7 +96,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
     public void getUserInfo(int uid) {
         RequestParams requestParams = createRequestParams();
         requestParams.addBodyParameter("uid", String.valueOf(uid));
-        request(XRequestCallBack, Tasks.GETUSERINFO, "/user_msg_select", requestParams,null);
+        request(XRequestCallBack, Tasks.GETUSERINFO, "/userInfo", requestParams,null);
     }
 
     @Override
@@ -131,7 +134,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
     public void getCar(int uid) {
         RequestParams requestParams = createRequestParams();
         requestParams.addBodyParameter("uid", String.valueOf(uid));
-        request(XRequestCallBack, Tasks.GETCAR, "/car_select", requestParams,null);
+        request(XRequestCallBack, Tasks.GETCAR, "/carSelect", requestParams,null);
     }
 
     /**
@@ -147,7 +150,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
         requestParams.addBodyParameter("uid", String.valueOf(uid));
         requestParams.addBodyParameter("id", String.valueOf(id));
         requestParams.addBodyParameter("c_plate_num", String.valueOf(c_plate_num));
-        request(XRequestCallBack, Tasks.DELETECAR, "/car_delete", requestParams,null);
+        request(XRequestCallBack, Tasks.DELETECAR, "/deleteCar", requestParams,null);
     }
 
     /**
@@ -179,7 +182,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
         requestParams.addBodyParameter("c_color", String.valueOf(car.getC_color()));
         requestParams.addBodyParameter("add_time", String.valueOf(car.getAdd_time()));
         requestParams.addBodyParameter("c_remark", String.valueOf(car.getC_remark()));
-        request(XRequestCallBack, Tasks.ADDCAR, "/car_insert", requestParams,null);
+        request(XRequestCallBack, Tasks.ADDCAR, "/carAdd", requestParams,null);
     }
 
     @Override
@@ -194,7 +197,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
         requestParams.addBodyParameter("c_color", String.valueOf(car.getC_color()));
         requestParams.addBodyParameter("add_time", String.valueOf(car.getAdd_time()));
         requestParams.addBodyParameter("c_remark", String.valueOf(car.getC_remark()));
-        request(XRequestCallBack, Tasks.CHANGE_CAR, "/car_up", requestParams,null);
+        request(XRequestCallBack, Tasks.CHANGE_CAR, "/updateCarInfo", requestParams,null);
     }
 
     /**
@@ -272,14 +275,11 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
     @Override
     public void changeUserHead(int uid, File u_img) {
         RequestParams requestParams = createRequestParams();
-
-
         requestParams.addBodyParameter("uid", String.valueOf(uid));
         if (u_img != null) {
             requestParams.addBodyParameter("file", u_img);
         }
-
-        request(XRequestCallBack, Tasks.CHANGEUSERHEAD, "/user_msg_u_img", requestParams,null);
+        request(XRequestCallBack, Tasks.CHANGEUSERHEAD, "/updateHeadImg", requestParams,null);
     }
 
     /**
@@ -290,7 +290,6 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
      */
     @Override
     public void getPayRecords(int uid) {
-
         RequestParams requestParams = createRequestParams();
         requestParams.addBodyParameter("uid", String.valueOf(uid));
         request(XRequestCallBack, Tasks.GETPAYRECORDS, "/user_pay_manage", requestParams,null);
@@ -338,7 +337,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
         RequestParams requestParams = createRequestParams();
         requestParams.addBodyParameter("uid", String.valueOf(uid));
         requestParams.addBodyParameter("content", String.valueOf(content));
-        request(XRequestCallBack, Tasks.SUGGESTION, "/advice_insert", requestParams,null);
+        request(XRequestCallBack, Tasks.SUGGESTION, "/userFeedback", requestParams,null);
     }
 
     /**
@@ -401,9 +400,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
         if (order.getFileVoice() != null) {
             requestParams.addBodyParameter("file", order.getFileVoice());
         }
-
-
-        request(XRequestCallBack, Tasks.NEWORDER, "/order_insert", requestParams,null);
+        request(XRequestCallBack, Tasks.NEWORDER, "/createOrder", requestParams,null);
 
     }
 
@@ -411,7 +408,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
     public void getAddress(int uid) {
         RequestParams requestParams = createRequestParams();
         requestParams.addBodyParameter("uid", String.valueOf(uid));
-        request(XRequestCallBack, Tasks.GETADDRESS, "/address_select", requestParams,null);
+        request(XRequestCallBack, Tasks.GETADDRESS, "/selectAddress", requestParams,null);
     }
 
     @Override
@@ -425,7 +422,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
         Log.i("Tag", "地址备注=>" + address.getAddress_info()+"address_lg="+address.getAddress_lg()+"address_lt="+address.getAddress_lt());
         requestParams.addBodyParameter("address_type", String.valueOf(address.getAddress_type()));
 
-        request(XRequestCallBack, Tasks.SETADDRESS, "/address_insert", requestParams,null);
+        request(XRequestCallBack, Tasks.SETADDRESS, "/AddAddress", requestParams,null);
 
     }
 
@@ -461,7 +458,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
         Log.v("Tag", "tim scope");
         RequestParams requestParams = createRequestParams();
         requestParams.addBodyParameter("day", String.valueOf(day));
-        request(XRequestCallBack, Tasks.GET_TIME_SCOPE, "/time_config_select", requestParams,null);
+        request(XRequestCallBack, Tasks.GET_TIME_SCOPE, "/appointTime", requestParams,null);
     }
 
     @Override
@@ -476,9 +473,12 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
         request(XRequestCallBack, Tasks.GEWASHCAR_PRICE, "/washCoupons");
     }
 
+    /**
+     * 下单页面美容界面
+     */
     @Override
     public void getBeautyService() {
-        request(XRequestCallBack, Tasks.GETBEAUTY_SERVICE, "/product_info");
+        request(XRequestCallBack, Tasks.GETBEAUTY_SERVICE, "/productInfo");
     }
 
     @Override
@@ -495,7 +495,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
         requestParams.addBodyParameter("location_lg", confirmOrder.getCarLocateLg());
         requestParams.addBodyParameter("location_lt", confirmOrder.getCarLocateLt());
         requestParams.addBodyParameter("p_ids", confirmOrder.getProductId());
-        requestParams.addBodyParameter("total_price", confirmOrder.getAllTotalPrice());
+        requestParams.addBodyParameter("total_price", confirmOrder.getAllTotalPrice() + "");
         requestParams.addBodyParameter("c_ids", confirmOrder.getCarsId());
         if (confirmOrder.getCouponsId() != -1) {
             requestParams.addBodyParameter("coupons_id", confirmOrder.getCouponsId() + "");
@@ -522,7 +522,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
         if (confirmOrder.getAudioFile() != null) {
             requestParams.addBodyParameter("audio", confirmOrder.getAudioFile());
         }
-        request(XRequestCallBack, Tasks.CONFIMORDER, "/order_insert", requestParams,null);
+        request(XRequestCallBack, Tasks.CONFIMORDER, "/createOrder", requestParams,null);
     }
 
     @Override
@@ -574,7 +574,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
 
     @Override
     public void getAllBrand() {
-        request(XRequestCallBack, Tasks.GET_ALL_BRAND, "/all_carbrand_select");
+        request(XRequestCallBack, Tasks.GET_ALL_BRAND, "/carBrands");
     }
 
     @Override

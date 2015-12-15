@@ -25,6 +25,7 @@
     <string name="toast_noupdate">已是最新版本</string>
     <string name="toast_nullage">请输入年龄</string>
     <string name="toast_nullname">请输入昵称</string>
+    <string name="coupons_price">已抵扣￥</string>
     <!--Eric-->
     <string name="place_order">下单</string>
     <!--侧滑菜单-->

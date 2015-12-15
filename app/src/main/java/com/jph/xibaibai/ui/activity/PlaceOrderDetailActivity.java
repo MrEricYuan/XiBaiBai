@@ -18,6 +18,7 @@ import com.jph.xibaibai.alipay.Alipay;
 import com.jph.xibaibai.alipay.Product;
 import com.jph.xibaibai.model.entity.ConfirmOrder;
 import com.jph.xibaibai.model.entity.ConfirmOrderData;
+import com.jph.xibaibai.model.entity.ConfirmPay;
 import com.jph.xibaibai.model.entity.ResponseJson;
 import com.jph.xibaibai.model.entity.UserInfo;
 import com.jph.xibaibai.model.http.APIRequests;
@@ -45,6 +46,8 @@ public class PlaceOrderDetailActivity extends TitleActivity implements View.OnCl
     public static String CARTYOEFLAG = "carType";
 
     public static String SERVICETIMEFLAG = "serviceTimeFlag";
+
+    public static String SERVICETIMESTR = "serviceTimesTR";
 
     private IAPIRequests mAPIRequests = null;
 
@@ -78,6 +81,8 @@ public class PlaceOrderDetailActivity extends TitleActivity implements View.OnCl
     TextView detail_coupons_tv; // 优惠券
     @ViewInject(R.id.common_total_price)
     TextView detail_totalprice_tv; // 总价
+    @ViewInject(R.id.common_coupons_price)
+    TextView common_coupons_price; // 总价
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +96,7 @@ public class PlaceOrderDetailActivity extends TitleActivity implements View.OnCl
         if(serviceTime == 2){
             dorder_service_time.setText(getString(R.string.main_txt_now));
         }else if(serviceTime == 3){
-            dorder_service_time.setText(getIntent().getStringExtra(SERVICETIMEFLAG));
+            dorder_service_time.setText(getIntent().getStringExtra(SERVICETIMESTR));
         }
     }
 
@@ -140,6 +145,11 @@ public class PlaceOrderDetailActivity extends TitleActivity implements View.OnCl
             dorder_carlocate_tv.setText(confirmOrder.getCarAddress() + addressRemark);
         }
         detail_totalprice_tv.setText("￥" + confirmOrder.getAllTotalPrice());
+        if(confirmOrder.getCouponsPrice() == 0.0){
+            return;
+        }
+        common_coupons_price.setText(getString(R.string.coupons_price)+confirmOrder.getCouponsPrice());
+        common_coupons_price.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -176,10 +186,12 @@ public class PlaceOrderDetailActivity extends TitleActivity implements View.OnCl
         alipay.setCallBack(new Alipay.CallBack() {
             @Override
             public void onSuccess() {
-                Intent intentResult = new Intent(PlaceOrderDetailActivity.this, OrderResultActivity.class);
-                intentResult.putExtra(PayOrderActivity.EXTRA_ORDER, confirmOrder);
+                ConfirmPay confirmPay = new ConfirmPay();
+//                confirmPay.setCouponPrice();
+                Intent intentResult = new Intent(PlaceOrderDetailActivity.this, AfterPayActivity.class);
+                intentResult.putExtra("orderId", confirmData.getOderId());
+                intentResult.putExtra("confirm_pay", confirmPay);
                 startActivity(intentResult);
-                sendLocalBroadCast();
                 showToast("支付成功");
                 finish();
             }

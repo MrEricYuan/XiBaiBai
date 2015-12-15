@@ -122,6 +122,8 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
     private Coupon choiceCoupon = null;
     // 抵用券价格
     private double couponsPrice = 0.0;
+    // 抵用券价格
+    private double couponsPriceSave = 0.0;
     // 优惠券的id
     private int couponsId = -1;
     // 优惠券的位置
@@ -347,10 +349,12 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
         if(totalPrice != 0.0){
             if(couponsPrice >= totalPrice){
                 coupons_tv.setText(getString(R.string.coupons_use)+totalPrice);
+                couponsPriceSave = totalPrice;
                 totalPrice = 0.0;
             }else {
                 coupons_tv.setText(getString(R.string.coupons_use) + couponsPrice);
                 totalPrice = totalPrice - couponsPrice;
+                couponsPriceSave = couponsPrice;
             }
         }else {
             if(couponsList != null && couponsList.size() > 0){
@@ -438,13 +442,14 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
         confirmOrder.setCarLocateLt(address.getAddress_lt()); //纬度
         confirmOrder.setCachProductList(allProductList);
         Log.i("Tag", "产品总价:" + totalPrice);
-        confirmOrder.setAllTotalPrice(totalPrice + "");
+        confirmOrder.setAllTotalPrice(totalPrice);
         confirmOrder.setAppointDay(appointDay);
         confirmOrder.setAppointTimeId(appointTimeId);
         if (!StringUtil.isNull(productId)) {
             productId = productId.substring(0, productId.length() - 1);
         }
         confirmOrder.setProductId(productId);
+        confirmOrder.setCouponsPrice(couponsPriceSave);
         Intent intent = new Intent();
         intent.setClass(PlaceOrdersActivity.this, PlaceOrderDetailActivity.class);
         intent.putExtra(PlaceOrderDetailActivity.ODERDATAS, confirmOrder);
@@ -453,7 +458,8 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
             intent.putExtra(PlaceOrderDetailActivity.SERVICETIMEFLAG, 2);
         }else if(checkState[3]){
             intent.putExtra(PlaceOrderDetailActivity.SERVICETIMEFLAG, 3);
-            intent.putExtra(PlaceOrderDetailActivity.SERVICETIMEFLAG, yuyue_time.getText().toString());
+            intent.putExtra(PlaceOrderDetailActivity.SERVICETIMESTR, yuyue_time.getText().toString());
+            Log.i("Tag","yuyue=>"+yuyue_time.getText().toString());
         }
         startActivity(intent);
     }

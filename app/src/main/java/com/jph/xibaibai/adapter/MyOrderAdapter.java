@@ -86,8 +86,9 @@ public class MyOrderAdapter extends BaseAdapter {
             holder.order_item_cartype.setText(myOrder.getCarType());
             holder.order_item_orderNo.setText(myOrder.getOrderNo());
             holder.order_item_location.setText(myOrder.getCarLocation());
-            holder.order_item_price.setText(mContext.getString(R.string.sign_yuan) + myOrder.getPrice());
+            holder.order_item_price.setText(mContext.getString(R.string.money_sum)+mContext.getString(R.string.sign_yuan) + myOrder.getPrice());
             holder.order_item_state.setText(myOrder.getState());
+
             switch (myOrder.getCurrentState()) {
                 case 0:
                     holder.order_special_btn.setText(mContext.getString(R.string.myorder_pay));

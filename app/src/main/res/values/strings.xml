@@ -74,6 +74,8 @@
 
     <string name="no_more_data">暂无更多数据</string>
     <string name="sign_yuan">¥</string>
+    <string name="unit_yuan">元</string>
+    <string name="money_sum">合计：</string>
     <!--订单详情-->
     <string name="order_info_service">订单内容</string>
     <string name="order_info_total">合计</string>

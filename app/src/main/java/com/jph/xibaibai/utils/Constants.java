@@ -49,6 +49,7 @@ public interface Constants {
 
     public interface IntentAction{
         public static  final String COMMENT_SUCCEED="com.jph.xibaibai.comment_succeed";
+        public static  final String PAY_SUCCEED="com.jph.xibaibai.pay_succeed";
     }
 
 }

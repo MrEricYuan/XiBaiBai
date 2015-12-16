@@ -61,7 +61,7 @@
     <string name="myorder_title">我的订单</string>
     <string name="myorder_ordertime">下单时间：</string>
     <string name="myorder_servicetime">服务时间：</string>
-    <string name="myorder_carinfo">车\t\t\t型：</string>
+    <string name="myorder_carinfo">车&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;型：</string>
     <string name="myorder_type">类别：</string>
     <string name="myorder_plateno">车牌：</string>
     <string name="myorder_carLocation">汽车位置：</string>
@@ -83,7 +83,7 @@
     <string name="order_info_payAmount">实际支付</string>
     <string name="order_info_employee">操作信息</string>
     <string name="order_info_employeeName">技师名称：</string>
-    <string name="order_info_employeeTel">电\t\t\t话：</string>
+    <string name="order_info_employeeTel">电&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;话：</string>
     <string name="order_info_pic">照片</string>
     <string name="order_info_before">洗车前</string>
     <string name="order_info_after">洗车后</string>
@@ -100,7 +100,7 @@
     <string name="order_info_payType">支付方式：</string>
     <string name="order_info_driver">车主名称：</string>
     <string name="order_info_car">车辆信息：</string>
-    <string name="order_info_carplateno">车\t\t\t牌：</string>
+    <string name="order_info_carplateno">车&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;牌：</string>
     <string name="order_info_carType">车辆类别：</string>
     <string name="order_info_carloc">车辆位置：</string>
     <string name="order_info_title">订单详情</string>

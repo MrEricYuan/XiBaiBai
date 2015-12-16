@@ -204,7 +204,7 @@
                 android:layout_centerVertical="true"
                 android:textColor="#fc3342"
                 android:text="￥120.0"
-                android:textSize="@dimen/sp_seventeen" />
+                android:textSize="@dimen/sp_fifteen" />
             <TextView
                 android:id="@+id/order_item_coupons"
                 android:layout_width="wrap_content"
@@ -233,6 +233,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/them_color"
                 android:text="@string/myorder_cancel"
+                android:textSize="@dimen/sp_sixteen"
                 android:background="@drawable/btn_common_bg"
 
                  />
@@ -245,6 +246,7 @@
                 android:textColor="@color/white"
                 android:text="@string/myorder_pay"
                 android:background="@drawable/btn_special_bg"
+                android:textSize="@dimen/sp_sixteen"
                 android:paddingLeft="@dimen/dp_five"
                 android:paddingRight="@dimen/dp_five" />
         </LinearLayout>

@@ -133,7 +133,7 @@ public class SendCommentActivity extends TitleActivity implements View.OnClickLi
         switch (taskId) {
             case Tasks.ORDER_COMMENT:
                 showToast(getString(R.string.comment_succeed));
-                localBroadcastManager.sendBroadcast(new Intent(Constants.IntentAction.COMMENT_SUCCEED));
+                localBroadcastManager.sendBroadcast(new Intent(Constants.IntentAction.COMMENT_SUCCEED).putExtra("orderId",orderId));
                 finish();
                 break;
         }

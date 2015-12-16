@@ -56,7 +56,9 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_fourty"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/dp_five"
+                    android:paddingTop="@dimen/dp_five"
                     android:paddingLeft="@dimen/dp_thirty"
                     android:paddingRight="@dimen/dp_thirty">
 
@@ -65,7 +67,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="@string/order_info_total"
-                        android:textSize="@dimen/sp_seventeen" />
+                        android:textSize="@dimen/sp_fourteen" />
 
                     <TextView
                         android:id="@+id/order_info_total"
@@ -74,7 +76,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:text=""
-                        android:textSize="@dimen/sp_seventeen" />
+                        android:textSize="@dimen/sp_fourteen" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -92,7 +94,9 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_fourty"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/dp_five"
+                        android:paddingTop="@dimen/dp_five"
                         android:paddingLeft="@dimen/dp_thirty"
                         android:paddingRight="@dimen/dp_thirty">
 
@@ -101,7 +105,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:text="@string/order_info_couponAmout"
-                            android:textSize="@dimen/sp_seventeen" />
+                            android:textSize="@dimen/sp_fourteen" />
 
                         <TextView
                             android:id="@+id/order_info_couponAmount"
@@ -111,7 +115,7 @@
                             android:layout_centerVertical="true"
                             android:text=""
                             android:textColor="#fc3342"
-                            android:textSize="@dimen/sp_seventeen" />
+                            android:textSize="@dimen/sp_fourteen" />
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -130,7 +134,9 @@
                     <RelativeLayout
 
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_fourty"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/dp_five"
+                        android:paddingTop="@dimen/dp_five"
                         android:paddingLeft="@dimen/dp_thirty"
                         android:paddingRight="@dimen/dp_thirty">
 
@@ -139,7 +145,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:text="@string/order_info_payAmount"
-                            android:textSize="@dimen/sp_seventeen" />
+                            android:textSize="@dimen/sp_fourteen" />
 
                         <TextView
                             android:id="@+id/order_info_payAmount"
@@ -149,7 +155,7 @@
                             android:layout_centerVertical="true"
                             android:text=""
                             android:textColor="#fc3342"
-                            android:textSize="@dimen/sp_seventeen" />
+                            android:textSize="@dimen/sp_fourteen" />
                     </RelativeLayout>
                 </LinearLayout>
 

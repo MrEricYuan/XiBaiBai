@@ -66,6 +66,7 @@ public class RegisterActivity extends TitleActivity implements View.OnClickListe
                         timeSum--;
                         if(timeSum > 0){
                             txtSendAuthCode.setText(timeSum + "S后重新发送");
+                            edtConfirmPswd.setClickable(false);
                             mHandler.sendEmptyMessageDelayed(1, 1000);
                         }else {
                             isTimeStop = false;
@@ -110,7 +111,7 @@ public class RegisterActivity extends TitleActivity implements View.OnClickListe
         isTimeStop = true;
         txtSendAuthCode.setText(timeSum + "S后重新发送");
         txtSendAuthCode.setTextColor(getResources().getColor(R.color.rg_code_color));
-        txtSendAuthCode.setClickable(false);
+        edtConfirmPswd.setClickable(false);
         mHandler.sendEmptyMessageDelayed(1, 1000);
     }
 

@@ -12,7 +12,7 @@
         android:layout_marginRight="@dimen/dp_twenty"
         android:layout_marginLeft="@dimen/dp_twenty"
         android:orientation="vertical">
-        <EditText
+        <com.jph.xibaibai.mview.ContainsEmojiEditText
             android:id="@+id/feedback_content_et"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_hundred_fourty"

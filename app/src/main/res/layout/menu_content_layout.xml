@@ -159,7 +159,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="@dimen/dp_twenty"
-                        android:text="@string/menu_my_ticket"
+                        android:text="@string/menu_my_coupons"
                         android:textSize="@dimen/sp_sixteen" />
                 </LinearLayout>
             </LinearLayout>

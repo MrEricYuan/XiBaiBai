@@ -104,6 +104,18 @@ public class SelectTicketActivity extends TitleActivity implements View.OnClickL
             return;
         }
         if (ticketList != null && !ticketList.isEmpty()) {
+            if(ticketList.get(position).getState() == 1){
+                showToast(getString(R.string.mycoupons_used));
+                return;
+            }
+            if(ticketList.get(position).getState() == 2){
+                showToast(getString(R.string.mycoupons_dated));
+                return;
+            }
+            if(ticketList.get(position).getState() == 3){
+                showToast(getString(R.string.mycoupons_dating));
+                return;
+            }
             Intent intent = new Intent();
             intent.putExtra(PlaceOrdersActivity.COUPONSFLAG,ticketList.get(position));
             setResult(RESULT_OK,intent);

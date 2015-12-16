@@ -441,7 +441,6 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
         confirmOrder.setCarLocateLg(address.getAddress_lg());  // 经度
         confirmOrder.setCarLocateLt(address.getAddress_lt()); //纬度
         confirmOrder.setCachProductList(allProductList);
-        Log.i("Tag", "产品总价:" + totalPrice);
         confirmOrder.setAllTotalPrice(totalPrice);
         confirmOrder.setAppointDay(appointDay);
         confirmOrder.setAppointTimeId(appointTimeId);
@@ -450,6 +449,7 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
         }
         confirmOrder.setProductId(productId);
         confirmOrder.setCouponsPrice(couponsPriceSave);
+        confirmOrder.setCouponsId(couponsId);
         Intent intent = new Intent();
         intent.setClass(PlaceOrdersActivity.this, PlaceOrderDetailActivity.class);
         intent.putExtra(PlaceOrderDetailActivity.ODERDATAS, confirmOrder);
@@ -589,6 +589,12 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
         lBManager.registerReceiver(localReceiver, intentFilter);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(localReceiver);
+    }
+
     class LocalReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -648,6 +654,7 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
         coupons_tv.setText(couponsList.size() + getString(R.string.coupons_size));
         long litleTime = Long.parseLong(couponsList.get(0).getExpired_time());
         couponsId = couponsList.get(0).getId();
+        Log.i("Tag", "couponsId=>"+couponsId);
         position = 0;
         for (int i = 0; i < couponsList.size(); i++) {
             Coupon coupon = couponsList.get(i);

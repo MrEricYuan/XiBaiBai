@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,6 +46,8 @@ public class ProfileCenterActivity extends TitleActivity implements View.OnClick
 
     public static final int REFRESHNAME = 1010;
 
+    LocalBroadcastManager lbManager = null;
+
     @ViewInject(R.id.info_user_img)
     ImageView info_user_img;
     @ViewInject(R.id.info_name_tv)
@@ -65,6 +69,7 @@ public class ProfileCenterActivity extends TitleActivity implements View.OnClick
         super.initData();
         uid = SPUserInfo.getsInstance(ProfileCenterActivity.this).getSPInt(SPUserInfo.KEY_USERID);
         userInfo = JSON.parseObject(SPUserInfo.getsInstance(this).getSP(SPUserInfo.KEY_USERINFO), UserInfo.class);
+        lbManager = LocalBroadcastManager.getInstance(this);
     }
 
     @Override
@@ -80,7 +85,7 @@ public class ProfileCenterActivity extends TitleActivity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK || data == null) {
+        if (resultCode != RESULT_OK) {
             return;
         }
         switch (requestCode) {
@@ -117,16 +122,31 @@ public class ProfileCenterActivity extends TitleActivity implements View.OnClick
                 showDialogHead();
                 break;
             case R.id.info_name_rl:
-                Intent intent = new Intent(ProfileCenterActivity.this,ModifyNameActivity.class);
-                startActivityForResult(intent,REFRESHNAME);
+                Intent intent = new Intent(ProfileCenterActivity.this, ModifyNameActivity.class);
+                intent.putExtra(ModifyNameActivity.UPDATENAMEFLAG, info_name_tv.getText().toString());
+                startActivityForResult(intent, REFRESHNAME);
                 break;
             case R.id.info_sex_rl:
                 showDialogSex();
                 break;
-            case R.id.info_exit_btn:
-
+            case R.id.info_exit_btn:// 退出登录
+                SPUserInfo.getsInstance(this).setSP(SPUserInfo.KEY_USERID, -1);
+                Intent intent1 = new Intent(ProfileCenterActivity.this, LoginActivity.class);
+                sendLocalBroadCast(intent1);
+                startActivity(intent1);
+                finish();
                 break;
         }
+    }
+
+    /**
+     * 退出登录后关闭首页
+     */
+    private void sendLocalBroadCast(Intent intent) {
+//        通过LocalBroadcastManager的getInstance()方法得到它的一个实例
+        intent.setAction("com.xbb.broadcast.LOCAL_FINISH_LOGIN");
+        Log.i("Tag", "lbManager is null" + (lbManager == null));
+        lbManager.sendBroadcast(intent);//调用sendBroadcast()方法发送广播
     }
 
     private void showDialogHead() {
@@ -146,6 +166,7 @@ public class ProfileCenterActivity extends TitleActivity implements View.OnClick
                 }).create();
         dialog.show();
     }
+
     private void showDialogSex() {
         final String[] strs = new String[]{"女", "男"};
         Dialog dialog = new AlertDialog.Builder(this).setTitle("选择性别").setItems(strs,

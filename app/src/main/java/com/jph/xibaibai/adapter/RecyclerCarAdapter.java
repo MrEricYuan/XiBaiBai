@@ -11,6 +11,7 @@ import com.jph.xibaibai.R;
 import com.jph.xibaibai.adapter.base.BaseRecyclerAdapter;
 import com.jph.xibaibai.model.entity.AllCar;
 import com.jph.xibaibai.model.entity.Car;
+import com.jph.xibaibai.utils.SystermUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -80,8 +81,8 @@ public class RecyclerCarAdapter extends
         super.onRealBindViewHolder(viewHolder, position);
         final Car car = getItem(position);
         ViewHolder viewHolderCar = (ViewHolder) viewHolder;
-        viewHolderCar.txtTitle.setText(car.getC_brand() + " " + car.getC_color());
-        viewHolderCar.txtPlateNum.setText(car.getC_plate_num());
+        viewHolderCar.txtTitle.setText(car.getC_plate_num());
+        viewHolderCar.txtPlateNum.setText(car.getC_brand()+"\t"+car.getC_color()+"\t"+ SystermUtils.getCarTypes(car.getC_type()));
         if (defaultShowable) {
             ((ViewHolder) viewHolder).txtDefault.setVisibility(View.VISIBLE);
             if (allCar.getDefaultId() == car.getId()) {

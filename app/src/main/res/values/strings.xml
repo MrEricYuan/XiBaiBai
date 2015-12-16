@@ -34,6 +34,7 @@
     <string name="menu_regular_car">常用车辆</string>
     <string name="menu_regular_addr">常用地址</string>
     <string name="menu_my_ticket">我的礼券</string>
+    <string name="menu_my_coupons">我的优惠券</string>
     <string name="menu_feedback">反馈</string>
     <string name="menu_contact">联系客服</string>
     <string name="menu_about">关于</string>
@@ -128,6 +129,9 @@
     <string name="mycoupons_points_lable">积分</string>
     <string name="mycoupons_points_unit">分</string>
     <string name="mycoupons_coupon_lable">优惠券</string>
+    <string name="mycoupons_used">该优惠券已使用</string>
+    <string name="mycoupons_dated">该优惠券已过期</string>
+    <string name="mycoupons_dating">该优惠券未到使用期</string>
 
     <!--兑换优惠码-->
     <string name="input_coupon_submit">兑换</string>

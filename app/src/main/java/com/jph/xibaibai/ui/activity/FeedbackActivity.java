@@ -78,7 +78,7 @@ public class FeedbackActivity extends TitleActivity implements View.OnClickListe
                     int tempSelection = selectionEnd;
                     feedback_content_et.setText(s);
                     feedback_content_et.setSelection(tempSelection);//设置光标在最后
-                    showToast(getString(R.string.comment_content_long));
+                    showToast(getString(R.string.feedback_content_long));
                 }
             }
         });

@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:src="@mipmap/register_phone" />
-        <EditText
+        <com.jph.xibaibai.mview.ContainsEmojiEditText
             android:id="@+id/register_phone_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,6 +26,7 @@
             android:inputType="number"
             android:background="@null"
             android:textSize="@dimen/sp_sixteen"
+            android:maxLength="11"
             android:textColorHint="@color/hint"
             android:layout_marginLeft="@dimen/dp_threeteen"/>
     </LinearLayout>
@@ -43,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:src="@mipmap/register_code" />
-        <EditText
+        <com.jph.xibaibai.mview.ContainsEmojiEditText
             android:id="@+id/register_code_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,6 +53,7 @@
             android:inputType="number"
             android:textSize="@dimen/sp_sixteen"
             android:background="@null"
+            android:maxLength="6"
             android:textColorHint="@color/hint"
             android:layout_toRightOf="@+id/register_code_img"
             android:layout_marginLeft="@dimen/dp_ten"/>
@@ -87,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:src="@mipmap/register_pwd" />
-        <EditText
+        <com.jph.xibaibai.mview.ContainsEmojiEditText
             android:id="@+id/register_pwd_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

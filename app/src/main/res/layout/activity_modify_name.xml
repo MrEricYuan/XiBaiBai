@@ -8,7 +8,7 @@
         android:layout_height="@dimen/dp_fourty_eight"
         android:background="@drawable/login_cell_number"
         android:layout_margin="@dimen/dp_fifteen">
-        <EditText
+        <com.jph.xibaibai.mview.ContainsEmojiEditText
             android:id="@+id/modify_name_et"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

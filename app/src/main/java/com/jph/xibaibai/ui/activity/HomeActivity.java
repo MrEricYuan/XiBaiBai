@@ -1,9 +1,13 @@
 package com.jph.xibaibai.ui.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -21,6 +25,7 @@ import com.alibaba.fastjson.JSON;
 import com.jph.xibaibai.R;
 import com.jph.xibaibai.adapter.HomeDIYAdapter;
 import com.jph.xibaibai.adapter.HomepageAdapter;
+import com.jph.xibaibai.model.entity.Address;
 import com.jph.xibaibai.model.entity.AllAddress;
 import com.jph.xibaibai.model.entity.AllCar;
 import com.jph.xibaibai.model.entity.Car;
@@ -89,6 +94,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     private Car defaultCar = null;
     // 提示设置车辆的对话框
     private SetInfoDialogView dialog = null;
+
+    private LocalReceiver localReceiver = null;
+
+    private LocalBroadcastManager lBManager = null;
 
     @ViewInject(R.id.home_drawerlayout)
     private DrawerLayout drawerLayout;
@@ -162,7 +171,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     public void initData() {
         super.initData();
         apiRequests = new APIRequests(this);
+        lBManager = LocalBroadcastManager.getInstance(this);
         uid = SPUserInfo.getsInstance(this).getSPInt(SPUserInfo.KEY_USERID);
+        getDataBroadcast();
     }
 
     @Override
@@ -551,5 +562,29 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             }
         });
         dialog.show();
+    }
+
+    private void getDataBroadcast() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.xbb.broadcast.LOCAL_FINISH_LOGIN");
+        localReceiver=new LocalReceiver();
+        lBManager.registerReceiver(localReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        lBManager.unregisterReceiver(localReceiver);
+    }
+
+    class LocalReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action=intent.getAction();
+            Log.v("Tag","action="+action);
+            if ("com.xbb.broadcast.LOCAL_FINISH_LOGIN".equals(intent.getAction())) {
+                finish();
+            }
+        }
     }
 }

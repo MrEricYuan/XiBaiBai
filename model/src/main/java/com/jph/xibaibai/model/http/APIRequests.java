@@ -222,7 +222,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
         RequestParams requestParams = createRequestParams();
         requestParams.addBodyParameter("uid", String.valueOf(uid));
         requestParams.addBodyParameter("id", String.valueOf(id));
-        request(XRequestCallBack, Tasks.SETDEFAULTCAR, "/setup_default_car", requestParams,null);
+        request(XRequestCallBack, Tasks.SETDEFAULTCAR, "/setDefaultCar", requestParams,null);
     }
 
     /**

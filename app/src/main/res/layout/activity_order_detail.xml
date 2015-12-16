@@ -29,7 +29,7 @@
                     android:orientation="horizontal">
 
                     <RelativeLayout
-                        android:layout_width="@dimen/dp_fourty"
+                        android:layout_width="@dimen/dp_thirty_five"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical">
 
@@ -37,7 +37,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
-                            android:src="@mipmap/pay_orderinfo" />
+                            android:src="@mipmap/place_service_time" />
                     </RelativeLayout>
 
                     <TextView
@@ -45,6 +45,7 @@
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
                         android:text="服务时间"
+                        android:layout_marginLeft="@dimen/dp_five"
                         android:textColor="@color/black_one"
                         android:textSize="@dimen/sp_sixteen" />
 

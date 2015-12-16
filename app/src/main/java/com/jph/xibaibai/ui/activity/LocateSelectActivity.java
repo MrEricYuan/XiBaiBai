@@ -142,6 +142,12 @@ public class LocateSelectActivity extends TitleActivity implements BDLocationLis
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         mapView.onPause();
@@ -247,14 +253,16 @@ public class LocateSelectActivity extends TitleActivity implements BDLocationLis
                 break;
             case 2:// 下单界面和H5详情进入
                 sendFinishBroadCast();
+                finish();
                 break;
             case 3:
                 Intent intents = new Intent();
                 intents.putExtra(AddressActivity.RESULT_ADDRESS,addressRecode);
                 setResult(RESULT_OK,intents);
+                finish();
                 break;
         }
-        finish();
+
     }
 
     private void sendFinishBroadCast() {

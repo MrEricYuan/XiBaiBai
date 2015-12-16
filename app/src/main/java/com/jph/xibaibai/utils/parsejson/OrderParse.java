@@ -130,8 +130,8 @@ public class OrderParse {
                     orderinfo.setPayPrice(mObject.getString("pay_num"));
                 if (mObject.has("servicetime") && !mObject.isNull("servicetime") && !StringUtil.isNull(mObject.getString("servicetime")))
                     orderinfo.setServiceTime(mObject.getString("servicetime"));
-                if (mObject.has("coupons") && !mObject.isNull("coupons") && !StringUtil.isNull(mObject.getString("coupons")))
-                    orderinfo.setCouponOffset(mObject.getString("coupons"));
+                if (mObject.has("coupons_price") && !mObject.isNull("coupons_price") && !StringUtil.isNull(mObject.getString("coupons_price")))
+                    orderinfo.setCouponOffset(mObject.getString("coupons_price"));
 
                 if (mObject.has("order_star") && !mObject.isNull("order_star") && StringUtil.isNumeric(mObject.getString("order_star")))
                     orderinfo.setCommentLevel(Integer.parseInt(mObject.getString("order_star")));

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Toast;
 
+import com.blueware.agent.android.BlueWare;
 import com.jph.xibaibai.model.http.XRequestCallBack;
 import com.jph.xibaibai.mview.CustomProgressDialog;
 import com.lidroid.xutils.ViewUtils;
@@ -29,7 +30,7 @@ public class BaseActivity extends AppCompatActivity implements Init, XRequestCal
         super.onCreate(savedInstanceState);
         destroyed = false;
         AppManager.getInstance().addActivity(this);
-//        BlueWare.withApplicationToken("BA9C5DB973D3FDF10D10935FC1E939FD49").start(this.getApplication());
+        BlueWare.withApplicationToken("BA9C5DB973D3FDF10D10935FC1E939FD49").start(this.getApplication());
     }
 
     @Override

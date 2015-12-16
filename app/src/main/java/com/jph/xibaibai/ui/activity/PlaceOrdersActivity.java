@@ -164,6 +164,8 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_orders);
+        localReceiver = new LocalReceiver();
+        lBManager = LocalBroadcastManager.getInstance(this);
         getDataBroadcast();
     }
 
@@ -580,19 +582,17 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
     }
 
     private void getDataBroadcast() {
-        localReceiver = new LocalReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.xbb.broadcast.UPDATE_ADDRESS");
         intentFilter.addAction("com.xbb.broadcast.LOCAL_FINISH_SUBSCRIBE");
         //通过LocalBroadcastManager的getInstance()方法得到它的一个实例
-        lBManager = LocalBroadcastManager.getInstance(this);
         lBManager.registerReceiver(localReceiver, intentFilter);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(localReceiver);
+        lBManager.unregisterReceiver(localReceiver);
     }
 
     class LocalReceiver extends BroadcastReceiver {
@@ -652,10 +652,8 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
             return;
         }
         coupons_tv.setText(couponsList.size() + getString(R.string.coupons_size));
-        long litleTime = Long.parseLong(couponsList.get(0).getExpired_time());
-        couponsId = couponsList.get(0).getId();
-        Log.i("Tag", "couponsId=>"+couponsId);
-        position = 0;
+        long litleTime = SystermUtils.getTimeScope("2050-12-29 00:00");
+        Log.i("Tag", "litleTime=>"+litleTime);
         for (int i = 0; i < couponsList.size(); i++) {
             Coupon coupon = couponsList.get(i);
             // 得到现金抵用券

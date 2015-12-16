@@ -116,6 +116,8 @@ public class OrderInfoActivity extends TitleActivity implements View.OnClickList
     private LinearLayout order_info_priceLayout;
     @ViewInject(R.id.order_info_proLayout)
     private LinearLayout order_info_proLayout;
+    @ViewInject(R.id.order_info_washLayout)
+    private LinearLayout order_info_washLayout;
     @ViewInject(R.id.order_info_artificerRecommand)
     private CustomListView order_info_artificerRecommand;
 
@@ -236,6 +238,9 @@ public class OrderInfoActivity extends TitleActivity implements View.OnClickList
                 case 7:
                     order_info_commentLayout.setVisibility(View.GONE);
                     break;
+            }
+            if(myOrderInformation.getBeforeAlbum() != null && myOrderInformation.getAfterAlbum() != null){
+                order_info_washLayout.setVisibility(View.VISIBLE);
             }
             if (!"0.0".equals(myOrderInformation.getCouponOffset())) {
                 order_info_couponAmount.setText(getString(R.string.sign_yuan) +" "+ myOrderInformation.getCouponOffset());

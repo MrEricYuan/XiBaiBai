@@ -104,7 +104,7 @@ public class AddCarActivity extends TitleActivity implements View.OnClickListene
             case R.id.addcar_btn_confirm:
                 //确认添加
                 if (mEdtPlateNum.getText().length() == 0 || mTxtBrand.getText().length() == 0 ||
-                        mEdtColor.getText().length() == 0) {
+                        mEdtColor.getText().length() == 0 || mTxtType.getText().length() == 0) {
                     showToast(getString(R.string.toast_notfull));
                     break;
                 }

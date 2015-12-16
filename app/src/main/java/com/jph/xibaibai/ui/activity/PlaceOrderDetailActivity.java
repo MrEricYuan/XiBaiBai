@@ -193,6 +193,7 @@ public class PlaceOrderDetailActivity extends TitleActivity implements View.OnCl
                 intentResult.putExtra("confirm_pay", confirmPay);
                 startActivity(intentResult);
                 showToast("支付成功");
+                sendLocalBroadCast();
                 finish();
             }
 

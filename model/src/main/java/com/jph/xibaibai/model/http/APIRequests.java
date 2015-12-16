@@ -431,7 +431,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
         RequestParams requestParams = createRequestParams();
         requestParams.addBodyParameter("iphone", String.valueOf(iphone));
         requestParams.addBodyParameter("code", String.valueOf(code));
-        request(XRequestCallBack, Tasks.SEND_CODE, "/re_iphone", requestParams,null);
+        request(XRequestCallBack, Tasks.SEND_CODE, "/authCode", requestParams,null);
     }
 
     @Override

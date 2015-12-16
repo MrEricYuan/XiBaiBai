@@ -583,6 +583,7 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
         localReceiver = new LocalReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.xbb.broadcast.UPDATE_ADDRESS");
+        intentFilter.addAction("com.xbb.broadcast.LOCAL_FINISH_SUBSCRIBE");
         //通过LocalBroadcastManager的getInstance()方法得到它的一个实例
         lBManager = LocalBroadcastManager.getInstance(this);
         lBManager.registerReceiver(localReceiver, intentFilter);
@@ -597,6 +598,9 @@ public class PlaceOrdersActivity extends TitleActivity implements View.OnClickLi
                 }
                 address = (Address) intent.getSerializableExtra("LocateAddress");
                 setAddressInfo();
+            }
+            if (intent.getAction().equals("com.xbb.broadcast.UPDATE_ADDRESS")) {
+                finish();
             }
         }
     }

@@ -96,7 +96,7 @@ public class FeedbackActivity extends TitleActivity implements View.OnClickListe
                     return;
                 }
                 if (feedback.length() > 400) {
-                    showToast(getString(R.string.comment_content_long));
+                    showToast(getString(R.string.feedback_content_long));
                     return;
                 }
                 mApiRequests.suggestion(uid, feedback);

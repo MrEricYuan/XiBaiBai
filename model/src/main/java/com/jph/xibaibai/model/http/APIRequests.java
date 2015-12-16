@@ -103,7 +103,7 @@ public class APIRequests extends BaseAPIRequest implements IAPIRequests {
     public void getVersionInfo() {
         RequestParams requestParams = createRequestParams();
         requestParams.addBodyParameter("version_type", "1");
-        request(XRequestCallBack, Tasks.VERSIONINFO, "/version_up", requestParams,null);
+        request(XRequestCallBack, Tasks.VERSIONINFO, "/checkVersion", requestParams,null);
     }
 
     /**
